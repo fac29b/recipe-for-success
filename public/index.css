@@ -1,0 +1,55 @@
+.parent-container {
+    height: 80vh;
+    width: 50%;
+    border: 10px rgb(83, 83, 83) solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+}
+
+.container {
+    height: 90vh;
+    width: 500px;
+    border: 1px black solid;
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    font-size: 10px;
+    text-wrap: balance;
+}
+
+h1 {
+    /* text-wrap: balance; */
+    text-align: justify;
+    padding: 0px 10px 0px 10px;
+    text-wrap: balance;
+}
+
+.button-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 80px;
+    border: 1px red solid;
+    height: 100px;
+}
+
+
+button {
+    text-transform: uppercase;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: rgb(86, 86, 86);
+}
+
+.allergies {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    height: fit-content;
+    margin-top: 40px;
+    background-color: rgb(92, 92, 92);
+    margin-left: 10px;
+}
