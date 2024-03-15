@@ -6,29 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="index.css" />
     <title>Recipe For Success</title>
+    <link rel="stylesheet" href="/public/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    
   </head>
-
   <body>
-    <main aria-label="container" class="container">
-      <h1>
-        Don't know what to cook? No worries recipe for success app does the
-        thinking for you.
-      </h1>
-      <!-- Placeholder for Input component -->
-      <div class="input-placeholder">Input Component Placeholder</div>
-      <section class="button-section">
-        <!-- Placeholder for Button components -->
-        <button>Italian</button>
-        <button>Chinese</button>
-        <button>Peruvian</button>
-        <button>Surprise me</button>
-      </section>
-      <!-- Placeholder for FetchOpenAI component -->
-      <div class="fetch-openai-placeholder">
-        FetchOpenAI Component Placeholder
-      </div>
-    </main>
-    <!-- Additional scripts here if needed -->
+    <div aria-label="parent container" class="parent-container">
+        <main class="main-element">
+            <h1 aria-label="app text">No idea what to cook? No worries recipe for success app does the thinking for you.</h1>
+            <section aria-label="allergies section" class="allergies">
+                <input type="checkbox"><div>Are you lactose intolerant?</div>
+            </section>
+            <section aria-label="cusine-options" class="cusine-options">
+                <button>Italian</button>
+                <button>Chinese</button>
+                <button>Peruvian</button>
+                <button>Random</button>
+            </section>
+        </main>
+    </div>
     <script src="index.js"></script>
-  </body>
+</body>
 </html>
+
+
+
+
+
+
