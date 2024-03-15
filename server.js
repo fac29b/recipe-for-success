@@ -42,9 +42,7 @@ app.get("/openai", async (req, res) => {
     res.json(completion);
 });
 
-// app.get('/', (req, res)=> {
-//     res.send('welcome to my server!');
-// });
+
 
 app.use(express.static('Public')); 
 const port = process.env.PORT || 3000;
