@@ -3,37 +3,25 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 const {configuration, OpenAI } = require ('openai');
 const app = express();
+let path = require('path');
+const {recipeName} = require ('./public/index');
+console.log(recipeName);
+
+
+let directories = path.dirname('..public/index.js');
+console.log(directories);
 
 const openai = new OpenAI({
     apiKey: process.env.openaiAPI,
 });
 
-// app.get("/openai", async (req, res) => {
-//     try {
-//         const completion = await openai.chat.completions.create({
-//             messages: [
-//                 {
-//                     role: "user",
-//                     content: `Create a recipe`
-//                 },https://github.com/fac29b/recipe-for-success.git
-//             ],
-//             model: "gpt-3.5-turbo",
-//             max_tokens: 2000,
-//         });
-//         res.json(completion);
-//         console.log(completion);
-//     } catch (error) {
-//         console.error('Error making API request:', error);
-//         res.status(500).send('Error making API request');
-//     }
-// });
-
 app.get("/openai", async (req, res) => {
+    console.log(req.params)
     const completion = await openai.chat.completions.create({
         messages: [
             {
                 role: "user",
-                content: `Provide a recipe.`
+                content: `Provide a recipe for${recipeName}`
             },
         ],
         model: "gpt-3.5-turbo",
