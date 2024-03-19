@@ -3,13 +3,13 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 const {configuration, OpenAI } = require ('openai');
 const app = express();
-let path = require('path');
-const {recipeName} = require ('./public/index');
-console.log(recipeName);
+// let path = require('path');
+// const {recipeName} = require ('./public/index');
 
 
-let directories = path.dirname('..public/index.js');
-console.log(directories);
+
+// let directories = path.dirname('..public/index.js');
+// console.log(directories);
 
 const openai = new OpenAI({
     apiKey: process.env.openaiAPI,
@@ -21,7 +21,7 @@ app.get("/openai", async (req, res) => {
         messages: [
             {
                 role: "user",
-                content: `Provide a recipe for${recipeName}`
+                content: `Provide a recipe for`
             },
         ],
         model: "gpt-3.5-turbo",
