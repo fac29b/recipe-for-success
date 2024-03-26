@@ -25,17 +25,17 @@ app.post("/public/server.js", (req, res) => {
 // console.log(directories);
 
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API,
+    apiKey: process.env.openaiAPI,
 });
 
-app.get("/openai/:food", async (req, res) => {
+app.get("/openai", async (req, res) => {
     let foodType = req.params.food
     console.log(foodType)
     const completion = await openai.chat.completions.create({
         messages: [
             {
                 role: "user",
-                content: `Provide a recipe for ${foodType}`
+                content: `Provide a recipe for`
             },
         ],
         model: "gpt-3.5-turbo",
