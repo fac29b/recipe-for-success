@@ -14,6 +14,25 @@ buttons.forEach(button => {
 
       recipeName = button.innerHTML;
       console.log(recipeName); 
+
+      fetch("public/server.js", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        }, 
+        body: JSON.stringify({variable: recipeName})
+      })
+
+      .then(response => response.json())
+      .then(data => {
+        console.log("Response from the back-end", data)
+      })
+      .catch(error => {
+        console.error("Error", error)
+      })
+
+
+
       
       
      
@@ -55,4 +74,4 @@ buttons.forEach(button => {
 
 
 
- module.exports =  recipeName ;
+

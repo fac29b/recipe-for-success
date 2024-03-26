@@ -18,7 +18,7 @@
     width: 500px;
     border: black 1px solid;
     border-radius: 5%;
-    background-image: url('/image/dish-image.jpeg'); 
+    background-image: url('./image/dish-image.jpeg'); 
     background-size: cover; 
 
 
