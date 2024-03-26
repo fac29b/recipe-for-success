@@ -18,7 +18,7 @@
     width: 500px;
     border: black 1px solid;
     border-radius: 5%;
-    background-image: url('/public/image/dish-image.jpeg'); 
+    background-image: url('/image/dish-image.jpeg'); 
     background-size: cover; 
 
 
@@ -59,4 +59,16 @@ button {
     margin-left: 10px;
     border-radius: 5px;
     background-color: rgb(183, 235, 183);
+}
+
+.gpt-response {
+    
+
+    text-wrap: balance;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    
 }
