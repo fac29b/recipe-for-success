@@ -47,7 +47,7 @@ app.get("/openai", async (req, res) => {
 
 
 
-app.use(express.static('Public')); 
+app.use(express.static('public')); 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
