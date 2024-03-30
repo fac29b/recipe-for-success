@@ -20,7 +20,7 @@ buttons.forEach(button => {
       .catch(error => {
         console.error("Error", error)
       })
-      fetch('/openai')
+      fetch(`/openai?recipe=${encodeURIComponent(recipeName)}`)
       .then(response => response.json())
       .then(data => { 
           if (resultElement) {

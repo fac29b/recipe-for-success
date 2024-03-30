@@ -13,13 +13,14 @@ const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
 app.get("/openai", async (req, res) => {
-  let foodType = req.params.food;
-  console.log(foodType);
+  const recipeFromFrontEnd = req.query.recipe;
+
+ 
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "user",
-        content: `Provide a recipe for ${"variableFromFrontEnd"}`,
+        content: `Provide a recipe for ${recipeFromFrontEnd }`,
       },
     ],
     model: "gpt-3.5-turbo",
