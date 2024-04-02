@@ -20,6 +20,7 @@
     border-radius: 5%;
     background-image: url('./image/dish-image.jpeg'); 
     background-size: cover; 
+  
 
 
 }
@@ -80,6 +81,9 @@ button {
     display: inline-block;
     width: 60px;
     height: 34px;
+    margin-left: 235px;
+    margin-top: 10px;
+   
   }
   
   /* Hide default HTML checkbox */
