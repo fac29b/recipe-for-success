@@ -1,5 +1,11 @@
 const resultElement = document.querySelector(".gpt-response");
 const buttons = document.querySelectorAll("button");
+const darkLightButton = document.querySelectorAll(".dark-light-button");
+
+
+
+
+
 let recipeName;
 let lactoseIntolerant = false;
 buttons.forEach(button => {
