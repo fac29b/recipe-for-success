@@ -33,7 +33,6 @@
 h1 {
     text-wrap: balance;
     text-align: center;
-    /* background-color: rgb(183, 235, 183); */
     background-color: var(--green);
     border-radius: 5px;
     margin-left: 10px;
@@ -46,7 +45,7 @@ h1 {
     width: fit-content;
     height: fit-content;
     margin-top: 40px;
-    background-color: rgb(183, 235, 183);
+    background-color: var(--green);
     margin-left: 10px;
 }
 
@@ -64,7 +63,7 @@ button {
     margin-right: 10px;
     margin-left: 10px;
     border-radius: 5px;
-    background-color: rgb(183, 235, 183);
+    background-color: var(--green)
 }
 
 .gpt-response {
@@ -124,11 +123,11 @@ button {
   }
   
   input:checked + .slider {
-    background-color: rgb(183, 235, 183);;
+    background-color: var(--green);
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px rgb(183, 235, 183);;
+    box-shadow: 0 0 1px var(--green)
   }
   
   input:checked + .slider:before {
