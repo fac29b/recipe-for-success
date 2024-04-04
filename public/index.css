@@ -69,15 +69,12 @@ button {
 }
 
 .gpt-response {
-    
-
     text-wrap: balance;
     text-align: center;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--green);
     border-radius: 5px;
     margin-left: 10px;
     margin-right: 10px;
-    
 }
 
 
