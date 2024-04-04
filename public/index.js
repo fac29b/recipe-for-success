@@ -9,12 +9,14 @@ darkLightButton.addEventListener("change", () => {
   if(darkLightButton.checked) {
     allergies.style.setProperty('--green', ' rgb(67, 63, 63)');
     title.style.setProperty('--green', ' rgb(67, 63, 63)');
+    resultElement.style.setProperty('--green', 'rgb(67, 63, 63)')
     buttons.forEach(button => {
       button.style.setProperty('--green', ' rgb(67, 63, 63)');
     })
   } else {
     allergies.style.setProperty('--green', 'rgb(183, 235, 183)')
     title.style.setProperty('--green', 'rgb(183, 235, 183)');
+    resultElement.style.setProperty('--green', 'rgb(183, 235, 183)')
     buttons.forEach(button => {
       button.style.setProperty('--green', 'rgb(183, 235, 183)');
     })
