@@ -7,6 +7,7 @@
 
 :root {
   --green:  rgb(183, 235, 183);
+  --black: rgb(67, 63, 63);
 }
 
 
@@ -124,7 +125,8 @@ button {
   }
   
   input:checked + .slider {
-    background-color: var(--green);
+    background-color: var(--black);
+    transition: background-color 0.5s ease;
   }
   
   input:focus + .slider {
