@@ -1,8 +1,12 @@
 const resultElement = document.querySelector(".gpt-response");
 const buttons = document.querySelectorAll("button");
-const lactoseIntolerant = document.querySelector(".lactose-intolerant")
+const lactoseIntolerant = document.querySelector(".lactose-intolerant");
+let isLactoseIntolerant;
 let recipeName;
+
 console.log(lactoseIntolerant.checked)
+
+
 
 
 buttons.forEach(button => {
