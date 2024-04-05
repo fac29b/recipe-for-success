@@ -6,7 +6,9 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.post("/public/server.js", (req, res) => {
   const variableFromFrontEnd = req.body.variable;
+  const variableFromFrontEnd2= req.body.variable2
   console.log("Received variable from the front-end:", variableFromFrontEnd);
+  console.log("Received boolean from front-end:", variableFromFrontEnd2);
   res.json({ message: "Variable received successfully" });
 });
 const openai = new OpenAI({
