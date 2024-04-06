@@ -23,7 +23,7 @@ lactoseIntolerant.addEventListener("change", () => {
   .catch(error => {
     console.error("Error", error)
   })
-  fetch(`/openai?recipe=${encodeURIComponent(isLactoseIntolerant)}`)
+  fetch(`/openai?lactose=${encodeURIComponent(isLactoseIntolerant)}`)
   .then(response => response.json())
   .then(data => { 
     if (resultElement) {

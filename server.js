@@ -16,13 +16,15 @@ const openai = new OpenAI({
 });
 app.get("/openai", async (req, res) => {
   const recipeFromFrontEnd = req.query.recipe;
+  const isLactoseIntolerant = req.query.lactose
+  console.log(isLactoseIntolerant)
 
  
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "user",
-        content: `Provide a recipe for ${recipeFromFrontEnd }`,
+        content: `Provide a recipe for ${recipeFromFrontEnd} user is lactose intolerant ${isLactoseIntolerant === undefined ? false : isLactoseIntolerant}`,
       },
     ],
     model: "gpt-3.5-turbo",
