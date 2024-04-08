@@ -23,8 +23,8 @@ app.get("/openai", async (req, res) => {
     messages: [
       {
         role: "user",
-        content: `Provide a recipe for ${recipeCountryOfOrigin} the user is lactose intolerant ${
-          isLactoseIntolerant === false ? "no" : "yes"
+        content: `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
+          isLactoseIntolerant ? "lactose intolerant" : "not lactose intolerant"
         }`,
       },
     ],
