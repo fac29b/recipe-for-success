@@ -30,10 +30,6 @@ buttons.forEach((button) => {
       .catch((error) => {
         console.error("Error", error);
       });
-    JSON.stringify({
-      variable: dishOriginCountry,
-      variable2: lactoseIntolerant.checked,
-    });
     fetch(
       `/openai?recipe_country_of_origin=${encodeURIComponent(
         dishOriginCountry

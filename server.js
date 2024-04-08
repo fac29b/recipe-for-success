@@ -32,7 +32,7 @@ app.get("/openai", async (req, res) => {
     max_tokens: 2000,
   });
   res.json(completion);
-  console.log({ lactoseBoolean: isLactoseIntolerant }, {recipeCountryOfOrigin });
+  console.log({isLactoseIntolerant }, {recipeCountryOfOrigin });
 });
 app.use(express.static("public"));
 const port = process.env.PORT || 3000;
