@@ -5,25 +5,25 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.post("/public/server.js", (req, res) => {
-  const variableFromFrontEnd = req.body.variable;
-  const variableFromFrontEnd2 = req.body.variable2;
+  const dishCountry = req.body.dishOriginCountry;
+  const isUserLactoseIntolerant = req.body.isLactoseIntolerant;
   res.json({
-    message: `Variables ${variableFromFrontEnd} and ${variableFromFrontEnd2} received successfully`,
+    message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
   });
 });
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
 app.get("/openai", async (req, res) => {
-  const recipeFromFrontEnd = req.query.recipe;
-  const isLactoseIntolerant = req.query.lactose;
-  console.log({ isLactoseIntolerant }, { recipeFromFrontEnd });
+  const recipeCountryOfOrigin = req.query.recipe_country_of_origin;
+  const isLactoseIntolerant = req.query.is_lactose_intolerant;
+  console.log({ isLactoseIntolerant}, {recipeCountryOfOrigin  });
 
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "user",
-        content: `Provide a recipe for ${recipeFromFrontEnd} the user is lactose intolerant ${
+        content: `Provide a recipe for ${recipeCountryOfOrigin} the user is lactose intolerant ${
           isLactoseIntolerant === false ? "no" : "yes"
         }`,
       },
@@ -32,7 +32,7 @@ app.get("/openai", async (req, res) => {
     max_tokens: 2000,
   });
   res.json(completion);
-  console.log({ lactoseBoolean: isLactoseIntolerant }, { recipeFromFrontEnd });
+  console.log({ lactoseBoolean: isLactoseIntolerant }, {recipeCountryOfOrigin });
 });
 app.use(express.static("public"));
 const port = process.env.PORT || 3000;
