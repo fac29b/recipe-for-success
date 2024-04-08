@@ -17,14 +17,14 @@ const openai = new OpenAI({
 app.get("/openai", async (req, res) => {
   const recipeCountryOfOrigin = req.query.recipe_country_of_origin;
   const isLactoseIntolerant = req.query.is_lactose_intolerant;
-  console.log({ isLactoseIntolerant}, {recipeCountryOfOrigin  });
+  console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin });
 
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "user",
         content: `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
-          isLactoseIntolerant ? "lactose intolerant" : "not lactose intolerant"
+          isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant"
         }`,
       },
     ],
@@ -32,8 +32,9 @@ app.get("/openai", async (req, res) => {
     max_tokens: 2000,
   });
   res.json(completion);
-  console.log({isLactoseIntolerant }, {recipeCountryOfOrigin });
+  console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin });
 });
+
 app.use(express.static("public"));
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
