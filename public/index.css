@@ -146,3 +146,31 @@ button {
   .slider.round:before {
     border-radius: 50%;
   }
+
+  /* Loading Indicator */
+
+  /* Loading indicator */
+
+#loading-container{
+  display: none;
+  margin-bottom: 1em;
+}
+#loading-indicator {
+  border: 5px solid rgb(73, 180, 87); 
+  border-top: 5px solid rgb(0, 0, 0); 
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  margin: 20px auto; 
+}
+
+#loading-text{
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
