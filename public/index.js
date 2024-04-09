@@ -3,7 +3,7 @@ const buttons = document.querySelectorAll("button");
 const darkLightButton = document.querySelector(".dark-light-button");
 const allergies = document.querySelector(".allergies");
 const title = document.querySelector("h1");
-const loadingContainer = document.getElementById("loading-container");
+const loadingContainer = document.querySelector("loading-container");
 
 darkLightButton.addEventListener("change", () => {
     console.log(darkLightButton.checked)
