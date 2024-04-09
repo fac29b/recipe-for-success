@@ -6,6 +6,7 @@ const title = document.querySelector("h1");
 const loadingContainer = document.querySelector("loading-container");
 
 darkLightButton.addEventListener("change", () => {
+
     console.log(darkLightButton.checked)
     if (darkLightButton.checked) {
         allergies.style.setProperty('--green', ' rgb(67, 63, 63)');
@@ -58,4 +59,5 @@ buttons.forEach(button => {
             loadingContainer.style.display = "none";
         });
     });
+
 });
