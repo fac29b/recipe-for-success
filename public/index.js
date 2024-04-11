@@ -11,7 +11,6 @@ lactoseIntolerant.addEventListener("click", () => {
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     console.log(lactoseIntolerant.checked);
-    console.log("hello world");
     dishOriginCountry = button.innerHTML;
     fetch("public/server.js", {
       method: "POST",
@@ -30,10 +29,36 @@ buttons.forEach((button) => {
       .catch((error) => {
         console.error("Error", error);
       });
+
+      let obj = {
+        recipe_country_of_origin: dishOriginCountry,
+        is_lactose_intolerant: lactoseIntolerant.checked,
+      }
+     
+      let url = new URLSearchParams(obj)
+      let stringQuery = url.toString();
+      console.log({url}, {stringQuery})
+
+      var esc = encodeURIComponent;
+      var query = Object.keys(obj)
+          .map(k => esc(k) + '=' + esc(obj[k]))
+          .join('&');
+          console.log(query);
+      // fetch(
+      //   `/openai?${url} `
+      // )
+      // returns undefined but I don't know why
+
+     
+    
+     
+    // fetch(
+    //   `/openai?recipe_country_of_origin=${encodeURIComponent(
+    //     dishOriginCountry
+    //   )}&is_lactose_intolerant=${encodeURIComponent(lactoseIntolerant.checked)} `
+    // )
     fetch(
-      `/openai?recipe_country_of_origin=${encodeURIComponent(
-        dishOriginCountry
-      )}&is_lactose_intolerant=${encodeURIComponent(lactoseIntolerant.checked)} `
+      `/openai?${query} `
     )
       .then((response) => response.json())
       .then((data) => {
@@ -45,4 +70,5 @@ buttons.forEach((button) => {
       })
       .catch((error) => console.error("Error:", error));
   });
+    
 });
