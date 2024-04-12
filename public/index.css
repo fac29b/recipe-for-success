@@ -31,7 +31,7 @@
 
 
 h1 {
-    text-wrap: balance;
+    /* text-wrap: balance; */
     text-align: center;
     background-color: var(--green);
     border-radius: 5px;
@@ -70,7 +70,7 @@ button {
 }
 
 .gpt-response {
-    text-wrap: balance;
+    /* text-wrap: balance; */
     text-align: center;
     background-color: var(--green);
     border-radius: 5px;
@@ -147,7 +147,7 @@ button {
     border-radius: 50%;
   }
 
-  /* Loading Indicator */
+
 
   /* Loading indicator */
 
