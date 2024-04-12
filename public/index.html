@@ -20,6 +20,10 @@
   <body>
     <div aria-label="parent container" class="parent-container">
       <main class="main-element">
+        <label class="switch">
+          <input type="checkbox" class="dark-light-button" />
+          <span class="slider round"></span>
+        </label>
         <h1 aria-label="app text">
           No idea what to cook? No worries recipe for success app does the
           thinking for you.
@@ -29,11 +33,16 @@
           <div>Are you lactose intolerant?</div>
         </section>
         <section aria-label="cusine-options" class="cusine-options">
-          <button>Italian</button>
-          <button>Chinese</button>
-          <button>Peruvian</button>
-          <button>Random</button>
+          <button class="button">Chinese</button>
+          <button class="button">Italian</button>
+          <button class="button">Peruvian</button>
+          <button class="button">Random</button>
         </section>
+        <div id="loading-container">
+          <div id="loading-indicator">
+            <h3 id="loading-text">Creating Recipe</h3>
+          </div>
+        </div>
         <section aria-label="gpt-response" class="gpt-response"></section>
       </main>
     </div>
