@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
     const resultElement = document.querySelector(".gpt-response");
     const buttons = document.querySelectorAll("button");
@@ -59,5 +60,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 loadingContainer.style.display = "none";
             });
         });
-    });
+    })
 });
