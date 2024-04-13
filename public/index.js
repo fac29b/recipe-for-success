@@ -1,6 +1,7 @@
 const resultElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
+const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
 let isLactoseIntolerant;
@@ -15,8 +16,9 @@ lactoseIntolerant.addEventListener("click", () => {
 
 darkLightButton.addEventListener("change", ()=> {
   let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
-  [resultElement, lactoseIntolerant, lactoseIntolerant, ...buttons].forEach(element => {
+  [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(element => {
     element.style.setProperty('--green', color);
+    element.style.transition = 'background-color 0.5s ease';
   })
 })
 
