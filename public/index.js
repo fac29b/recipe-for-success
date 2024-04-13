@@ -1,7 +1,6 @@
 const resultElement = document.querySelector(".gpt-response");
 const lactoseIntolerant = document.querySelector(".lactose-intolerant");
 const darkLightButton = document.querySelector(".dark-light-button");
-console.log(darkLightButton)
 const buttons = document.querySelectorAll("button");
 let isLactoseIntolerant;
 let dishOriginCountry;
@@ -9,6 +8,11 @@ let random;
 lactoseIntolerant.addEventListener("click", () => {
   console.log(lactoseIntolerant.checked);
 });
+
+
+darkLightButton.addEventListener("change", ()=> {
+  console.log(darkLightButton.checked)
+})
 
 
 
