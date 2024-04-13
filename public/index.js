@@ -1,17 +1,23 @@
 const resultElement = document.querySelector(".gpt-response");
+const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector(".lactose-intolerant");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
 let isLactoseIntolerant;
 let dishOriginCountry;
 let random; 
+
+
 lactoseIntolerant.addEventListener("click", () => {
   console.log(lactoseIntolerant.checked);
 });
 
 
 darkLightButton.addEventListener("change", ()=> {
-  console.log(darkLightButton.checked)
+  let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "gb(183, 235, 183)";
+  [resultElement, lactoseIntolerant, ...buttons].forEach(element => {
+    element.style.setProperty('--green', color);
+  })
 })
 
 
