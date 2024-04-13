@@ -1,12 +1,27 @@
 const resultElement = document.querySelector(".gpt-response");
+const headline = document.querySelector(".headline");
+const lactoseIntolerant = document.querySelector("#lactose-intolerant");
+const allergies = document.querySelector(".allergies");
+const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
-const lactoseIntolerant = document.querySelector(".lactose-intolerant");
 let isLactoseIntolerant;
 let dishOriginCountry;
 let random; 
+
 lactoseIntolerant.addEventListener("click", () => {
   console.log(lactoseIntolerant.checked);
 });
+
+
+darkLightButton.addEventListener("change", ()=> {
+  let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
+  [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(element => {
+    element.style.setProperty('--green', color);
+    element.style.transition = 'background-color 0.5s ease';
+  })
+})
+
+
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -43,20 +58,7 @@ buttons.forEach((button) => {
       var query = Object.keys(obj)
           .map(k => esc(k) + '=' + esc(obj[k]))
           .join('&');
-          console.log(query);
-      // fetch(
-      //   `/openai?${url} `
-      // )
-      // returns undefined but I don't know why
 
-     
-    
-     
-    // fetch(
-    //   `/openai?recipe_country_of_origin=${encodeURIComponent(
-    //     dishOriginCountry
-    //   )}&is_lactose_intolerant=${encodeURIComponent(lactoseIntolerant.checked)} `
-    // )
     fetch(
       `/openai?${query} `
     )
