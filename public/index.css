@@ -25,6 +25,11 @@
 
 }
 
+.preserve-line-breaks {
+  white-space: pre-line;
+  /* text-align: left; */
+}
+
 
 h1 {
     text-wrap: balance;
