@@ -8,7 +8,6 @@ let isLactoseIntolerant;
 let dishOriginCountry;
 let random; 
 
-
 lactoseIntolerant.addEventListener("click", () => {
   console.log(lactoseIntolerant.checked);
 });
