@@ -15,8 +15,7 @@ lactoseIntolerant.addEventListener("click", () => {
 
 darkLightButton.addEventListener("change", ()=> {
   let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
-  
-  [resultElement, lactoseIntolerant, ...buttons].forEach(element => {
+  [resultElement, lactoseIntolerant, lactoseIntolerant, ...buttons].forEach(element => {
     element.style.setProperty('--green', color);
   })
 })
