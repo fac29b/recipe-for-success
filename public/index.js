@@ -2,7 +2,6 @@ const resultElement = document.querySelector(".gpt-response");
 const buttons = document.querySelectorAll("button");
 const lactoseIntolerant = document.querySelector(".lactose-intolerant");
 const vegan = document.querySelector(".vegan");
-console.log(vegan);
 let isLactoseIntolerant;
 let dishOriginCountry;
 let isVegan = true;
@@ -53,18 +52,7 @@ buttons.forEach((button) => {
           .map(k => esc(k) + '=' + esc(obj[k]))
           .join('&');
           console.log(query);
-      // fetch(
-      //   `/openai?${url} `
-      // )
-      // returns undefined but I don't know why
 
-     
-    
-     
-    // fetch(
-    //   `/openai?recipe_country_of_origin=${encodeURIComponent(
-    //     dishOriginCountry
-    //   )}&is_lactose_intolerant=${encodeURIComponent(lactoseIntolerant.checked)} `
     // )
     fetch(
       `/openai?${query} `
