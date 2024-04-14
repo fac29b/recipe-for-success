@@ -27,6 +27,7 @@ app.get("/openai", async (req, res) => {
         role: "user",
         content: `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
           isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant" 
+        } and ${isVegan === "true" ? "vegan" : "not vegan"
         }`,
       },
     ],

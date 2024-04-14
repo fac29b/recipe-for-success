@@ -6,6 +6,8 @@ let isLactoseIntolerant;
 let dishOriginCountry;
 let isVegan = true;
 
+
+
 lactoseIntolerant.addEventListener("click", () => {
   console.log(lactoseIntolerant.checked);
 });
