@@ -29,6 +29,11 @@
     background-color: rgb(67, 63, 63);
 }
 
+.preserve-line-breaks {
+  white-space: pre-line;
+  /* text-align: left; */
+}
+
 
 h1 {
     /* text-wrap: balance; */

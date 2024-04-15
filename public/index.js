@@ -4,13 +4,19 @@ const lactoseIntolerant = document.querySelector("#lactose-intolerant");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
+const vegan = document.querySelector(".vegan");
 let isLactoseIntolerant;
 let dishOriginCountry;
-let random; 
+let isVegan = true;
+
+
 
 lactoseIntolerant.addEventListener("click", () => {
   console.log(lactoseIntolerant.checked);
 });
+vegan.addEventListener("click", () => {
+    console.log(vegan.checked);
+  });
 
 
 darkLightButton.addEventListener("change", ()=> {
@@ -26,7 +32,7 @@ darkLightButton.addEventListener("change", ()=> {
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     console.log(lactoseIntolerant.checked);
-    dishOriginCountry = button.innerHTML;
+    dishOriginCountry = button.value;
     fetch("public/server.js", {
       method: "POST",
       headers: {
@@ -35,6 +41,8 @@ buttons.forEach((button) => {
       body: JSON.stringify({
         dishOriginCountry: dishOriginCountry,
         isLactoseIntolerant: lactoseIntolerant.checked,
+        isVegan: vegan.checked,
+   
       }),
     })
       .then((response) => response.json())
@@ -48,17 +56,17 @@ buttons.forEach((button) => {
       let obj = {
         recipe_country_of_origin: dishOriginCountry,
         is_lactose_intolerant: lactoseIntolerant.checked,
+        is_vegan: vegan.checked,
       }
      
       let url = new URLSearchParams(obj)
       let stringQuery = url.toString();
       console.log({url}, {stringQuery})
 
-      var esc = encodeURIComponent;
-      var query = Object.keys(obj)
+      let esc = encodeURIComponent;
+      let query = Object.keys(obj)
           .map(k => esc(k) + '=' + esc(obj[k]))
           .join('&');
-
     fetch(
       `/openai?${query} `
     )
