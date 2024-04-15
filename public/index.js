@@ -1,6 +1,9 @@
 const resultElement = document.querySelector(".gpt-response");
+const headline = document.querySelector(".headline");
+const lactoseIntolerant = document.querySelector("#lactose-intolerant");
+const allergies = document.querySelector(".allergies");
+const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
-const lactoseIntolerant = document.querySelector(".lactose-intolerant");
 const vegan = document.querySelector(".vegan");
 let isLactoseIntolerant;
 let dishOriginCountry;
@@ -14,6 +17,17 @@ lactoseIntolerant.addEventListener("click", () => {
 vegan.addEventListener("click", () => {
     console.log(vegan.checked);
   });
+
+
+darkLightButton.addEventListener("change", ()=> {
+  let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
+  [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(element => {
+    element.style.setProperty('--green', color);
+    element.style.transition = 'background-color 0.5s ease';
+  })
+})
+
+
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -53,9 +67,6 @@ buttons.forEach((button) => {
       let query = Object.keys(obj)
           .map(k => esc(k) + '=' + esc(obj[k]))
           .join('&');
-          console.log(query);
-
-    // )
     fetch(
       `/openai?${query} `
     )

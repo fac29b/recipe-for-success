@@ -5,6 +5,11 @@
     font-weight: 200;
 }
 
+:root {
+  --green:  rgb(183, 235, 183);
+  --black: rgb(67, 63, 63);
+}
+
 
 .parent-container {
     height: 100vh;
@@ -21,8 +26,7 @@
     border-radius: 5%;
     background-image: url('./image/dish-image.jpeg'); 
     background-size: cover; 
-
-
+    background-color: rgb(67, 63, 63);
 }
 
 .preserve-line-breaks {
@@ -32,12 +36,13 @@
 
 
 h1 {
-    text-wrap: balance;
+    /* text-wrap: balance; */
     text-align: center;
-    background-color: rgb(183, 235, 183);
+    background-color: var(--green);
     border-radius: 5px;
     margin-left: 10px;
     margin-right: 10px;
+    transition: background-color 0.5s ease;
 }
 
 .allergies {
@@ -46,8 +51,9 @@ h1 {
     width: fit-content;
     height: fit-content;
     margin-top: 40px;
-    background-color: rgb(183, 235, 183);
+    background-color: var(--green);
     margin-left: 10px;
+    transition: background-color 0.5s ease;
 }
 
 .cusine-options {
@@ -64,17 +70,112 @@ button {
     margin-right: 10px;
     margin-left: 10px;
     border-radius: 5px;
-    background-color: rgb(183, 235, 183);
+    background-color: var(--green);
+    transition: background-color 0.5s ease;
 }
 
 .gpt-response {
-    
-
-    text-wrap: balance;
+    /* text-wrap: balance; */
     text-align: center;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--green);
     border-radius: 5px;
     margin-left: 10px;
     margin-right: 10px;
-    
+    transition: background-color 0.5s ease;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 235px;
+    margin-top: 10px;
+   
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--green);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: var(--black);
+    transition: background-color 0.5s ease;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px var(--green)
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
+
+  /* Loading indicator */
+
+#loading-container{
+  display: none;
+  margin-bottom: 1em;
+}
+#loading-indicator {
+  border: 5px solid rgb(73, 180, 87); 
+  border-top: 5px solid rgb(0, 0, 0); 
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  margin: 20px auto; 
+}
+
+#loading-text{
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
