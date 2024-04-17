@@ -5,6 +5,7 @@ const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
 const vegan = document.querySelector(".vegan");
+const loadingContainer = document.querySelector("#loading-container");
 let isLactoseIntolerant;
 let dishOriginCountry;
 let isVegan = true;
@@ -33,6 +34,8 @@ buttons.forEach((button) => {
   button.addEventListener("click", () => {
     console.log(lactoseIntolerant.checked);
     dishOriginCountry = button.value;
+    loadingContainer.style.display = "block";
+    resultElement.innerHTML = '';
     fetch("public/server.js", {
       method: "POST",
       headers: {
@@ -52,6 +55,7 @@ buttons.forEach((button) => {
       .catch((error) => {
         console.error("Error", error);
       });
+
 
       let obj = {
         recipe_country_of_origin: dishOriginCountry,
@@ -78,7 +82,11 @@ buttons.forEach((button) => {
           console.error('Error: Element with class "gpt-response" not found');
         }
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => console.error("Error:", error))
+      .finally(() => {
+        loadingContainer.style.display = "none";
+      });
+   
   });
-    
+
 });

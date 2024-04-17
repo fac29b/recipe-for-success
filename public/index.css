@@ -25,6 +25,7 @@
     border: black 1px solid;
     border-radius: 5%;
     background-image: url('./image/dish-image.jpeg'); 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./image/dish-image.jpeg'); 
     background-size: cover; 
     background-color: rgb(67, 63, 63);
 }
@@ -44,6 +45,7 @@ h1 {
     margin-right: 10px;
     transition: background-color 0.5s ease;
 }
+
 
 .allergies {
     display: flex;
@@ -161,19 +163,25 @@ button {
   margin-bottom: 1em;
 }
 #loading-indicator {
-  border: 5px solid rgb(73, 180, 87); 
-  border-top: 5px solid rgb(0, 0, 0); 
+  border: 5px solid transparent; 
+  border-top: 5px solid rgb(73, 180, 87); 
+  border-bottom: 5px solid rgb(0, 0, 0); 
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
+  width: 60px;
+  height: 60px;
+  animation: spin 1.6s linear infinite;
   margin: 20px auto; 
 }
 
-#loading-text{
-  color: rgb(0, 0, 0);
+
+#loading-text {
+  color:white; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 5px 10px; 
+  border-radius: 5px; 
   text-align: center;
 }
+
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
