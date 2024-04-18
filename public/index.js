@@ -18,7 +18,6 @@ darkLightButton.addEventListener("change", ()=> {
 })
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    console.log(lactoseIntolerant.checked);
     dishOriginCountry = button.value;
     loadingContainer.style.display = "block";
     resultElement.innerHTML = '';
@@ -49,9 +48,9 @@ buttons.forEach((button) => {
         is_vegan: vegan.checked,
       }
      
-      let url = new URLSearchParams(obj)
-      let stringQuery = url.toString();
-    
+      // let url = new URLSearchParams(obj)
+      // let stringQuery = url.toString();
+      // console.log({url}, {stringQuery})
 
       let esc = encodeURIComponent;
       let query = Object.keys(obj)
