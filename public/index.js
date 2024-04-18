@@ -9,10 +9,6 @@ const loadingContainer = document.querySelector("#loading-container");
 let isLactoseIntolerant;
 let dishOriginCountry;
 
-lactoseIntolerant.addEventListener("click", () => {
-  console.log(lactoseIntolerant.checked);
-});
-
 darkLightButton.addEventListener("change", ()=> {
   let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
   [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(element => {
