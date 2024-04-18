@@ -1,11 +1,11 @@
 const resultElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
+const vegan = document.querySelector("#vegan");
+const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
-const vegan = document.querySelector("#vegan");
-const loadingContainer = document.querySelector("#loading-container");
 let isLactoseIntolerant;
 let dishOriginCountry;
 
@@ -51,7 +51,7 @@ buttons.forEach((button) => {
      
       let url = new URLSearchParams(obj)
       let stringQuery = url.toString();
-      console.log({url}, {stringQuery})
+    
 
       let esc = encodeURIComponent;
       let query = Object.keys(obj)
