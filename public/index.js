@@ -20,6 +20,15 @@ darkLightButton.addEventListener("change", ()=> {
 })
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
+    let obj = {
+      [button.name]: button.value,
+      
+    }
+    dietaryRequirements.forEach(dietaryRequirement => {
+      obj[dietaryRequirement.name] = dietaryRequirement.checked
+
+    })
+
     dishOriginCountry = button.value;
     loadingContainer.style.display = "block";
     resultElement.innerHTML = '';
@@ -28,12 +37,7 @@ buttons.forEach((button) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        dishOriginCountry: dishOriginCountry,
-        isLactoseIntolerant: lactoseIntolerant.checked,
-        isVegan: vegan.checked,
-   
-      }),
+      body: JSON.stringify(obj),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -43,15 +47,22 @@ buttons.forEach((button) => {
         console.error("Error", error);
       });
 
+
+    
+      // let obj = {
+      //   [button.name]: button.value,
+      //   is_lactose_intolerant: lactoseIntolerant.checked,
+      //   is_vegan: vegan.checked,
+      // }
+     
+
+
+    
+
       
 
 
-      let obj = {
-        [button.name]: button.value,
-        is_lactose_intolerant: lactoseIntolerant.checked,
-        is_vegan: vegan.checked,
-      }
-     
+    
       // let url = new URLSearchParams(obj)
       // let stringQuery = url.toString();
       // console.log({url}, {stringQuery})
