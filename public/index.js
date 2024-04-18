@@ -6,7 +6,7 @@ const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
-const dietaryRequirements = document.querySelectorAll(".dietary-requirements");
+const dietaryRequirements = Array.from(document.querySelectorAll(".dietary-requirements"));
 console.log(dietaryRequirements)
 let isLactoseIntolerant;
 let dishOriginCountry;
@@ -42,6 +42,8 @@ buttons.forEach((button) => {
       .catch((error) => {
         console.error("Error", error);
       });
+
+      
 
 
       let obj = {
