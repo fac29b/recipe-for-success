@@ -4,11 +4,13 @@ const lactoseIntolerant = document.querySelector("#lactose-intolerant");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
-const vegan = document.querySelector(".vegan");
+const vegan = document.querySelector("#vegan");
 const loadingContainer = document.querySelector("#loading-container");
 let isLactoseIntolerant;
 let dishOriginCountry;
 let isVegan = true;
+
+console.log(vegan)
 
 
 
