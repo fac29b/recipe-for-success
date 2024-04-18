@@ -43,7 +43,7 @@ buttons.forEach((button) => {
 
 
       let obj = {
-        recipe_country_of_origin: dishOriginCountry,
+        [button.name]: button.value,
         is_lactose_intolerant: lactoseIntolerant.checked,
         is_vegan: vegan.checked,
       }
