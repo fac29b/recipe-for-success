@@ -8,19 +8,10 @@ const vegan = document.querySelector("#vegan");
 const loadingContainer = document.querySelector("#loading-container");
 let isLactoseIntolerant;
 let dishOriginCountry;
-let isVegan = true;
-
-console.log(vegan)
-
-
 
 lactoseIntolerant.addEventListener("click", () => {
   console.log(lactoseIntolerant.checked);
 });
-vegan.addEventListener("click", () => {
-    console.log(vegan.checked);
-  });
-
 
 darkLightButton.addEventListener("change", ()=> {
   let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
@@ -29,9 +20,6 @@ darkLightButton.addEventListener("change", ()=> {
     element.style.transition = 'background-color 0.5s ease';
   })
 })
-
-
-
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     console.log(lactoseIntolerant.checked);
