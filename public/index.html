@@ -29,17 +29,17 @@
           thinking for you.
         </h1>
         <section aria-label="allergies section" class="allergies">
-          <input type="checkbox" id="lactose-intolerant" />
-          <div>Are you lactose intolerant?</div>
-          <input type="checkbox" class="vegan" />
-          <div>Are you Vegan?</div>
+          <input type="checkbox" id="lactose-intolerant" class="dietary-requirements" name="is_lactose_intolerant"/>
+          <label for="lactose-intolerant">Are you lactose intolerant?</label>
+          <input type="checkbox" id="vegan" class="dietary-requirements" name="is_vegan"/>
+          <label for="vegan">Are you Vegan?</label>
         </section>
 
         <section aria-label="cusine-options" class="cusine-options">
-          <button value="italian">Italian</button>
-          <button value="chinese">Chinese</button>
-          <button value="peruvian">Peruvian</button>
-          <button value="any country">Random</button>
+          <button name="recipe_country_of_origin" value="italian">Italian</button>
+          <button name="recipe_country_of_origin" value="chinese">Chinese</button>
+          <button name="recipe_country_of_origin" value="peruvian">Peruvian</button>
+          <button name="recipe_country_of_origin" value="any country">Random</button>
         </section>
         <div id="loading-container">
           <div id="loading-indicator"></div>

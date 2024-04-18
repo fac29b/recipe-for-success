@@ -1,24 +1,14 @@
 const resultElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
+const vegan = document.querySelector("#vegan");
+const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
-const vegan = document.querySelector(".vegan");
-const loadingContainer = document.querySelector("#loading-container");
+const dietaryRequirements = Array.from(document.querySelectorAll(".dietary-requirements"));
 let isLactoseIntolerant;
 let dishOriginCountry;
-let isVegan = true;
-
-
-
-lactoseIntolerant.addEventListener("click", () => {
-  console.log(lactoseIntolerant.checked);
-});
-vegan.addEventListener("click", () => {
-    console.log(vegan.checked);
-  });
-
 
 darkLightButton.addEventListener("change", ()=> {
   let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
@@ -27,12 +17,16 @@ darkLightButton.addEventListener("change", ()=> {
     element.style.transition = 'background-color 0.5s ease';
   })
 })
-
-
-
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    console.log(lactoseIntolerant.checked);
+    let obj = {
+      [button.name]: button.value,
+    }
+    dietaryRequirements.forEach(dietaryRequirement => {
+      obj[dietaryRequirement.name] = dietaryRequirement.checked
+
+    })
+
     dishOriginCountry = button.value;
     loadingContainer.style.display = "block";
     resultElement.innerHTML = '';
@@ -41,12 +35,7 @@ buttons.forEach((button) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        dishOriginCountry: dishOriginCountry,
-        isLactoseIntolerant: lactoseIntolerant.checked,
-        isVegan: vegan.checked,
-   
-      }),
+      body: JSON.stringify(obj),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -57,16 +46,14 @@ buttons.forEach((button) => {
       });
 
 
-      let obj = {
-        recipe_country_of_origin: dishOriginCountry,
-        is_lactose_intolerant: lactoseIntolerant.checked,
-        is_vegan: vegan.checked,
-      }
-     
-      let url = new URLSearchParams(obj)
-      let stringQuery = url.toString();
-      console.log({url}, {stringQuery})
+    
 
+     
+
+
+    
+
+    
       let esc = encodeURIComponent;
       let query = Object.keys(obj)
           .map(k => esc(k) + '=' + esc(obj[k]))
