@@ -6,36 +6,47 @@ const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const buttons = document.querySelectorAll("button");
-const dietaryRequirements = Array.from(document.querySelectorAll(".dietary-requirements"));
+const dietaryRequirements = Array.from(
+  document.querySelectorAll(".dietary-requirements")
+);
 let isLactoseIntolerant;
 let dishOriginCountry;
 
-darkLightButton.addEventListener("change", ()=> {
-  let color = darkLightButton.checked ? "rgb(67, 63, 63)" : "rgb(183, 235, 183)";
-  [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(element => {
-    element.style.setProperty('--green', color);
-    element.style.transition = 'background-color 0.5s ease';
-  })
-})
+darkLightButton.addEventListener("change", () => {
+  let color = darkLightButton.checked
+    ? "rgb(67, 63, 63)"
+    : "rgb(183, 235, 183)";
+  [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(
+    (element) => {
+      element.style.setProperty("--green", color);
+      element.style.transition = "background-color 0.5s ease";
+    }
+  );
+});
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    let obj = {
+    let userRecipe = {
       [button.name]: button.value,
-    }
-    dietaryRequirements.forEach(dietaryRequirement => {
-      obj[dietaryRequirement.name] = dietaryRequirement.checked
+      array: dietaryRequirements,
+      loopOverArray: function () {
+        this.array.forEach((dietaryRequirement) => {
+          return (this[dietaryRequirement.name] = dietaryRequirement.checked);
+        });
+      },
+    };
 
-    })
+    userRecipe.loopOverArray();
+    console.log(userRecipe);
 
     dishOriginCountry = button.value;
     loadingContainer.style.display = "block";
-    resultElement.innerHTML = '';
+    resultElement.innerHTML = "";
     fetch("public/server.js", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(obj),
+      body: JSON.stringify(userRecipe),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -45,22 +56,11 @@ buttons.forEach((button) => {
         console.error("Error", error);
       });
 
-
-    
-
-     
-
-
-    
-
-    
-      let esc = encodeURIComponent;
-      let query = Object.keys(obj)
-          .map(k => esc(k) + '=' + esc(obj[k]))
-          .join('&');
-    fetch(
-      `/openai?${query} `
-    )
+    let esc = encodeURIComponent;
+    let query = Object.keys(userRecipe)
+      .map((k) => esc(k) + "=" + esc(userRecipe[k]))
+      .join("&");
+    fetch(`/openai?${query} `)
       .then((response) => response.json())
       .then((data) => {
         if (resultElement) {
@@ -73,7 +73,5 @@ buttons.forEach((button) => {
       .finally(() => {
         loadingContainer.style.display = "none";
       });
-   
   });
-
 });
