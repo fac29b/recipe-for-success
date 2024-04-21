@@ -65,6 +65,7 @@ buttons.forEach((button) => {
       .then((data) => {
         if (resultElement) {
           resultElement.innerHTML = `<p>${data.choices[0].message.content}</p>`;
+          
         } else {
           console.error('Error: Element with class "gpt-response" not found');
         }
