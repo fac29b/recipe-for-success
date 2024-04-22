@@ -64,7 +64,12 @@ buttons.forEach((button) => {
       .then((response) => response.json())
       .then((data) => {
         if (resultElement) {
-          resultElement.innerHTML = `<p>${data.choices[0].message.content}</p>`;
+          const textContent = data.text.choices[0].message.content;
+          const imageUrl = data.image.data[0].url;
+          resultElement.innerHTML = `
+            <p>${textContent}</p>
+            <img src="${imageUrl}" alt="Generated Image">
+          `;
         } else {
           console.error('Error: Element with class "gpt-response" not found');
         }

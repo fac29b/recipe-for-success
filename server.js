@@ -15,11 +15,17 @@ const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
 app.get("/openai", async (req, res) => {
+  try {
   const recipeCountryOfOrigin = req.query.recipe_country_of_origin;
   const isLactoseIntolerant = req.query.is_lactose_intolerant;
   const isVegan = req.query.is_vegan; 
 
   console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan });
+
+  const prompt = `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
+    isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant" 
+  } and ${isVegan === "true" ? "vegan" : "not vegan"
+  }`
 
   const completion = await openai.chat.completions.create({
     messages: [
@@ -31,12 +37,35 @@ app.get("/openai", async (req, res) => {
         }`,
       },
     ],
+  
 
     model: "gpt-3.5-turbo",
+    // model: "dall-e-3",
     max_tokens: 2000,
+    
   });
-  res.json(completion);
-  console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan });
+  const imageResponse = await openai.images.generate({
+    model: "dall-e-3",
+    prompt: `${prompt}`,
+    n: 1,
+    size: "1024x1024",
+  });
+  
+
+const doubleResponse = {
+  text: completion,
+  image: imageResponse
+}
+res.json(doubleResponse);
+
+
+console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan });
+
+
+} catch (error) {
+  console.error("An error occurred:", error.message);
+  res.status(500).json({ error: error.message });
+}
 });
 
 app.use(express.static("public"));
@@ -44,3 +73,4 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
