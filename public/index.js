@@ -70,6 +70,9 @@ buttons.forEach((button) => {
           mainElement.style.backgroundImage = `url(${imageUrl})`
           resultElement.innerHTML = `
             <p>${textContent}</p>`;
+            [ headline, allergies, ...buttons].forEach(elememt => {
+              elememt.style.display = "none"
+            })
         } else {
           console.error('Error: Element with class "gpt-response" not found');
         }
