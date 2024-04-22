@@ -1,5 +1,5 @@
 const mainElement = document.querySelector(".main-element");
-const resultElement = document.querySelector(".gpt-response");
+const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
 const vegan = document.querySelector("#vegan");
@@ -17,7 +17,7 @@ darkLightButton.addEventListener("change", () => {
   let color = darkLightButton.checked
     ? "rgb(67, 63, 63)"
     : "rgb(183, 235, 183)";
-  [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(
+  [gptResponseElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(
     (element) => {
       element.style.setProperty("--green", color);
       element.style.transition = "background-color 0.5s ease";
@@ -41,7 +41,7 @@ buttons.forEach((button) => {
 
     dishOriginCountry = button.value;
     loadingContainer.style.display = "block";
-    resultElement.innerHTML = "";
+    gptResponseElement.innerHTML = "";
     fetch("public/server.js", {
       method: "POST",
       headers: {
@@ -64,11 +64,11 @@ buttons.forEach((button) => {
     fetch(`/openai?${query} `)
       .then((response) => response.json())
       .then((data) => {
-        if (resultElement) {
+        if (gptResponseElement) {
           const textContent = data.text.choices[0].message.content;
           const imageUrl = data.image.data[0].url;
           mainElement.style.backgroundImage = `url(${imageUrl})`
-          resultElement.innerHTML = `
+          gptResponseElement.innerHTML = `
             <p>${textContent}</p>`;
             [ headline, allergies, ...buttons].forEach(elememt => {
               elememt.style.display = "none"
