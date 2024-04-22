@@ -1,3 +1,4 @@
+const mainElement = document.querySelector(".main-element");
 const resultElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
@@ -66,10 +67,9 @@ buttons.forEach((button) => {
         if (resultElement) {
           const textContent = data.text.choices[0].message.content;
           const imageUrl = data.image.data[0].url;
+          mainElement.style.backgroundImage = `url(${imageUrl})`
           resultElement.innerHTML = `
-            <p>${textContent}</p>
-            <img src="${imageUrl}" alt="Generated Image">
-          `;
+            <p>${textContent}</p>`;
         } else {
           console.error('Error: Element with class "gpt-response" not found');
         }
@@ -80,3 +80,4 @@ buttons.forEach((button) => {
       });
   });
 });
+
