@@ -51,17 +51,14 @@ app.get("/openai", async (req, res) => {
     size: "1024x1024",
   });
   
-  // const image_url = imageResponse.data[0].url;
-  // console.log("Generated image URL:", image_url);
-  
 
-res.json(completion);
-res.json(imageResponse);
+const doubleResponse = {
+  text: completion,
+  image: imageResponse
+}
+res.json(doubleResponse);
 
-// res.json({
-//   text: completion,
-//   image: imageResponse
-// });
+
 console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan });
 
 
