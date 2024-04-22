@@ -13,6 +13,8 @@ const dietaryRequirements = Array.from(
 let isLactoseIntolerant;
 let dishOriginCountry;
 
+
+
 darkLightButton.addEventListener("change", () => {
   let color = darkLightButton.checked
     ? "rgb(67, 63, 63)"
@@ -38,6 +40,7 @@ buttons.forEach((button) => {
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
+   
 
     dishOriginCountry = button.value;
     loadingContainer.style.display = "block";
@@ -65,6 +68,7 @@ buttons.forEach((button) => {
       .then((response) => response.json())
       .then((data) => {
         if (gptResponseElement) {
+          gptResponseElement.style.display = "block"
           const textContent = data.text.choices[0].message.content;
           const imageUrl = data.image.data[0].url;
           mainElement.style.backgroundImage = `url(${imageUrl})`
