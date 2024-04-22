@@ -78,6 +78,8 @@ button {
 
 .gpt-response {
     /* text-wrap: balance; */
+    height: 200px;
+    overflow: scroll;
     text-align: center;
     background-color: var(--green);
     border-radius: 5px;
@@ -85,6 +87,8 @@ button {
     margin-right: 10px;
     transition: background-color 0.5s ease;
 }
+
+
 
 
 /* The switch - the box around the slider */

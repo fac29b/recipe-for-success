@@ -68,8 +68,7 @@ buttons.forEach((button) => {
           const textContent = data.text.choices[0].message.content;
           const imageUrl = data.image.data[0].url;
           mainElement.style.backgroundImage = `url(${imageUrl})`
-          gptResponseElement.innerHTML = `
-            <p>${textContent}</p>`;
+          gptResponseElement.innerHTML = `${textContent}`;
             [ headline, allergies, ...buttons].forEach(elememt => {
               elememt.style.display = "none"
             })
