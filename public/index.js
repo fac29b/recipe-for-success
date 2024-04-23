@@ -6,6 +6,8 @@ const vegan = document.querySelector("#vegan");
 const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
+const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
+console.log(userWantAnotherRecipe)
 const buttons = document.querySelectorAll("button");
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
