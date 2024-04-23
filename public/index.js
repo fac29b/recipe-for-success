@@ -8,7 +8,6 @@ const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
 const recipeButtons = document.querySelectorAll(".recipe-button");
-console.log(recipeButtons);
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
@@ -17,49 +16,46 @@ let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 
-
-console.log(gptResponseElement)
-
 function loopOverArrayOfElements(array, display) {
-  array.forEach(elememt => {
-    elememt.style.display = display
-  })
-
+  array.forEach((elememt) => {
+    elememt.style.display = display;
+    elememt.style.transition = "all 2s";
+  });
 }
-
-
 
 function displayElements(array) {
- loopOverArrayOfElements(array, "block")
+  loopOverArrayOfElements(array, "block");
 }
 
-function removeElement(array) {
- loopOverArrayOfElements(array, "none")
+function removeElements(array) {
+  loopOverArrayOfElements(array, "none");
 }
 
-function makeElementEmpty(elememt) {
-  elememt.innerHTML = ""
+function emptyTheElement(elememt) {
+  elememt.innerHTML = "";
 }
-
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons]);
-  removeElement([gptResponseElement, userWantAnotherRecipe]);
-  makeElementEmpty(gptResponseElement);
-})
-
-
+  removeElements([gptResponseElement, userWantAnotherRecipe]);
+  emptyTheElement(gptResponseElement);
+});
 
 darkLightButton.addEventListener("change", () => {
   let color = darkLightButton.checked
     ? "rgb(67, 63, 63)"
     : "rgb(183, 235, 183)";
-  [gptResponseElement, lactoseIntolerant, allergies, headline, userWantAnotherRecipe, ...recipeButtons].forEach(
-    (element) => {
-      element.style.setProperty("--green", color);
-      element.style.transition = "background-color 0.5s ease";
-    }
-  );
+  [
+    gptResponseElement,
+    lactoseIntolerant,
+    allergies,
+    headline,
+    userWantAnotherRecipe,
+    ...recipeButtons,
+  ].forEach((element) => {
+    element.style.setProperty("--green", color);
+    element.style.transition = "background-color 0.5s ease";
+  });
 });
 recipeButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -75,10 +71,9 @@ recipeButtons.forEach((button) => {
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
-   
 
     dishOriginCountry = button.value;
-    displayElements([loadingContainer])
+    displayElements([loadingContainer]);
     gptResponseElement.innerHTML = "";
     fetch("public/server.js", {
       method: "POST",
@@ -102,17 +97,12 @@ recipeButtons.forEach((button) => {
     fetch(`/openai?${query} `)
       .then((response) => response.json())
       .then((data) => {
-        // if (gptResponseElement) {
-          textContent = data.text.choices[0].message.content;
-          imageUrl = data.image.data[0].url;
-          mainElement.style.backgroundImage = `url(${imageUrl})`
-          gptResponseElement.innerHTML = `${textContent}`;
-          removeElement([headline, allergies, ...recipeButtons]);
-          displayElements([userWantAnotherRecipe]);
-          displayElements([gptResponseElement])
-        // } else {
-        //   console.error('Error: Element with class "gpt-response" not found');
-        // }
+        textContent = data.text.choices[0].message.content;
+        imageUrl = data.image.data[0].url;
+        mainElement.style.backgroundImage = `url(${imageUrl})`;
+        gptResponseElement.innerHTML = `${textContent}`;
+        removeElements([headline, allergies, ...recipeButtons]);
+        displayElements([userWantAnotherRecipe, gptResponseElement]);
       })
       .catch((error) => console.error("Error:", error))
       .finally(() => {
@@ -120,4 +110,3 @@ recipeButtons.forEach((button) => {
       });
   });
 });
-
