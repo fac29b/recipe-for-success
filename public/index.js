@@ -12,11 +12,13 @@ console.log(recipeButtons);
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
+let textContent;
+let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 
 
-console.log(recipeButtons)
+console.log(gptResponseElement)
 
 function loopOverArrayOfElements(array, display) {
   array.forEach(elememt => {
@@ -101,13 +103,13 @@ recipeButtons.forEach((button) => {
       .then((response) => response.json())
       .then((data) => {
         // if (gptResponseElement) {
-          gptResponseElement.style.display = "block"
-          const textContent = data.text.choices[0].message.content;
-          const imageUrl = data.image.data[0].url;
+          textContent = data.text.choices[0].message.content;
+          imageUrl = data.image.data[0].url;
           mainElement.style.backgroundImage = `url(${imageUrl})`
           gptResponseElement.innerHTML = `${textContent}`;
           removeElement([headline, allergies, ...recipeButtons]);
           displayElements([userWantAnotherRecipe]);
+          displayElements([gptResponseElement])
         // } else {
         //   console.error('Error: Element with class "gpt-response" not found');
         // }
