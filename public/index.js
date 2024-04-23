@@ -18,18 +18,21 @@ let dishOriginCountry;
 
 console.log(recipeButtons)
 
+function loopOverArrayOfElements(array, display) {
+  array.forEach(elememt => {
+    elememt.style.display = display
+  })
+
+}
+
 
 
 function displayElements(array) {
-  array.forEach(element => {
-    element.style.display = "block";
-  })
+ loopOverArrayOfElements(array, "block")
 }
 
 function removeElement(array) {
-  array.forEach(elememt => {
-    elememt.style.display = "none"
-  })
+ loopOverArrayOfElements(array, "none")
 }
 
 function makeElementEmpty(elememt) {
