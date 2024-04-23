@@ -54,7 +54,7 @@ darkLightButton.addEventListener("change", () => {
   let color = darkLightButton.checked
     ? "rgb(67, 63, 63)"
     : "rgb(183, 235, 183)";
-  [gptResponseElement, lactoseIntolerant, allergies, headline, ...recipeButtons].forEach(
+  [gptResponseElement, lactoseIntolerant, allergies, headline, userWantAnotherRecipe, ...recipeButtons].forEach(
     (element) => {
       element.style.setProperty("--green", color);
       element.style.transition = "background-color 0.5s ease";
