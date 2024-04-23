@@ -17,7 +17,8 @@ let dishOriginCountry;
 
 
 console.log(recipeButtons)
-displayElements
+
+
 
 function displayElements(array) {
   array.forEach(element => {
@@ -25,19 +26,21 @@ function displayElements(array) {
   })
 }
 
+function removeElement(array) {
+  array.forEach(elememt => {
+    elememt.style.display = "none"
+  })
+}
+
+function makeElementEmpty(elememt) {
+  elememt.innerHTML = ""
+}
+
 
 userWantAnotherRecipe.addEventListener("click", () => {
-  displayElements([ headline, allergies, ...recipeButtons])
-
-  
-  
-  // [ headline, allergies, ...recipeButtons].forEach(elememt => {
-  //   elememt.style.display = "block";
-  //   [ gptResponseElement, userWantAnotherRecipe].forEach(elememt => {
-  //     elememt.style.display = "none";
-  //   })
-  //   gptResponseElement.innerHTML = ""
-  // })
+  displayElements([headline, allergies, ...recipeButtons]);
+  removeElement([gptResponseElement, userWantAnotherRecipe]);
+  makeElementEmpty(gptResponseElement);
 })
 
 
@@ -70,7 +73,7 @@ recipeButtons.forEach((button) => {
    
 
     dishOriginCountry = button.value;
-    loadingContainer.style.display = "block";
+    displayElements([loadingContainer])
     gptResponseElement.innerHTML = "";
     fetch("public/server.js", {
       method: "POST",
@@ -94,19 +97,17 @@ recipeButtons.forEach((button) => {
     fetch(`/openai?${query} `)
       .then((response) => response.json())
       .then((data) => {
-        if (gptResponseElement) {
+        // if (gptResponseElement) {
           gptResponseElement.style.display = "block"
           const textContent = data.text.choices[0].message.content;
           const imageUrl = data.image.data[0].url;
           mainElement.style.backgroundImage = `url(${imageUrl})`
           gptResponseElement.innerHTML = `${textContent}`;
-            [ headline, allergies, ...recipeButtons].forEach(elememt => {
-              elememt.style.display = "none"
-            })
-            userWantAnotherRecipe.style.display = "block";
-        } else {
-          console.error('Error: Element with class "gpt-response" not found');
-        }
+          removeElement([headline, allergies, ...recipeButtons]);
+          displayElements([userWantAnotherRecipe]);
+        // } else {
+        //   console.error('Error: Element with class "gpt-response" not found');
+        // }
       })
       .catch((error) => console.error("Error:", error))
       .finally(() => {
