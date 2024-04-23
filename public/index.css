@@ -66,6 +66,7 @@ h1 {
    
 }
 
+.want-another-recipe,
 button {
     text-transform: uppercase;
     height: 40px;
@@ -74,6 +75,12 @@ button {
     border-radius: 5px;
     background-color: var(--green);
     transition: background-color 0.5s ease;
+}
+
+.want-another-recipe {
+  margin-top: 210px;
+  margin-left: 170px;
+  display: none;
 }
 
 .gpt-response {
