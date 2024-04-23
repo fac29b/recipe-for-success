@@ -17,16 +17,27 @@ let dishOriginCountry;
 
 
 console.log(recipeButtons)
+displayElements
+
+function displayElements(array) {
+  array.forEach(element => {
+    element.style.display = "block";
+  })
+}
 
 
 userWantAnotherRecipe.addEventListener("click", () => {
-  [ headline, allergies, ...recipeButtons].forEach(elememt => {
-    elememt.style.display = "block";
-    [ gptResponseElement, userWantAnotherRecipe].forEach(elememt => {
-      elememt.style.display = "none"
-    })
-    gptResponseElement.innerHTML = ""
-  })
+  displayElements([ headline, allergies, ...recipeButtons])
+
+  
+  
+  // [ headline, allergies, ...recipeButtons].forEach(elememt => {
+  //   elememt.style.display = "block";
+  //   [ gptResponseElement, userWantAnotherRecipe].forEach(elememt => {
+  //     elememt.style.display = "none";
+  //   })
+  //   gptResponseElement.innerHTML = ""
+  // })
 })
 
 
