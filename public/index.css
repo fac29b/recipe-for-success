@@ -80,7 +80,6 @@ button {
 }
 
 .want-another-recipe {
-  margin-top: 210px;
   margin-left: 170px;
   display: none;
 }
@@ -95,7 +94,8 @@ button {
     margin-left: 10px;
     margin-right: 10px;
     transition: background-color 0.5s ease;
-    margin-top: 250px;
+    margin-top: 260px;
+    margin-bottom: 20px;
     display: none;
 }
 
