@@ -11,6 +11,7 @@ const recipeButtons = document.querySelectorAll(".recipe-button");
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
+const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
 let textContent;
 let imageUrl;
 let isLactoseIntolerant;
@@ -22,6 +23,8 @@ function loopOverArrayOfElements(array, display) {
     elememt.style.transition = "all 2s"; // not sure that does something yet
   });
 }
+
+console.log(otherDietaryRequirements)
 
 function displayElements(array) {
   loopOverArrayOfElements(array, "block");

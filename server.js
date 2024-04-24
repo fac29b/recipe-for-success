@@ -19,6 +19,11 @@ app.get("/openai", async (req, res) => {
   const recipeCountryOfOrigin = req.query.recipe_country_of_origin;
   const isLactoseIntolerant = req.query.is_lactose_intolerant;
   const isVegan = req.query.is_vegan; 
+  const hasOtherdietaryRequirements = req.query.has_other_dietary_requirements;
+
+  console.log(hasOtherdietaryRequirements)
+
+
 
   const prompt = `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
     isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant" 
