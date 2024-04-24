@@ -24,6 +24,14 @@ function loopOverArrayOfElements(array, display) {
   });
 }
 
+otherDietaryRequirements.addEventListener("click", function() {
+  if(otherDietaryRequirements.checked) {
+    return true
+  } else {
+    return false
+  }
+})
+
 console.log(otherDietaryRequirements)
 
 function displayElements(array) {
