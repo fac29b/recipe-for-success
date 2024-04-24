@@ -12,10 +12,14 @@ const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
 const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
+const userText = document.querySelector("#user-text")
 let textContent;
 let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
+
+console.log(userText)
+
 
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
@@ -26,9 +30,9 @@ function loopOverArrayOfElements(array, display) {
 
 otherDietaryRequirements.addEventListener("click", function() {
   if(otherDietaryRequirements.checked) {
-    return true
+    userText.style.display = "block"
   } else {
-    return false
+    userText.style.display = "none"
   }
 })
 
