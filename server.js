@@ -20,8 +20,6 @@ app.get("/openai", async (req, res) => {
   const isLactoseIntolerant = req.query.is_lactose_intolerant;
   const isVegan = req.query.is_vegan; 
 
-  console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan });
-
   const prompt = `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
     isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant" 
   } and ${isVegan === "true" ? "vegan" : "not vegan"
@@ -31,18 +29,11 @@ app.get("/openai", async (req, res) => {
     messages: [
       {
         role: "user",
-        content: `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
-          isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant" 
-        } and ${isVegan === "true" ? "vegan" : "not vegan"
-        }`,
+        content: `${prompt}`,
       },
     ],
-  
-
     model: "gpt-3.5-turbo",
-    // model: "dall-e-3",
     max_tokens: 2000,
-    
   });
   const imageResponse = await openai.images.generate({
     model: "dall-e-3",

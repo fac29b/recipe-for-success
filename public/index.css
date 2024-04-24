@@ -11,6 +11,8 @@
 }
 
 
+
+
 .parent-container {
     height: 100vh;
     width: 100vw;
@@ -66,6 +68,7 @@ h1 {
    
 }
 
+.want-another-recipe,
 button {
     text-transform: uppercase;
     height: 40px;
@@ -76,15 +79,27 @@ button {
     transition: background-color 0.5s ease;
 }
 
+.want-another-recipe {
+  margin-left: 170px;
+  display: none;
+}
+
 .gpt-response {
     /* text-wrap: balance; */
+    height: 200px;
+    overflow: scroll;
     text-align: center;
     background-color: var(--green);
     border-radius: 5px;
     margin-left: 10px;
     margin-right: 10px;
     transition: background-color 0.5s ease;
+    margin-top: 260px;
+    margin-bottom: 20px;
+    display: none;
 }
+
+
 
 
 /* The switch - the box around the slider */

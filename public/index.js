@@ -1,29 +1,63 @@
-const resultElement = document.querySelector(".gpt-response");
+const mainElement = document.querySelector(".main-element");
+const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
 const vegan = document.querySelector("#vegan");
 const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
-const buttons = document.querySelectorAll("button");
+const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
+const recipeButtons = document.querySelectorAll(".recipe-button");
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
+let textContent;
+let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
+
+function loopOverArrayOfElements(array, display) {
+  array.forEach((elememt) => {
+    elememt.style.display = display;
+    elememt.style.transition = "all 2s";
+  });
+}
+
+function displayElements(array) {
+  loopOverArrayOfElements(array, "block");
+}
+
+function removeElements(array) {
+  loopOverArrayOfElements(array, "none");
+}
+
+function emptyTheElement(elememt) {
+  elememt.innerHTML = "";
+}
+
+userWantAnotherRecipe.addEventListener("click", () => {
+  displayElements([headline, allergies, ...recipeButtons]);
+  removeElements([gptResponseElement, userWantAnotherRecipe]);
+  emptyTheElement(gptResponseElement);
+});
 
 darkLightButton.addEventListener("change", () => {
   let color = darkLightButton.checked
     ? "rgb(67, 63, 63)"
     : "rgb(183, 235, 183)";
-  [resultElement, lactoseIntolerant, allergies, headline, ...buttons].forEach(
-    (element) => {
-      element.style.setProperty("--green", color);
-      element.style.transition = "background-color 0.5s ease";
-    }
-  );
+  [
+    gptResponseElement,
+    lactoseIntolerant,
+    allergies,
+    headline,
+    userWantAnotherRecipe,
+    ...recipeButtons,
+  ].forEach((element) => {
+    element.style.setProperty("--green", color);
+    element.style.transition = "background-color 0.5s ease";
+  });
 });
-buttons.forEach((button) => {
+recipeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     let userRecipe = {
       [button.name]: button.value,
@@ -39,8 +73,8 @@ buttons.forEach((button) => {
     console.log(userRecipe);
 
     dishOriginCountry = button.value;
-    loadingContainer.style.display = "block";
-    resultElement.innerHTML = "";
+    displayElements([loadingContainer]);
+    gptResponseElement.innerHTML = "";
     fetch("public/server.js", {
       method: "POST",
       headers: {
@@ -63,16 +97,12 @@ buttons.forEach((button) => {
     fetch(`/openai?${query} `)
       .then((response) => response.json())
       .then((data) => {
-        if (resultElement) {
-          const textContent = data.text.choices[0].message.content;
-          const imageUrl = data.image.data[0].url;
-          resultElement.innerHTML = `
-            <p>${textContent}</p>
-            <img src="${imageUrl}" alt="Generated Image">
-          `;
-        } else {
-          console.error('Error: Element with class "gpt-response" not found');
-        }
+        textContent = data.text.choices[0].message.content;
+        imageUrl = data.image.data[0].url;
+        mainElement.style.backgroundImage = `url(${imageUrl})`;
+        gptResponseElement.innerHTML = `${textContent}`;
+        removeElements([headline, allergies, ...recipeButtons]);
+        displayElements([userWantAnotherRecipe, gptResponseElement]);
       })
       .catch((error) => console.error("Error:", error))
       .finally(() => {
