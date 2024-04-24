@@ -19,7 +19,7 @@ let dishOriginCountry;
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
     elememt.style.display = display;
-    elememt.style.transition = "all 2s";
+    elememt.style.transition = "all 2s"; // not sure that does something yet
   });
 }
 
@@ -72,7 +72,7 @@ recipeButtons.forEach((button) => {
     userRecipe.loopOverArray();
     console.log(userRecipe);
 
-    dishOriginCountry = button.value;
+    dishOriginCountry = button.value; // needed ?
     displayElements([loadingContainer]);
     gptResponseElement.innerHTML = "";
     fetch("public/server.js", {
@@ -90,8 +90,8 @@ recipeButtons.forEach((button) => {
         console.error("Error", error);
       });
 
-    let esc = encodeURIComponent;
-    let query = Object.keys(userRecipe)
+    let esc = encodeURIComponent; // declare variable  at the top ?
+    let query = Object.keys(userRecipe)  // declare variable  at the top ?
       .map((k) => esc(k) + "=" + esc(userRecipe[k]))
       .join("&");
     fetch(`/openai?${query} `)
