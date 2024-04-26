@@ -18,7 +18,7 @@ let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 
-console.log(userText)
+console.log(userText.value)
 
 
 function loopOverArrayOfElements(array, display) {
@@ -30,9 +30,9 @@ function loopOverArrayOfElements(array, display) {
 
 otherDietaryRequirements.addEventListener("click", function() {
   if(otherDietaryRequirements.checked) {
-    userText.style.display = "block"
+    displayElements([userText]);
   } else {
-    userText.style.display = "none"
+    removeElements([userText])
   }
 })
 
@@ -73,21 +73,26 @@ darkLightButton.addEventListener("change", () => {
   });
 });
 recipeButtons.forEach((button) => {
+  console.log(userText.value)
   button.addEventListener("click", () => {
     let userRecipe = {
       [button.name]: button.value,
-      array: dietaryRequirements,
+      array: [...dietaryRequirements, ...[userText]],
       loopOverArray: function () {
         this.array.forEach((dietaryRequirement) => {
-          return (this[dietaryRequirement.name] = dietaryRequirement.checked);
+            this[dietaryRequirement.name] = dietaryRequirement.checked;
+            if(dietaryRequirement.value !== "on") {
+              this[dietaryRequirement.name] = dietaryRequirement.value;
+            }
         });
+    
       },
     };
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
 
-    dishOriginCountry = button.value; // needed ?
+    dishOriginCountry = button.value; // needed ?∫
     displayElements([loadingContainer]);
     gptResponseElement.innerHTML = "";
     fetch("public/server.js", {

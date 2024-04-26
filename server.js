@@ -16,10 +16,12 @@ const openai = new OpenAI({
 });
 app.get("/openai", async (req, res) => {
   try {
+    console.log(req.query)
   const recipeCountryOfOrigin = req.query.recipe_country_of_origin;
   const isLactoseIntolerant = req.query.is_lactose_intolerant;
   const isVegan = req.query.is_vegan; 
   const hasOtherdietaryRequirements = req.query.has_other_dietary_requirements;
+  const userOtherdietaryRequirements = req.query.what_are_user_other_dietary_requirements;
 
   console.log(hasOtherdietaryRequirements)
 
@@ -55,7 +57,7 @@ const doubleResponse = {
 res.json(doubleResponse);
 
 
-console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan });
+console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan }, {userOtherdietaryRequirements });
 
 
 } catch (error) {
