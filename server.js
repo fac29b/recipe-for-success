@@ -16,14 +16,22 @@ const openai = new OpenAI({
 });
 app.get("/openai", async (req, res) => {
   try {
+    console.log(req.query)
   const recipeCountryOfOrigin = req.query.recipe_country_of_origin;
   const isLactoseIntolerant = req.query.is_lactose_intolerant;
   const isVegan = req.query.is_vegan; 
+  const hasOtherdietaryRequirements = req.query.has_other_dietary_requirements;
+  const userOtherdietaryRequirements = req.query.what_are_user_other_dietary_requirements;
+
+  console.log(hasOtherdietaryRequirements)
+
+
 
   const prompt = `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
-    isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant" 
-  } and ${isVegan === "true" ? "vegan" : "not vegan"
-  }`
+    isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant"} ${isVegan === "true" ? "vegan" : "not vegan"
+  } and ${userOtherdietaryRequirements === "" ? "has no other dietary requirements" : userOtherdietaryRequirements} `
+
+
 
   const completion = await openai.chat.completions.create({
     messages: [
@@ -50,7 +58,7 @@ const doubleResponse = {
 res.json(doubleResponse);
 
 
-console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan });
+console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan }, {userOtherdietaryRequirements });
 
 
 } catch (error) {

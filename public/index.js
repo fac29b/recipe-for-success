@@ -11,17 +11,32 @@ const recipeButtons = document.querySelectorAll(".recipe-button");
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
+const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
+const userText = document.querySelector("#user-text")
 let textContent;
 let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 
+console.log(userText.value)
+
+
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
     elememt.style.display = display;
-    elememt.style.transition = "all 2s";
+    elememt.style.transition = "all 2s"; // not sure that does something yet
   });
 }
+
+otherDietaryRequirements.addEventListener("click", function() {
+  if(otherDietaryRequirements.checked) {
+    displayElements([userText]);
+  } else {
+    removeElements([userText])
+  }
+})
+
+console.log(otherDietaryRequirements)
 
 function displayElements(array) {
   loopOverArrayOfElements(array, "block");
@@ -58,21 +73,26 @@ darkLightButton.addEventListener("change", () => {
   });
 });
 recipeButtons.forEach((button) => {
+  console.log(userText.value)
   button.addEventListener("click", () => {
     let userRecipe = {
       [button.name]: button.value,
-      array: dietaryRequirements,
+      array: [...dietaryRequirements, ...[userText]],
       loopOverArray: function () {
         this.array.forEach((dietaryRequirement) => {
-          return (this[dietaryRequirement.name] = dietaryRequirement.checked);
+            this[dietaryRequirement.name] = dietaryRequirement.checked;
+            if(dietaryRequirement.value !== "on") {
+              this[dietaryRequirement.name] = dietaryRequirement.value;
+            }
         });
+    
       },
     };
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
 
-    dishOriginCountry = button.value;
+    dishOriginCountry = button.value; // needed ?∫
     displayElements([loadingContainer]);
     gptResponseElement.innerHTML = "";
     fetch("public/server.js", {
@@ -90,8 +110,8 @@ recipeButtons.forEach((button) => {
         console.error("Error", error);
       });
 
-    let esc = encodeURIComponent;
-    let query = Object.keys(userRecipe)
+    let esc = encodeURIComponent; // declare variable  at the top ?
+    let query = Object.keys(userRecipe)  // declare variable  at the top ?
       .map((k) => esc(k) + "=" + esc(userRecipe[k]))
       .join("&");
     fetch(`/openai?${query} `)
