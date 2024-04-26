@@ -28,9 +28,10 @@ app.get("/openai", async (req, res) => {
 
 
   const prompt = `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
-    isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant" 
-  } and ${isVegan === "true" ? "vegan" : "not vegan"
-  }`
+    isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant"} ${isVegan === "true" ? "vegan" : "not vegan"
+  } and ${userOtherdietaryRequirements === "" ? "has no other dietary requirements" : userOtherdietaryRequirements} `
+
+
 
   const completion = await openai.chat.completions.create({
     messages: [
