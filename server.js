@@ -16,55 +16,56 @@ const openai = new OpenAI({
 });
 app.get("/openai", async (req, res) => {
   try {
-    console.log(req.query)
-  const recipeCountryOfOrigin = req.query.recipe_country_of_origin;
-  const isLactoseIntolerant = req.query.is_lactose_intolerant;
-  const isVegan = req.query.is_vegan; 
-  const hasOtherdietaryRequirements = req.query.has_other_dietary_requirements;
-  const userOtherdietaryRequirements = req.query.what_are_user_other_dietary_requirements;
-
-  console.log(hasOtherdietaryRequirements)
-
-
-
-  const prompt = `Provide a recipe for a dish from ${recipeCountryOfOrigin}, taking into account the fact that the user is ${
-    isLactoseIntolerant === "true" ? "lactose intolerant" : "not lactose intolerant"} ${isVegan === "true" ? "vegan" : "not vegan"
-  } and ${userOtherdietaryRequirements === "" ? "has no other dietary requirements" : userOtherdietaryRequirements} `
-
-
-
-  const completion = await openai.chat.completions.create({
-    messages: [
+    console.log(
+      { country: req.query.recipe_country_of_origin },
+      { lactose_intolerant: req.query.is_lactose_intolerant },
+      { is_vegan: req.query.is_vegan },
       {
-        role: "user",
-        content: `${prompt}`,
-      },
-    ],
-    model: "gpt-3.5-turbo",
-    max_tokens: 2000,
-  });
-  const imageResponse = await openai.images.generate({
-    model: "dall-e-3",
-    prompt: `${prompt}`,
-    n: 1,
-    size: "1024x1024",
-  });
-  
+        user_otherdietary_requirements:
+          req.query.what_are_user_other_dietary_requirements,
+      }
+    );
 
-const doubleResponse = {
-  text: completion,
-  image: imageResponse
-}
-res.json(doubleResponse);
+    const prompt = `Provide a recipe for a dish from ${
+      req.query.recipe_country_of_origin
+    }, taking into account the fact that the user is ${
+      req.query.is_lactose_intolerant === "true"
+        ? "lactose intolerant"
+        : "not lactose intolerant"
+    } ${req.query.is_vegan === "true" ? "vegan" : "not vegan"} and ${
+      req.query.what_are_user_other_dietary_requirements === ""
+        ? "has no other dietary requirements"
+        : req.query.what_are_user_other_dietary_requirements
+    } `;
 
+    console.log(prompt);
 
-console.log({ isLactoseIntolerant }, { recipeCountryOfOrigin }, { isVegan }, {userOtherdietaryRequirements });
+    const completion = await openai.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: `${prompt}`,
+        },
+      ],
+      model: "gpt-3.5-turbo",
+      max_tokens: 2000,
+    });
+    const imageResponse = await openai.images.generate({
+      model: "dall-e-3",
+      prompt: `${prompt}`,
+      n: 1,
+      size: "1024x1024",
+    });
 
-
-} catch (error) {
-  console.error("An error occurred:", error.message);
-  res.status(500).json({ error: error.message });
-}
+    const doubleResponse = {
+      text: completion,
+      image: imageResponse,
+    };
+    res.json(doubleResponse);
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.use(express.static("public"));
@@ -72,4 +73,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
