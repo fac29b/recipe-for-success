@@ -81,12 +81,17 @@ button {
     transition: background-color 0.5s ease;
 }
 
-
 .send-recipe-to-user-inbox,
+.email-section,
 .want-another-recipe {
   margin-left: 170px;
   display: none;
   width: 200px;
+}
+
+.add {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 
