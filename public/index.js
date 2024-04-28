@@ -124,7 +124,7 @@ recipeButtons.forEach((button) => {
         mainElement.style.backgroundImage = `url(${imageUrl})`;
         gptResponseElement.innerHTML = `${textContent}`;
         removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([userWantAnotherRecipe, gptResponseElement]);
+        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInbox]);
       })
       .catch((error) => console.error("Error:", error))
       .finally(() => {
