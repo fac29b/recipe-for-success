@@ -9,7 +9,8 @@ const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
 const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInbox = document.querySelector(".send-recipe-to-user-inbox");
-console.log(sendRecipeToUserInbox)
+const userEmail = document.querySelector("#user-email")
+console.log(userEmail);
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
@@ -124,7 +125,7 @@ recipeButtons.forEach((button) => {
         mainElement.style.backgroundImage = `url(${imageUrl})`;
         gptResponseElement.innerHTML = `${textContent}`;
         removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInbox]);
+        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInbox, userEmail]);
       })
       .catch((error) => console.error("Error:", error))
       .finally(() => {
