@@ -8,6 +8,8 @@ const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
 const recipeButtons = document.querySelectorAll(".recipe-button");
+const sendRecipeToUserInbox = document.querySelector(".send-recipe-to-user-inbox");
+console.log(sendRecipeToUserInbox)
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
@@ -36,7 +38,7 @@ otherDietaryRequirements.addEventListener("click", function() {
   }
 })
 
-console.log(otherDietaryRequirements)
+
 
 function displayElements(array) {
   loopOverArrayOfElements(array, "block");
