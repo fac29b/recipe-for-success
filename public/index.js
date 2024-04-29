@@ -8,7 +8,7 @@ const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
 const recipeButtons = document.querySelectorAll(".recipe-button");
-const sendRecipeToUserInbox = document.querySelector(".send-recipe-to-user-inbox");
+const sendRecipeToUserInboxBtn = document.querySelector(".send-recipe-to-user-inbox");
 const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
@@ -63,9 +63,9 @@ function emptyTheElement(elememt) {
 }
 
 
-sendRecipeToUserInbox.addEventListener("click", () => {
+sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
-  removeElements([sendRecipeToUserInbox]);
+  removeElements([sendRecipeToUserInboxBtn]);
   emailSection.classList.add("grid");
 })
 
@@ -80,7 +80,7 @@ function resetCheckedStateToFalse(array) {
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons]);
-  removeElements([gptResponseElement, userWantAnotherRecipe, userEmail, sendRecipeToUserInbox, userText]);
+  removeElements([gptResponseElement, userWantAnotherRecipe, sendRecipeToUserInboxBtn, userText]);
   emptyTheElement(gptResponseElement);
   resetCheckedStateToFalse(dietaryRequirements)
   userText.value = "";
@@ -153,7 +153,7 @@ recipeButtons.forEach((button) => {
         mainElement.style.backgroundImage = `url(${imageUrl})`;
         gptResponseElement.innerHTML = `${textContent}`;
         removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInbox]);
+        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInboxBtn]);
       
         
       })
