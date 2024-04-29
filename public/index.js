@@ -12,7 +12,8 @@ const sendRecipeToUserInboxBtn = document.querySelector(".send-recipe-to-user-in
 const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
-console.log(emailSection);
+const paperPlane = document.querySelector(".fa-paper-plane")
+console.log(paperPlane);
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
@@ -36,13 +37,7 @@ function loopOverArrayOfElements(array, display) {
   });
 }
 
-// otherDietaryRequirements.addEventListener("click", function() {
-//   if(otherDietaryRequirements.checked) {
-//     displayElements([userText]);
-//   } else {
-//     removeElements([userText])
-//   }
-// })
+
 
 
 
@@ -77,6 +72,10 @@ function resetCheckedStateToFalse(array) {
     }
   })
 }
+
+paperPlane.addEventListener("click", () => {
+  console.log("paper plane");
+})
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons]);
