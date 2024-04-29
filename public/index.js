@@ -69,18 +69,22 @@ sendRecipeToUserInbox.addEventListener("click", () => {
   emailSection.classList.add("grid");
 })
 
-userWantAnotherRecipe.addEventListener("click", () => {
-  displayElements([headline, allergies, ...recipeButtons]);
-  removeElements([gptResponseElement, userWantAnotherRecipe, userEmail, sendRecipeToUserInbox, userText]);
-  emptyTheElement(gptResponseElement);
-  userText.value = "";
-  emailSection.classList.remove("grid");
-  dietaryRequirements.forEach(requirement => {
+function resetCheckedStateToFalse(array) {
+  array.forEach(requirement => {
     console.log(requirement.checked)
     if(requirement.checked) {
       requirement.checked = false
     }
   })
+}
+
+userWantAnotherRecipe.addEventListener("click", () => {
+  displayElements([headline, allergies, ...recipeButtons]);
+  removeElements([gptResponseElement, userWantAnotherRecipe, userEmail, sendRecipeToUserInbox, userText]);
+  emptyTheElement(gptResponseElement);
+  resetCheckedStateToFalse(dietaryRequirements)
+  userText.value = "";
+  emailSection.classList.remove("grid");
 });
 
 darkLightButton.addEventListener("change", () => {
