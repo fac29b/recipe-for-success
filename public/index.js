@@ -16,6 +16,9 @@ console.log(emailSection);
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
+
+
+console.log(dietaryRequirements)
 const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
 const userText = document.querySelector("#user-text")
 let textContent;
@@ -33,18 +36,22 @@ function loopOverArrayOfElements(array, display) {
   });
 }
 
-otherDietaryRequirements.addEventListener("click", function() {
-  if(otherDietaryRequirements.checked) {
-    displayElements([userText]);
-  } else {
-    removeElements([userText])
-  }
-})
+// otherDietaryRequirements.addEventListener("click", function() {
+//   if(otherDietaryRequirements.checked) {
+//     displayElements([userText]);
+//   } else {
+//     removeElements([userText])
+//   }
+// })
 
 
 
 function displayElements(array) {
   loopOverArrayOfElements(array, "block");
+}
+
+function displayElementsGrid(array) {
+  loopOverArrayOfElements(array, "grid")
 }
 
 function removeElements(array) {
@@ -55,10 +62,25 @@ function emptyTheElement(elememt) {
   elememt.innerHTML = "";
 }
 
+
+sendRecipeToUserInbox.addEventListener("click", () => {
+  displayElementsGrid([emailSection]);
+  removeElements([sendRecipeToUserInbox]);
+  emailSection.classList.add("grid");
+})
+
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons]);
-  removeElements([gptResponseElement, userWantAnotherRecipe]);
+  removeElements([gptResponseElement, userWantAnotherRecipe, userEmail, sendRecipeToUserInbox, userText]);
   emptyTheElement(gptResponseElement);
+  userText.value = "";
+  emailSection.classList.remove("grid");
+  dietaryRequirements.forEach(requirement => {
+    console.log(requirement.checked)
+    if(requirement.checked) {
+      requirement.checked = false
+    }
+  })
 });
 
 darkLightButton.addEventListener("change", () => {
@@ -127,8 +149,8 @@ recipeButtons.forEach((button) => {
         mainElement.style.backgroundImage = `url(${imageUrl})`;
         gptResponseElement.innerHTML = `${textContent}`;
         removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInbox, emailSection]);
-        emailSection.classList.add("add");
+        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInbox]);
+      
         
       })
       .catch((error) => console.error("Error:", error))

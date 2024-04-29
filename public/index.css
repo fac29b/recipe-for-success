@@ -89,10 +89,12 @@ button {
   width: 200px;
 }
 
-.add {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.grid {
+  /* display: grid; */
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
 }
+
 
 
 
