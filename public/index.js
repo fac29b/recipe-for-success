@@ -37,6 +37,15 @@ function loopOverArrayOfElements(array, display) {
   });
 }
 
+otherDietaryRequirements.addEventListener("click", () => {
+  if(otherDietaryRequirements.checked) {
+    userText.classList.remove("off");
+  } else {
+    userText.classList.add("off");
+  }
+  console.log("input box")
+})
+
 
 
 

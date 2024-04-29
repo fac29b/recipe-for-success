@@ -28,9 +28,10 @@
     width: 500px;
     border: black 1px solid;
     border-radius: 5%;
-    background-image: url('./image/dish-image.jpeg'); 
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./image/dish-image.jpeg'); 
+    background-image: url('./image/Designer_2.png'); 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./image/Designer_2.png'); 
     background-size: cover; 
+   
     background-color: rgb(67, 63, 63);
 }
 
