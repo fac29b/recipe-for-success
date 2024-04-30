@@ -216,6 +216,10 @@ button {
   display: none;
 }
 
+.legend {
+  background: hsla(0,0%,100%,1);
+}
+
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
