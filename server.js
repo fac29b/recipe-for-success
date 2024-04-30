@@ -15,6 +15,7 @@ const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
 app.get("/openai", async (req, res) => {
+  console.log(req.query)
   try {
     console.log(
       { country: req.query.recipe_country_of_origin },

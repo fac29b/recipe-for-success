@@ -75,7 +75,6 @@ sendRecipeToUserInboxBtn.addEventListener("click", () => {
 
 function resetCheckedStateToFalse(array) {
   array.forEach(requirement => {
-    console.log(requirement.checked)
     if(requirement.checked) {
       requirement.checked = false
     }
@@ -88,7 +87,7 @@ paperPlane.addEventListener("click", () => {
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons]);
-  removeElements([gptResponseElement, userWantAnotherRecipe, sendRecipeToUserInboxBtn, userText]);
+  removeElements([gptResponseElement, userWantAnotherRecipe, sendRecipeToUserInboxBtn, userText, userEmail]);
   emptyTheElement(gptResponseElement);
   resetCheckedStateToFalse(dietaryRequirements)
   userText.value = "";
