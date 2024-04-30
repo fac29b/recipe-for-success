@@ -104,6 +104,7 @@ darkLightButton.addEventListener("change", () => {
     allergies,
     headline,
     userWantAnotherRecipe,
+    sendRecipeToUserInboxBtn,
     ...recipeButtons,
   ].forEach((element) => {
     element.style.setProperty("--green", color);
