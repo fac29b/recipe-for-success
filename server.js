@@ -29,13 +29,13 @@ app.get("/openai", async (req, res) => {
 
     const prompt = `Provide a recipe for a dish from ${
       req.query.recipe_country_of_origin
-    }, taking into account the fact that the user is ${
+    }, taking into account the fact that I'm ${
       req.query.is_lactose_intolerant === "true"
         ? "lactose intolerant"
         : "not lactose intolerant"
     } ${req.query.is_vegan === "true" ? "vegan" : "not vegan"} and ${
       req.query.what_are_user_other_dietary_requirements === ""
-        ? "has no other dietary requirements"
+        ? "I have no other dietary requirements"
         : req.query.what_are_user_other_dietary_requirements
     } `;
 
