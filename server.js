@@ -1,4 +1,5 @@
 const express = require("express");
+var nodemailer = require('nodemailer');
 require("dotenv").config();
 const { OpenAI } = require("openai");
 const app = express();
@@ -73,4 +74,28 @@ app.use(express.static("public"));
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
+});
+
+
+var transporter = nodemailer.createTransport({
+  service: process.env.service,
+  auth: {
+    user: process.env.from,
+    pass: process.env.third_party_app_password
+  }
+});
+
+var mailOptions = {
+  from: process.env.from,
+  to: process.env.to,
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy 5.0!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
 });

@@ -217,7 +217,8 @@ button {
 }
 
 .legend {
-  background: hsla(0,0%,100%,1);
+  /* background: var(--green) */
+  background-color: white;
 }
 
 
