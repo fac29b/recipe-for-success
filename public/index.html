@@ -44,6 +44,7 @@
             name="is_vegan"
           />
           <label for="vegan">vegan?</label>
+         
       
   
           <input
@@ -89,9 +90,9 @@
           class="gpt-response preserve-line-breaks"
         ></section>
         <button class="want-another-recipe">I want another recipe</button>
-        <button class="send-recipe-to-user-inbox">send recipe to my inbox</button>
+        <button  class="send-recipe-to-user-inbox" name="do_we_email_user" value="false">send recipe to my in</button>
         <section class="email-section">
-          <input type="email" id="user-email" placeholder="sophie@example.com">
+          <input type="email" id="user-email" class="dietary-requirements" name="user_email_address" placeholder="sophie@example.com">
           <i class="fa fa-paper-plane" aria-hidden="true" fa-lg></i>
           <!-- <button class="send-email-btn">send</button> -->
         </section>

@@ -13,13 +13,20 @@ const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
 const paperPlane = document.querySelector(".fa-paper-plane")
-console.log(paperPlane);
+let emailUser = false
+console.log(sendRecipeToUserInboxBtn.value);
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
 
 
-console.log(dietaryRequirements)
+
+
+console.log(emailUser);
+
+
+
+console.log(emailUser)
 const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
 const userText = document.querySelector("#user-text")
 let textContent;
@@ -81,9 +88,7 @@ function resetCheckedStateToFalse(array) {
   })
 }
 
-paperPlane.addEventListener("click", () => {
-  console.log("paper plane");
-})
+
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons]);
@@ -130,6 +135,20 @@ recipeButtons.forEach((button) => {
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
+
+  
+
+    paperPlane.addEventListener("click", () => {
+      userRecipe.user_email_address = userEmail.value;
+      console.log(userRecipe);
+      
+    })
+
+    // sendRecipeToUserInboxBtn.addEventListener("click", () => {
+    //   sendRecipeToUserInboxBtn.value = "true";
+    //   console.log(sendRecipeToUserInboxBtn.value )
+    //   console.log(userRecipe);
+    // })
 
     dishOriginCountry = button.value; // needed ?∫
     displayElements([loadingContainer]);

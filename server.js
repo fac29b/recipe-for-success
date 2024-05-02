@@ -64,6 +64,36 @@ app.get("/openai", async (req, res) => {
       image: imageResponse,
     };
     res.json(doubleResponse);
+
+    var transporter = nodemailer.createTransport({
+      service: process.env.service,
+      auth: {
+        user: process.env.from,
+        pass: process.env.third_party_app_password
+      }
+    });
+    
+    var mailOptions = {
+      from: process.env.from,
+      to: process.env.to,
+      subject: 'Your recipe from recipe-for-success app',
+      text: doubleResponse.text.choices[0].message.content, 
+
+
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
+
+
+
+    console.log({text_needed: doubleResponse.text.choices[0].message.content}, {image_needed: doubleResponse.image.data[0].url})
   } catch (error) {
     console.error("An error occurred:", error.message);
     res.status(500).json({ error: error.message });
@@ -77,25 +107,25 @@ app.listen(port, () => {
 });
 
 
-var transporter = nodemailer.createTransport({
-  service: process.env.service,
-  auth: {
-    user: process.env.from,
-    pass: process.env.third_party_app_password
-  }
-});
+// var transporter = nodemailer.createTransport({
+//   service: process.env.service,
+//   auth: {
+//     user: process.env.from,
+//     pass: process.env.third_party_app_password
+//   }
+// });
 
-var mailOptions = {
-  from: process.env.from,
-  to: process.env.to,
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy 5.0!'
-};
+// var mailOptions = {
+//   from: process.env.from,
+//   to: process.env.to,
+//   subject: 'Your recipe from recipe-for-success app',
+//   text: doubleResponse.text.choices[0].message.content
+// };
 
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
+// transporter.sendMail(mailOptions, function(error, info){
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log('Email sent: ' + info.response);
+//   }
+// });
