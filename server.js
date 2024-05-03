@@ -1,14 +1,13 @@
 const express = require("express");
-var nodemailer = require('nodemailer');
+var nodemailer = require("nodemailer");
 require("dotenv").config();
 const { OpenAI } = require("openai");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.post("/public/server.js", (req, res) => {
-  console.log({request: req.body})
-  const dishCountry = req.body.dishOriginCountry;
-  const isUserLactoseIntolerant = req.body.isLactoseIntolerant;
+  const dishCountry = req.body.recipe_country_of_origin;
+  const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
   res.json({
     message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
   });
@@ -20,43 +19,36 @@ const openai = new OpenAI({
 let doubleResponse;
 
 app.get("/email", async (req, res) => {
-  console.log({emailEndpoint: req.query})
   var transporter = nodemailer.createTransport({
     service: process.env.service,
     auth: {
       user: process.env.from,
-      pass: process.env.third_party_app_password
-    }
+      pass: process.env.third_party_app_password,
+    },
   });
 
-
-  if(doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
+  if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
     var mailOptions = {
       from: process.env.from,
       to: req.query.user_email_address,
-      subject: 'Your recipe from recipe-for-success dynamic app',
-      text: doubleResponse.text.choices[0].message.content, 
+      subject: "Your recipe from recipe-for-success dynamic app",
+      text: doubleResponse.text.choices[0].message.content,
     };
   } else {
-    console.log('doubleResponse is not defined yet.');
+    console.log("doubleResponse is not defined yet.");
   }
-  
 
-  
-  transporter.sendMail(mailOptions, function(error, info){
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      console.log("Email sent: " + info.response);
     }
   });
-
-})
-
-
+});
 
 app.get("/openai", async (req, res) => {
-  console.log(req.query)
+  console.log(req.query);
   try {
     console.log(
       { country: req.query.recipe_country_of_origin },
@@ -65,7 +57,7 @@ app.get("/openai", async (req, res) => {
       {
         user_otherdietary_requirements:
           req.query.what_are_user_other_dietary_requirements,
-      },
+      }
     );
 
     const prompt = `Provide a recipe for a dish from ${
@@ -81,7 +73,6 @@ app.get("/openai", async (req, res) => {
     } `;
 
     console.log(prompt);
-    console.log({request: req.body})
 
     const completion = await openai.chat.completions.create({
       messages: [
@@ -100,46 +91,11 @@ app.get("/openai", async (req, res) => {
       size: "1024x1024",
     });
 
-
-
-
     doubleResponse = {
       text: completion,
       image: imageResponse,
     };
     res.json(doubleResponse);
-
-    // var transporter = nodemailer.createTransport({
-    //   service: process.env.service,
-    //   auth: {
-    //     user: process.env.from,
-    //     pass: process.env.third_party_app_password
-    //   }
-    // });
-
-
-    
-    // var mailOptions = {
-    //   from: process.env.from,
-    //   to: req.query.user_email_address,
-    //   subject: 'Your recipe from recipe-for-success dynamic app',
-    //   text: doubleResponse.text.choices[0].message.content, 
-
-
-    // };
-    
-    // transporter.sendMail(mailOptions, function(error, info){
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     console.log('Email sent: ' + info.response);
-    //   }
-    // });
-
-
-
-
-    console.log({text_needed: doubleResponse.text.choices[0].message.content}, {image_needed: doubleResponse.image.data[0].url})
   } catch (error) {
     console.error("An error occurred:", error.message);
     res.status(500).json({ error: error.message });
@@ -151,9 +107,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-
-
-
-
-
