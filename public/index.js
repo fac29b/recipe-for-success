@@ -1,3 +1,4 @@
+
 const mainElement = document.querySelector(".main-element");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
@@ -19,14 +20,12 @@ const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
 
+console.log(userEmail.name)
 
 
 
-console.log(emailUser);
 
 
-
-console.log(emailUser)
 const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
 const userText = document.querySelector("#user-text")
 let textContent;
@@ -34,7 +33,6 @@ let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 
-console.log(userText.value)
 
 
 function loopOverArrayOfElements(array, display) {
@@ -116,6 +114,43 @@ darkLightButton.addEventListener("change", () => {
     element.style.transition = "background-color 0.5s ease";
   });
 });
+
+
+paperPlane.addEventListener("click", () => {
+  let emailOBject = {
+    [userEmail.name] : userEmail.value
+  }
+  console.log(emailOBject);
+
+  fetch("public/server.js", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(emailOBject)
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Response for user email", data)
+  })
+  .catch((error) => {
+    console.error("Error", error);
+  });
+
+  let esc = encodeURIComponent; // declare variable  at the top ?
+  let emailQuery = Object.keys(emailOBject)  // declare variable  at the top ?
+    .map((k) => esc(k) + "=" + esc(emailOBject[k]))
+    .join("&");
+    fetch(`/email?${emailQuery}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      console.log(emailQuery)
+    })
+    .catch((error) => console.error("Error:", error))
+})
+
+
 recipeButtons.forEach((button) => {
   console.log(userText.value)
   button.addEventListener("click", () => {
@@ -128,7 +163,9 @@ recipeButtons.forEach((button) => {
             if(dietaryRequirement.value !== "on") {
               this[dietaryRequirement.name] = dietaryRequirement.value;
             }
+          
         });
+    
     
       },
     };
@@ -138,11 +175,7 @@ recipeButtons.forEach((button) => {
 
   
 
-    paperPlane.addEventListener("click", () => {
-      userRecipe.user_email_address = userEmail.value;
-      console.log(userRecipe);
-      
-    })
+
 
     // sendRecipeToUserInboxBtn.addEventListener("click", () => {
     //   sendRecipeToUserInboxBtn.value = "true";
@@ -172,7 +205,7 @@ recipeButtons.forEach((button) => {
     let query = Object.keys(userRecipe)  // declare variable  at the top ?
       .map((k) => esc(k) + "=" + esc(userRecipe[k]))
       .join("&");
-    fetch(`/openai?${query} `)
+    fetch(`/openai?${query}`)
       .then((response) => response.json())
       .then((data) => {
         textContent = data.text.choices[0].message.content;

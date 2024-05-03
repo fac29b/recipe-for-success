@@ -6,6 +6,7 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.post("/public/server.js", (req, res) => {
+  console.log({request: req.body})
   const dishCountry = req.body.dishOriginCountry;
   const isUserLactoseIntolerant = req.body.isLactoseIntolerant;
   res.json({
@@ -15,6 +16,45 @@ app.post("/public/server.js", (req, res) => {
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
+
+let doubleResponse;
+
+app.get("/email", async (req, res) => {
+  console.log({emailEndpoint: req.query})
+  var transporter = nodemailer.createTransport({
+    service: process.env.service,
+    auth: {
+      user: process.env.from,
+      pass: process.env.third_party_app_password
+    }
+  });
+
+
+  if(doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
+    var mailOptions = {
+      from: process.env.from,
+      to: req.query.user_email_address,
+      subject: 'Your recipe from recipe-for-success dynamic app',
+      text: doubleResponse.text.choices[0].message.content, 
+    };
+  } else {
+    console.log('doubleResponse is not defined yet.');
+  }
+  
+
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+})
+
+
+
 app.get("/openai", async (req, res) => {
   console.log(req.query)
   try {
@@ -25,7 +65,7 @@ app.get("/openai", async (req, res) => {
       {
         user_otherdietary_requirements:
           req.query.what_are_user_other_dietary_requirements,
-      }
+      },
     );
 
     const prompt = `Provide a recipe for a dish from ${
@@ -41,6 +81,7 @@ app.get("/openai", async (req, res) => {
     } `;
 
     console.log(prompt);
+    console.log({request: req.body})
 
     const completion = await openai.chat.completions.create({
       messages: [
@@ -59,36 +100,41 @@ app.get("/openai", async (req, res) => {
       size: "1024x1024",
     });
 
-    const doubleResponse = {
+
+
+
+    doubleResponse = {
       text: completion,
       image: imageResponse,
     };
     res.json(doubleResponse);
 
-    var transporter = nodemailer.createTransport({
-      service: process.env.service,
-      auth: {
-        user: process.env.from,
-        pass: process.env.third_party_app_password
-      }
-    });
-    
-    var mailOptions = {
-      from: process.env.from,
-      to: process.env.to,
-      subject: 'Your recipe from recipe-for-success app',
-      text: doubleResponse.text.choices[0].message.content, 
+    // var transporter = nodemailer.createTransport({
+    //   service: process.env.service,
+    //   auth: {
+    //     user: process.env.from,
+    //     pass: process.env.third_party_app_password
+    //   }
+    // });
 
 
-    };
     
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    // var mailOptions = {
+    //   from: process.env.from,
+    //   to: req.query.user_email_address,
+    //   subject: 'Your recipe from recipe-for-success dynamic app',
+    //   text: doubleResponse.text.choices[0].message.content, 
+
+
+    // };
+    
+    // transporter.sendMail(mailOptions, function(error, info){
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log('Email sent: ' + info.response);
+    //   }
+    // });
 
 
 
@@ -107,25 +153,7 @@ app.listen(port, () => {
 });
 
 
-// var transporter = nodemailer.createTransport({
-//   service: process.env.service,
-//   auth: {
-//     user: process.env.from,
-//     pass: process.env.third_party_app_password
-//   }
-// });
 
-// var mailOptions = {
-//   from: process.env.from,
-//   to: process.env.to,
-//   subject: 'Your recipe from recipe-for-success app',
-//   text: doubleResponse.text.choices[0].message.content
-// };
 
-// transporter.sendMail(mailOptions, function(error, info){
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log('Email sent: ' + info.response);
-//   }
-// });
+
+
