@@ -71,6 +71,7 @@ h1 {
    
 }
 
+
 .want-another-recipe,
 button {
     text-transform: uppercase;
@@ -97,6 +98,19 @@ button {
 }
 
 
+
+
+.try-again-btn {
+  text-transform: uppercase;
+  height: 40px;
+  border-radius: 5px;
+  background-color: var(--green);
+  transition: background-color 0.5s ease;
+  display: block;
+  margin: auto; 
+  margin-top: 20px; 
+  width: fit-content; 
+}
 
 
 .gpt-response {
