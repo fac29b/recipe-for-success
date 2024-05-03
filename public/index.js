@@ -1,4 +1,3 @@
-
 const mainElement = document.querySelector(".main-element");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
@@ -9,58 +8,47 @@ const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
 const recipeButtons = document.querySelectorAll(".recipe-button");
-const sendRecipeToUserInboxBtn = document.querySelector(".send-recipe-to-user-inbox");
+const sendRecipeToUserInboxBtn = document.querySelector(
+  ".send-recipe-to-user-inbox"
+);
 const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
-const paperPlane = document.querySelector(".fa-paper-plane")
-let emailUser = false
-console.log(sendRecipeToUserInboxBtn.value);
+const paperPlane = document.querySelector(".fa-paper-plane");
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
-
-console.log(userEmail.name)
-
-
-
-
-
-const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
-const userText = document.querySelector("#user-text")
+const otherDietaryRequirements = document.querySelector(
+  "#other-dietary-requirements"
+);
+const userText = document.querySelector("#user-text");
 let textContent;
 let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 
-
-
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
     elememt.style.display = display;
-    elememt.style.transition = "all 2s"; // not sure that does something yet
+    elememt.style.transition = "all 2s";
   });
 }
 
 otherDietaryRequirements.addEventListener("click", () => {
-  if(otherDietaryRequirements.checked) {
+  if (otherDietaryRequirements.checked) {
     userText.classList.remove("off");
   } else {
     userText.classList.add("off");
   }
-  console.log("input box")
-})
-
-
-
-
+  console.log("input box");
+});
 
 function displayElements(array) {
   loopOverArrayOfElements(array, "block");
 }
 
 function displayElementsGrid(array) {
-  loopOverArrayOfElements(array, "grid")
+  loopOverArrayOfElements(array, "grid");
 }
 
 function removeElements(array) {
@@ -71,28 +59,31 @@ function emptyTheElement(elememt) {
   elememt.innerHTML = "";
 }
 
-
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
   removeElements([sendRecipeToUserInboxBtn]);
   emailSection.classList.add("grid");
-})
+});
 
 function resetCheckedStateToFalse(array) {
-  array.forEach(requirement => {
-    if(requirement.checked) {
-      requirement.checked = false
+  array.forEach((requirement) => {
+    if (requirement.checked) {
+      requirement.checked = false;
     }
-  })
+  });
 }
-
-
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons]);
-  removeElements([gptResponseElement, userWantAnotherRecipe, sendRecipeToUserInboxBtn, userText, userEmail]);
+  removeElements([
+    gptResponseElement,
+    userWantAnotherRecipe,
+    sendRecipeToUserInboxBtn,
+    userText,
+    userEmail,
+  ]);
   emptyTheElement(gptResponseElement);
-  resetCheckedStateToFalse(dietaryRequirements)
+  resetCheckedStateToFalse(dietaryRequirements);
   userText.value = "";
   emailSection.classList.remove("grid");
 });
@@ -115,73 +106,55 @@ darkLightButton.addEventListener("change", () => {
   });
 });
 
-
 paperPlane.addEventListener("click", () => {
   let emailOBject = {
-    [userEmail.name] : userEmail.value
-  }
-  console.log(emailOBject);
-
+    [userEmail.name]: userEmail.value,
+  };
   fetch("public/server.js", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(emailOBject)
+    body: JSON.stringify(emailOBject),
   })
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Response for user email", data)
-  })
-  .catch((error) => {
-    console.error("Error", error);
-  });
-
-  let esc = encodeURIComponent; // declare variable  at the top ?
-  let emailQuery = Object.keys(emailOBject)  // declare variable  at the top ?
-    .map((k) => esc(k) + "=" + esc(emailOBject[k]))
-    .join("&");
-    fetch(`/email?${emailQuery}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
-      console.log(emailQuery)
+      console.log("Response for user email", data);
     })
-    .catch((error) => console.error("Error:", error))
-})
+    .catch((error) => {
+      console.error("Error", error);
+    });
 
+  let esc = encodeURIComponent; // declare variable  at the top ?
+  let emailQuery = Object.keys(emailOBject) // declare variable  at the top ?
+    .map((k) => esc(k) + "=" + esc(emailOBject[k]))
+    .join("&");
+  fetch(`/email?${emailQuery}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log({ data }, { emailQuery });
+    })
+    .catch((error) => console.error("Error:", error));
+});
 
 recipeButtons.forEach((button) => {
-  console.log(userText.value)
+  console.log(userText.value);
   button.addEventListener("click", () => {
     let userRecipe = {
       [button.name]: button.value,
       array: [...dietaryRequirements, ...[userText]],
       loopOverArray: function () {
         this.array.forEach((dietaryRequirement) => {
-            this[dietaryRequirement.name] = dietaryRequirement.checked;
-            if(dietaryRequirement.value !== "on") {
-              this[dietaryRequirement.name] = dietaryRequirement.value;
-            }
-          
+          this[dietaryRequirement.name] = dietaryRequirement.checked;
+          if (dietaryRequirement.value !== "on") {
+            this[dietaryRequirement.name] = dietaryRequirement.value;
+          }
         });
-    
-    
       },
     };
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
-
-  
-
-
-
-    // sendRecipeToUserInboxBtn.addEventListener("click", () => {
-    //   sendRecipeToUserInboxBtn.value = "true";
-    //   console.log(sendRecipeToUserInboxBtn.value )
-    //   console.log(userRecipe);
-    // })
 
     dishOriginCountry = button.value; // needed ?∫
     displayElements([loadingContainer]);
@@ -202,7 +175,7 @@ recipeButtons.forEach((button) => {
       });
 
     let esc = encodeURIComponent; // declare variable  at the top ?
-    let query = Object.keys(userRecipe)  // declare variable  at the top ?
+    let query = Object.keys(userRecipe) // declare variable  at the top ?
       .map((k) => esc(k) + "=" + esc(userRecipe[k]))
       .join("&");
     fetch(`/openai?${query}`)
@@ -213,9 +186,11 @@ recipeButtons.forEach((button) => {
         mainElement.style.backgroundImage = `url(${imageUrl})`;
         gptResponseElement.innerHTML = `${textContent}`;
         removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([userWantAnotherRecipe, gptResponseElement, sendRecipeToUserInboxBtn]);
-      
-        
+        displayElements([
+          userWantAnotherRecipe,
+          gptResponseElement,
+          sendRecipeToUserInboxBtn,
+        ]);
       })
       .catch((error) => console.error("Error:", error))
       .finally(() => {
