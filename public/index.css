@@ -28,9 +28,10 @@
     width: 500px;
     border: black 1px solid;
     border-radius: 5%;
-    background-image: url('./image/dish-image.jpeg'); 
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./image/dish-image.jpeg'); 
+    background-image: url('./image/Designer_2.png'); 
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./image/Designer_2.png'); 
     background-size: cover; 
+   
     background-color: rgb(67, 63, 63);
 }
 
@@ -82,10 +83,22 @@ button {
     transition: background-color 0.5s ease;
 }
 
+.send-recipe-to-user-inbox,
+.email-section,
 .want-another-recipe {
   margin-left: 170px;
   display: none;
+  width: 200px;
 }
+
+.grid {
+  /* display: grid; */
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+
+
 
 .try-again-btn {
   text-transform: uppercase;
@@ -215,6 +228,11 @@ button {
 
 .off {
   display: none;
+}
+
+.legend {
+  /* background: var(--green) */
+  background-color: white;
 }
 
 

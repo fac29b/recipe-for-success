@@ -28,37 +28,43 @@
           No idea what to cook? No worries recipe for success app does the
           thinking for you.
         </h1>
-        <section aria-label="allergies section" class="allergies">
+        <fieldset aria-label="allergies section" class="allergies">
+          <legend class="legend">Indicate any dietary requirements</legend>
           <input
             type="checkbox"
             id="lactose-intolerant"
             class="dietary-requirements"
             name="is_lactose_intolerant"
           />
-          <label for="lactose-intolerant">Are you lactose intolerant?</label>
+          <label for="lactose-intolerant">lactose intolerant?</label>
           <input
             type="checkbox"
             id="vegan"
             class="dietary-requirements"
             name="is_vegan"
           />
-          <label for="vegan">Are you Vegan?</label>
-
+          <label for="vegan">vegan?</label>
+         
+      
+  
           <input
             type="checkbox"
             id="other-dietary-requirements"
             class="dietary-requirements"
             name="has_other_dietary_requirements"
           />
-          <label for="other-dietary-requirements">other?</label>
+          <label for="other-dietary-requirements">other</label>
           <input
-            id="user-text"
-            type="text"
-            class="dietary-requirements off"
-            value=""
-            name="what_are_user_other_dietary_requirements"
+          id="user-text"
+          type="text"
+          class="dietary-requirements off"
+          value=""
+          name="what_are_user_other_dietary_requirements"
+          placeholder="I don't eat:"
+          
           />
-        </section>
+          
+        </fieldset>
 
         <section aria-label="cusine-options" class="cusine-options">
           <button
@@ -99,6 +105,14 @@
           class="gpt-response preserve-line-breaks"
         ></section>
         <button class="want-another-recipe">I want another recipe</button>
+        <button  class="send-recipe-to-user-inbox" name="do_we_email_user" value="false">send recipe to my in</button>
+        <section class="email-section">
+          <input type="email" id="user-email" class="" name="user_email_address" placeholder="sophie@example.com">
+          <i class="fa fa-paper-plane" aria-hidden="true" fa-lg></i>
+          <!-- <button class="send-email-btn">send</button> -->
+        </section>
+        
+        <!-- <label for="user-email">Enter you email address</label> -->
         <button class="try-again-btn">Try again</button>
       </main>
     </div>
