@@ -84,6 +84,14 @@ let errorMessage = `
 
 tryAgainBtn.style.display = "none";
 
+function createQuery(myObject) {
+  let esc =  encodeURIComponent;
+  let query = Object.keys(myObject)
+  .map((k) => esc(k) + "=" + esc(myObject[k]))
+  .join("&");
+  return query
+}
+
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
     elememt.style.display = display;
@@ -104,8 +112,7 @@ function displayElements(array) {
 }
 
 function displayElementsGrid(array) {
-  loopOverArray
-  Elements(array, "grid");
+  loopOverArrayOfElements(array, "grid");
 }
 
 function removeElements(array) {
@@ -190,11 +197,8 @@ paperPlane.addEventListener("click", () => {
       console.error("Error", error);
     });
 
-  let esc = encodeURIComponent; // declare variable  at the top ?
-  let emailQuery = Object.keys(emailOBject) // declare variable  at the top ?
-    .map((k) => esc(k) + "=" + esc(emailOBject[k]))
-    .join("&");
-  fetch(`/email?${emailQuery}`)
+   
+  fetch(`/email?${createQuery(emailOBject)}`)
     .then((response) => response.json())
     .then((data) => {
       console.log({ data }, { emailQuery });
@@ -243,15 +247,10 @@ recipeButtons.forEach((button) => {
         console.error("Error", error);
       });
 
-    let esc = encodeURIComponent; // declare variable  at the top ?
-    let query = Object.keys(userRecipe) // declare variable  at the top ?
-    
-      .map((k) => esc(k) + "=" + esc(userRecipe[k]))
-      .join("&");
-    fetch(`/openai?${query}`)
+  
+    fetch(`/openai?${createQuery(userRecipe)}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(query)
         textContent = data.text.choices[0].message.content;
         imageUrl = data.image.data[0].url;
         mainElement.style.backgroundImage = `url(${imageUrl})`;

@@ -10,6 +10,10 @@
   --black: rgb(67, 63, 63);
 }
 
+.fa-paper-plane {
+  background: white;
+ 
+}
 
 
 
@@ -90,6 +94,7 @@ button {
   display: none;
   width: 200px;
 }
+
 
 .grid {
   /* display: grid; */
