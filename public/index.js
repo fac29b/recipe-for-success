@@ -92,12 +92,11 @@ function loopOverArrayOfElements(array, display) {
 }
 
 otherDietaryRequirements.addEventListener("click", () => {
-  if (otherDietaryRequirements.checked) {
-    userText.classList.remove("off");
+  if(otherDietaryRequirements.checked) {
+    displayElements([userText]);
   } else {
-    userText.classList.add("off");
+    removeElements([userText]);
   }
-  console.log("input box");
 });
 
 function displayElements(array) {
@@ -105,7 +104,8 @@ function displayElements(array) {
 }
 
 function displayElementsGrid(array) {
-  loopOverArrayOfElements(array, "grid");
+  loopOverArray
+  Elements(array, "grid");
 }
 
 function removeElements(array) {
@@ -245,11 +245,13 @@ recipeButtons.forEach((button) => {
 
     let esc = encodeURIComponent; // declare variable  at the top ?
     let query = Object.keys(userRecipe) // declare variable  at the top ?
+    
       .map((k) => esc(k) + "=" + esc(userRecipe[k]))
       .join("&");
     fetch(`/openai?${query}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(query)
         textContent = data.text.choices[0].message.content;
         imageUrl = data.image.data[0].url;
         mainElement.style.backgroundImage = `url(${imageUrl})`;

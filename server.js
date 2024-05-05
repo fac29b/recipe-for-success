@@ -27,6 +27,8 @@ app.get("/email", async (req, res) => {
     },
   });
 
+  console.log(doubleResponse)
+
   if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
     var mailOptions = {
       from: process.env.from,
