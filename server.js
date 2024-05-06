@@ -29,16 +29,16 @@ app.get("/email", async (req, res) => {
 
   console.log(doubleResponse)
 
-  if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
+  // if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
     var mailOptions = {
       from: process.env.from,
       to: req.query.user_email_address,
       subject: "Your recipe from recipe-for-success dynamic app",
       text: doubleResponse.text.choices[0].message.content,
     };
-  } else {
-    console.log("doubleResponse is not defined yet.");
-  }
+  // } else {
+  //   console.log("doubleResponse is not defined yet.");
+  // }
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {

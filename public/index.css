@@ -203,9 +203,9 @@ button {
     border-radius: 50%;
   }
 
-
-
-  /* Loading indicator */
+#user-text {
+  display: none;
+}
 
 #loading-container{
   display: none;
