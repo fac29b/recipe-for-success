@@ -5,7 +5,7 @@ const { OpenAI } = require("openai");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
-app.post("/public/server.js", (req, res) => {
+app.post("/server.js", (req, res) => {
   const dishCountry = req.body.recipe_country_of_origin;
   const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
   res.json({
@@ -99,6 +99,7 @@ app.get("/openai", async (req, res) => {
       text: completion,
       image: imageResponse,
     };
+    console.log(doubleResponse.text.choices)
     res.json(doubleResponse);
   } catch (error) {
     console.error("An error occurred:", error.message);

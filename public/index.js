@@ -182,7 +182,7 @@ paperPlane.addEventListener("click", () => {
   let emailOBject = {
     [userEmail.name]: userEmail.value,
   };
-  fetch("public/server.js", {
+  fetch("/server.js", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -233,7 +233,7 @@ recipeButtons.forEach((button) => {
     dishOriginCountry = button.value; // needed ?∫
     displayElements([loadingContainer]);
     gptResponseElement.innerHTML = "";
-    fetch("public/server.js", {
+    fetch("/server.js", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
