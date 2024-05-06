@@ -216,6 +216,7 @@ recipeButtons.forEach((button) => {
     let userRecipe = {
       [button.name]: button.value,
       array: [...dietaryRequirements, ...[userText]],
+      I_do_not_eat: userText.placeholder,
       loopOverArray: function () {
         this.array.forEach((dietaryRequirement) => {
           this[dietaryRequirement.name] = dietaryRequirement.checked;

@@ -59,7 +59,9 @@ app.get("/openai", async (req, res) => {
       {
         user_otherdietary_requirements:
           req.query.what_are_user_other_dietary_requirements,
-      }
+      },
+      {I_do_not_eat: req.query.I_do_not_eat}
+
     );
 
     const prompt = `Provide a recipe for a dish from ${
@@ -71,7 +73,7 @@ app.get("/openai", async (req, res) => {
     } ${req.query.is_vegan === "true" ? "vegan" : "not vegan"} and ${
       req.query.what_are_user_other_dietary_requirements === ""
         ? "I have no other dietary requirements"
-        : req.query.what_are_user_other_dietary_requirements
+        : `${req.query.I_do_not_eat}${req.query.what_are_user_other_dietary_requirements}`
     } `;
 
     console.log(prompt);
