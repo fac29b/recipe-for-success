@@ -15,6 +15,7 @@ app.post("/server.js", (req, res) => {
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
+const path = require('path');
 
 let doubleResponse;
 
@@ -28,13 +29,21 @@ app.get("/email", async (req, res) => {
   });
 
   console.log(doubleResponse)
+  console.log(path.join(__dirname, '/public/image'))
+
 
   // if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
     var mailOptions = {
       from: process.env.from,
       to: req.query.user_email_address,
       subject: "Your recipe from recipe-for-success dynamic app",
-      text: doubleResponse.text.choices[0].message.content,
+      html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img src="cid:unique@nodemailer.com"/>`
+      ,
+    attachments: [{
+        filename: 'Designer_1.png',
+        path: path.join(__dirname, '/public/image/Designer_1.png'),
+        cid: 'unique@nodemailer.com' //same cid value as in the html img src
+    }]
     };
   // } else {
   //   console.log("doubleResponse is not defined yet.");
