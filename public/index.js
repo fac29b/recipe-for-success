@@ -81,9 +81,6 @@ let errorMessage = `
   `;
 
 
-
-tryAgainBtn.style.display = "none";
-
 function createQuery(myObject) {
   let esc =  encodeURIComponent;
   let query = Object.keys(myObject)
@@ -210,8 +207,8 @@ paperPlane.addEventListener("click", () => {
 recipeButtons.forEach((button) => {
   console.log(userText.value)
   button.addEventListener("click", async () => {
-    recipeTextLoaded = false;
-    recipeImageLoaded = false;
+    // recipeTextLoaded = false; undefined
+    // recipeImageLoaded = false; undefined
 
     let userRecipe = {
       [button.name]: button.value,

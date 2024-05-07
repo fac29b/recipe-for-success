@@ -1,9 +1,18 @@
 const express = require("express");
+// import express from "express";
+// import fs from "fs"
+const fs = require('fs');
 var nodemailer = require("nodemailer");
+// import nodemailer from "nodemailer";
+
 require("dotenv").config();
+// import dotenv from 'dotenv';
+// dotenv.config();
 const { OpenAI } = require("openai");
+// import { OpenAI } from 'openai';
 const app = express();
 const bodyParser = require("body-parser");
+// import bodyParser from 'body-parser';
 app.use(bodyParser.json());
 app.post("/server.js", (req, res) => {
   const dishCountry = req.body.recipe_country_of_origin;
@@ -16,6 +25,8 @@ const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
 const path = require('path');
+// import path from 'path';
+// import { dirname } from 'path'
 
 let doubleResponse;
 
@@ -29,7 +40,7 @@ app.get("/email", async (req, res) => {
   });
 
   console.log(doubleResponse)
-  console.log(path.join(__dirname, '/public/image'))
+  
 
 
   // if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
