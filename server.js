@@ -38,7 +38,7 @@ app.get("/email", async (req, res) => {
     from: process.env.from,
     to: req.query.user_email_address,
     subject: "Your recipe from recipe-for-success dynamic app",
-    html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img src=${url}/>`,
+    html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img class="user-img" src=${url}/>`,
     attachments: [
       {
         filename: "url_folder.txt",
@@ -89,7 +89,7 @@ app.get("/openai", async (req, res) => {
       messages: [
         {
           role: "user",
-          content: `${prompt}`,
+          content: `${prompt} format the recipe with some html so it's easier for the user to read when send to their inbox`,
         },
       ],
       model: "gpt-3.5-turbo",

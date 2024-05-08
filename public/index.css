@@ -75,6 +75,11 @@ h1 {
    
 }
 
+.user-img {
+  height: 200px;
+  width: 200px;
+}
+
 
 .want-another-recipe,
 button {
