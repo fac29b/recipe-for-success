@@ -265,6 +265,7 @@ recipeButtons.forEach((button) => {
         Promise.all([imagePromise])
           .then(() => {
             console.log("image loaded:", Promise.all.status);
+            textContent = data.text.choices[0].message.content;
             gptResponseElement.innerHTML = `${textContent}`;
             removeElements([headline, allergies, ...recipeButtons]);
             displayElements([
