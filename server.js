@@ -61,8 +61,8 @@ app.get("/email", async (req, res) => {
       html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img src="cid:unique@nodemailer.com"/>`
       ,
     attachments: [{
-        filename: 'Designer_1.png',
-        path: path.join(__dirname, '/public/image/Designer_1.png'),
+        filename: 'url_folder.txt',
+        path: path.join(__dirname, '/public/url_folder/url_folder.txt'),
         cid: 'unique@nodemailer.com' //same cid value as in the html img src
     }]
     };
