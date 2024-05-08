@@ -34,16 +34,19 @@ app.get("/email", async (req, res) => {
   const filePath = path.join(folderPath, "url_folder.txt");
   fs.writeFileSync(filePath, url);
 
+
+
+
   var mailOptions = {
     from: process.env.from,
     to: req.query.user_email_address,
     subject: "Your recipe from recipe-for-success dynamic app",
-    html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img class="user-img" src=${url}/>`,
+    html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img class="user-img" src="${url}"/>`,
     attachments: [
       {
         filename: "url_folder.txt",
         path: path.join(__dirname, "/public/url_folder/url_folder.txt"),
-        cid: "url", //same cid value as in the html img src
+        cid: "url",
       },
     ],
   };
@@ -89,7 +92,7 @@ app.get("/openai", async (req, res) => {
       messages: [
         {
           role: "user",
-          content: `${prompt} format the recipe with some html so it's easier for the user to read when send to their inbox`,
+          content: `${prompt}`,
         },
       ],
       model: "gpt-3.5-turbo",
