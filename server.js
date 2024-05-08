@@ -49,21 +49,17 @@ app.get("/email", async (req, res) => {
 
   fs.writeFileSync(filePath, url)
 
-
-  
-
-
   // if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
     var mailOptions = {
       from: process.env.from,
       to: req.query.user_email_address,
       subject: "Your recipe from recipe-for-success dynamic app",
-      html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img src="cid:unique@nodemailer.com"/>`
+      html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img src=${url}/>`
       ,
     attachments: [{
         filename: 'url_folder.txt',
         path: path.join(__dirname, '/public/url_folder/url_folder.txt'),
-        cid: 'unique@nodemailer.com' //same cid value as in the html img src
+        cid: 'url' //same cid value as in the html img src
     }]
     };
   // } else {
