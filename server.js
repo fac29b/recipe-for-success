@@ -28,20 +28,39 @@ app.get("/email", async (req, res) => {
     },
   });
 
-
   const folderPath = path.join(__dirname, "./public/url_folder");
   const url = doubleResponse.image.data[0].url;
   const filePath = path.join(folderPath, "url_folder.txt");
   fs.writeFileSync(filePath, url);
 
-
-
+  const emailDocument = `
+    <html>
+      <head>
+        <style>
+          .preserve-line-breaks {
+            white-space: pre-line
+          }
+          .user-img {
+            width: 200px;
+            height: 200px;
+          }
+        </style>
+      </head>
+      <body class="preserve-line-breaks" >
+        ${doubleResponse.text.choices[0].message.content}
+        <br />
+         Embedded image:
+        <br /> 
+        <img class="user-img" src="${url}"/>
+      </body>
+    </html>
+  `;
 
   var mailOptions = {
     from: process.env.from,
     to: req.query.user_email_address,
     subject: "Your recipe from recipe-for-success dynamic app",
-    html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img class="user-img" src="${url}"/>`,
+    html: emailDocument,
     attachments: [
       {
         filename: "url_folder.txt",
@@ -50,6 +69,8 @@ app.get("/email", async (req, res) => {
       },
     ],
   };
+
+  console.log(mailOptions)
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -78,9 +99,9 @@ app.get("/openai", async (req, res) => {
       req.query.recipe_country_of_origin
     }, taking into account the fact that I'm ${
       req.query.is_lactose_intolerant === "true"
-        ? "lactose intolerant"
-        : "not lactose intolerant"
-    } ${req.query.is_vegan === "true" ? "vegan" : "not vegan"} and ${
+        ? "lactose intolerant,"
+        : "not lactose intolerant,"
+    } ${req.query.is_vegan === "true" ? "I'm vegan" : "I'm not vegan"} and ${
       req.query.what_are_user_other_dietary_requirements === ""
         ? "I have no other dietary requirements"
         : `${req.query.I_do_not_eat}${req.query.what_are_user_other_dietary_requirements}`
