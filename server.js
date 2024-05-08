@@ -5,7 +5,7 @@ const { OpenAI } = require("openai");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
-app.post("/public/server.js", (req, res) => {
+app.post("/server.js", (req, res) => {
   const dishCountry = req.body.recipe_country_of_origin;
   const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
   res.json({

@@ -19,6 +19,7 @@
   </head>
   <body>
     <div aria-label="parent container" class="parent-container">
+      <img src="" alt="" id="background-img" />
       <main class="main-element">
         <label class="switch">
           <input type="checkbox" class="dark-light-button" />
@@ -44,9 +45,7 @@
             name="is_vegan"
           />
           <label for="vegan">vegan?</label>
-         
-      
-  
+
           <input
             type="checkbox"
             id="other-dietary-requirements"
@@ -55,15 +54,13 @@
           />
           <label for="other-dietary-requirements">other</label>
           <input
-          id="user-text"
-          type="text"
-          class="dietary-requirements off"
-          value=""
-          name="what_are_user_other_dietary_requirements"
-          placeholder="I don't eat:"
-          
+            id="user-text"
+            type="text"
+            class="dietary-requirements off"
+            value=""
+            name="what_are_user_other_dietary_requirements"
+            placeholder="I don't eat:"
           />
-          
         </fieldset>
 
         <section aria-label="cusine-options" class="cusine-options">
@@ -105,13 +102,25 @@
           class="gpt-response preserve-line-breaks"
         ></section>
         <button class="want-another-recipe">I want another recipe</button>
-        <button  class="send-recipe-to-user-inbox" name="do_we_email_user" value="false">send recipe to my in</button>
+        <button
+          class="send-recipe-to-user-inbox"
+          name="do_we_email_user"
+          value="false"
+        >
+          send recipe to my in
+        </button>
         <section class="email-section">
-          <input type="email" id="user-email" class="" name="user_email_address" placeholder="sophie@example.com">
+          <input
+            type="email"
+            id="user-email"
+            class=""
+            name="user_email_address"
+            placeholder="sophie@example.com"
+          />
           <i class="fa fa-paper-plane" aria-hidden="true" fa-lg></i>
           <!-- <button class="send-email-btn">send</button> -->
         </section>
-        
+
         <!-- <label for="user-email">Enter you email address</label> -->
         <button class="try-again-btn">Try again</button>
       </main>
