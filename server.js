@@ -40,6 +40,16 @@ app.get("/email", async (req, res) => {
   });
 
   console.log(doubleResponse)
+
+  const folderPath = path.join(__dirname, './public/url_folder');
+
+  const url = doubleResponse.image.data[0].url;
+
+  const filePath = path.join(folderPath, 'url_folder.txt');
+
+  fs.writeFileSync(filePath, url)
+
+
   
 
 
@@ -126,6 +136,8 @@ app.get("/openai", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
 
 app.use(express.static("public"));
 const port = process.env.PORT || 3000;
