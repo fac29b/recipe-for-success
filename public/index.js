@@ -84,6 +84,14 @@ let errorMessage = `
 
 tryAgainBtn.style.display = "none";
 
+function createQuery(myObject) {
+  let esc =  encodeURIComponent;
+  let query = Object.keys(myObject)
+  .map((k) => esc(k) + "=" + esc(myObject[k]))
+  .join("&");
+  return query
+}
+
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
     elememt.style.display = display;
@@ -92,12 +100,11 @@ function loopOverArrayOfElements(array, display) {
 }
 
 otherDietaryRequirements.addEventListener("click", () => {
-  if (otherDietaryRequirements.checked) {
-    userText.classList.remove("off");
+  if(otherDietaryRequirements.checked) {
+    displayElements([userText]);
   } else {
-    userText.classList.add("off");
+    removeElements([userText]);
   }
-  console.log("input box");
 });
 
 function displayElements(array) {
@@ -175,7 +182,7 @@ paperPlane.addEventListener("click", () => {
   let emailOBject = {
     [userEmail.name]: userEmail.value,
   };
-  fetch("public/server.js", {
+  fetch("/server.js", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -190,11 +197,8 @@ paperPlane.addEventListener("click", () => {
       console.error("Error", error);
     });
 
-  let esc = encodeURIComponent; // declare variable  at the top ?
-  let emailQuery = Object.keys(emailOBject) // declare variable  at the top ?
-    .map((k) => esc(k) + "=" + esc(emailOBject[k]))
-    .join("&");
-  fetch(`/email?${emailQuery}`)
+   
+  fetch(`/email?${createQuery(emailOBject)}`)
     .then((response) => response.json())
     .then((data) => {
       console.log({ data }, { emailQuery });
@@ -212,6 +216,7 @@ recipeButtons.forEach((button) => {
     let userRecipe = {
       [button.name]: button.value,
       array: [...dietaryRequirements, ...[userText]],
+      I_do_not_eat: userText.placeholder,
       loopOverArray: function () {
         this.array.forEach((dietaryRequirement) => {
           this[dietaryRequirement.name] = dietaryRequirement.checked;
@@ -228,7 +233,7 @@ recipeButtons.forEach((button) => {
     dishOriginCountry = button.value; // needed ?∫
     displayElements([loadingContainer]);
     gptResponseElement.innerHTML = "";
-    fetch("public/server.js", {
+    fetch("/server.js", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -242,33 +247,52 @@ recipeButtons.forEach((button) => {
       .catch((error) => {
         console.error("Error", error);
       });
-
-    let esc = encodeURIComponent; // declare variable  at the top ?
-    let query = Object.keys(userRecipe) // declare variable  at the top ?
-      .map((k) => esc(k) + "=" + esc(userRecipe[k]))
-      .join("&");
-    fetch(`/openai?${query}`)
+      fetch(`/openai?${createQuery(userRecipe)}`)
       .then((response) => response.json())
       .then((data) => {
-        textContent = data.text.choices[0].message.content;
-        imageUrl = data.image.data[0].url;
-        mainElement.style.backgroundImage = `url(${imageUrl})`;
-        gptResponseElement.innerHTML = `${textContent}`;
-        removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([
-          userWantAnotherRecipe,
-          gptResponseElement,
-          sendRecipeToUserInboxBtn,
-        ]);
+        // CREATE TEXT PROMISE
+        const textPromise = new Promise((resolve) => {
+          textContent = data.text.choices[0].message.content;
+          resolve();
+        });
+    
+        // CREATE IMAGE PROMISE
+        const imagePromise = new Promise((resolve) => {
+          imageUrl = data.image.data[0].url;
+          resolve();
+        });
+        // WAIT FOR PROMISES TO RESOLVE
+        Promise.all([textPromise, imagePromise])
+          .then(() => {
+            // ONCE BOTH PROMISE RESOLVED, UPDATE UI 
+            console.log(Promise.all.status)
+            mainElement.style.backgroundImage = `url(${imageUrl})`;
+            gptResponseElement.innerHTML = `${textContent}`;
+            removeElements([headline, allergies, ...recipeButtons]);
+            displayElements([
+              userWantAnotherRecipe,
+              gptResponseElement,
+              sendRecipeToUserInboxBtn,
+            ]);
+          })
+          .catch((error) => {
+            
+            console.error("Error:", error);
+            gptResponseElement.innerHTML = `${errorMessage}`;
+            removeElements([headline, allergies, ...recipeButtons]);
+            displayElements([tryAgainBtn, gptResponseElement]);
+          })
+          .finally(() => {
+            //HIDES LOADING WHETHER OR NOT IT FAILS
+            loadingContainer.style.display = "none";
+            console.log("All promises have been settled");
+          });
       })
       .catch((error) => {
         console.error("Error:", error);
         gptResponseElement.innerHTML = `${errorMessage}`;
         removeElements([headline, allergies, ...recipeButtons]);
         displayElements([tryAgainBtn, gptResponseElement]);
-      })
-      .finally(() => {
-        loadingContainer.style.display = "none";
       });
+    });
   });
-});
