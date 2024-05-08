@@ -1,14 +1,12 @@
 const express = require("express");
-const fs = require('fs');
-var nodemailer = require("nodemailer");
-
-
-require("dotenv").config();
-
+const fs = require("fs");
+const nodemailer = require("nodemailer");
 const { OpenAI } = require("openai");
-
 const app = express();
 const bodyParser = require("body-parser");
+const path = require("path");
+require("dotenv").config();
+let doubleResponse;
 
 app.use(bodyParser.json());
 app.post("/server.js", (req, res) => {
@@ -21,11 +19,6 @@ app.post("/server.js", (req, res) => {
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
-const path = require('path');
-
-
-let doubleResponse;
-
 app.get("/email", async (req, res) => {
   var transporter = nodemailer.createTransport({
     service: process.env.service,
@@ -35,30 +28,25 @@ app.get("/email", async (req, res) => {
     },
   });
 
-  console.log(doubleResponse)
 
-  const folderPath = path.join(__dirname, './public/url_folder');
-
+  const folderPath = path.join(__dirname, "./public/url_folder");
   const url = doubleResponse.image.data[0].url;
+  const filePath = path.join(folderPath, "url_folder.txt");
+  fs.writeFileSync(filePath, url);
 
-  const filePath = path.join(folderPath, 'url_folder.txt');
-
-  fs.writeFileSync(filePath, url)
-
-
-    var mailOptions = {
-      from: process.env.from,
-      to: req.query.user_email_address,
-      subject: "Your recipe from recipe-for-success dynamic app",
-      html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img src=${url}/>`
-      ,
-    attachments: [{
-        filename: 'url_folder.txt',
-        path: path.join(__dirname, '/public/url_folder/url_folder.txt'),
-        cid: 'url' //same cid value as in the html img src
-    }]
-    };
-
+  var mailOptions = {
+    from: process.env.from,
+    to: req.query.user_email_address,
+    subject: "Your recipe from recipe-for-success dynamic app",
+    html: `${doubleResponse.text.choices[0].message.content} Embedded image: <img src=${url}/>`,
+    attachments: [
+      {
+        filename: "url_folder.txt",
+        path: path.join(__dirname, "/public/url_folder/url_folder.txt"),
+        cid: "url", //same cid value as in the html img src
+      },
+    ],
+  };
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -80,8 +68,7 @@ app.get("/openai", async (req, res) => {
         user_otherdietary_requirements:
           req.query.what_are_user_other_dietary_requirements,
       },
-      {I_do_not_eat: req.query.I_do_not_eat}
-
+      { I_do_not_eat: req.query.I_do_not_eat }
     );
 
     const prompt = `Provide a recipe for a dish from ${
@@ -119,15 +106,13 @@ app.get("/openai", async (req, res) => {
       text: completion,
       image: imageResponse,
     };
-    console.log(doubleResponse.text.choices)
+    console.log(doubleResponse.text.choices);
     res.json(doubleResponse);
   } catch (error) {
     console.error("An error occurred:", error.message);
     res.status(500).json({ error: error.message });
   }
 });
-
-
 
 app.use(express.static("public"));
 const port = process.env.PORT || 3000;
