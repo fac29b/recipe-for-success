@@ -142,7 +142,7 @@ function resetCheckedStateToFalse(array) {
 }
 
 userWantAnotherRecipe.addEventListener("click", () => {
-  displayElements([headline, allergies, ...recipeButtons]);
+  displayElements([headline, allergies, ...recipeButtons, mainElement]);
   removeElements([
     gptResponseElement,
     userWantAnotherRecipe,
