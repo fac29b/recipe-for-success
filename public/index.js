@@ -1,6 +1,9 @@
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
 console.log(test)
+test.addEventListener("click", () => {
+  console.log("test")
+})
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
