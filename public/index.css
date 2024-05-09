@@ -106,7 +106,6 @@ button {
 .send-recipe-to-user-inbox,
 .email-section,
 .want-another-recipe {
-  margin-left: 170px;
   /* display: none; */
   width: 200px;
 }
