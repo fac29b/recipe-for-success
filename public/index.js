@@ -81,8 +81,13 @@ let errorMessage = `
   `;
 
 
-
-tryAgainBtn.style.display = "none";
+function createQuery(myObject) {
+  let esc =  encodeURIComponent;
+  let query = Object.keys(myObject)
+  .map((k) => esc(k) + "=" + esc(myObject[k]))
+  .join("&");
+  return query
+}
 
 function createQuery(myObject) {
   let esc =  encodeURIComponent;
@@ -210,8 +215,8 @@ paperPlane.addEventListener("click", () => {
 recipeButtons.forEach((button) => {
   console.log(userText.value)
   button.addEventListener("click", async () => {
-    recipeTextLoaded = false;
-    recipeImageLoaded = false;
+    // recipeTextLoaded = false; undefined
+    // recipeImageLoaded = false; undefined
 
     let userRecipe = {
       [button.name]: button.value,
@@ -247,7 +252,10 @@ recipeButtons.forEach((button) => {
       .catch((error) => {
         console.error("Error", error);
       });
-      fetch(`/openai?${createQuery(userRecipe)}`)
+
+  
+    fetch(`/openai?${createQuery(userRecipe)}`)
+
       .then((response) => response.json())
       .then((data) => {
         // CREATE TEXT PROMISE
