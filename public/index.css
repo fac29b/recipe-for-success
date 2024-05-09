@@ -44,6 +44,13 @@ main {
   background: transparent;
 }
 
+.test {
+  position: absolute;
+  z-index: 1;
+  height: 200px;
+  width: 200px;
+}
+
 #background-img {
   background-color: blue;
   z-index: -1;
@@ -100,7 +107,7 @@ button {
 .email-section,
 .want-another-recipe {
   margin-left: 170px;
-  display: none;
+  /* display: none; */
   width: 200px;
 }
 
@@ -134,7 +141,7 @@ button {
   transition: background-color 0.5s ease;
   margin-top: 260px;
   margin-bottom: 20px;
-  display: none;
+  /* display: none; */
 }
 
 /* The switch - the box around the slider */
