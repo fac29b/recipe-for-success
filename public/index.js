@@ -89,13 +89,7 @@ function createQuery(myObject) {
   return query
 }
 
-function createQuery(myObject) {
-  let esc =  encodeURIComponent;
-  let query = Object.keys(myObject)
-  .map((k) => esc(k) + "=" + esc(myObject[k]))
-  .join("&");
-  return query
-}
+
 
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
