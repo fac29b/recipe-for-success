@@ -89,6 +89,14 @@ function createQuery(myObject) {
   return query
 }
 
+function createQuery(myObject) {
+  let esc =  encodeURIComponent;
+  let query = Object.keys(myObject)
+  .map((k) => esc(k) + "=" + esc(myObject[k]))
+  .join("&");
+  return query
+}
+
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
     elememt.style.display = display;
@@ -247,27 +255,52 @@ recipeButtons.forEach((button) => {
 
   
     fetch(`/openai?${createQuery(userRecipe)}`)
+
       .then((response) => response.json())
       .then((data) => {
-        textContent = data.text.choices[0].message.content;
-        imageUrl = data.image.data[0].url;
-        mainElement.style.backgroundImage = `url(${imageUrl})`;
-        gptResponseElement.innerHTML = `${textContent}`;
-        removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([
-          userWantAnotherRecipe,
-          gptResponseElement,
-          sendRecipeToUserInboxBtn,
-        ]);
+        // CREATE TEXT PROMISE
+        const textPromise = new Promise((resolve) => {
+          textContent = data.text.choices[0].message.content;
+          resolve();
+        });
+    
+        // CREATE IMAGE PROMISE
+        const imagePromise = new Promise((resolve) => {
+          imageUrl = data.image.data[0].url;
+          resolve();
+        });
+        // WAIT FOR PROMISES TO RESOLVE
+        Promise.all([textPromise, imagePromise])
+          .then(() => {
+            // ONCE BOTH PROMISE RESOLVED, UPDATE UI 
+            console.log(Promise.all.status)
+            mainElement.style.backgroundImage = `url(${imageUrl})`;
+            gptResponseElement.innerHTML = `${textContent}`;
+            removeElements([headline, allergies, ...recipeButtons]);
+            displayElements([
+              userWantAnotherRecipe,
+              gptResponseElement,
+              sendRecipeToUserInboxBtn,
+            ]);
+          })
+          .catch((error) => {
+            
+            console.error("Error:", error);
+            gptResponseElement.innerHTML = `${errorMessage}`;
+            removeElements([headline, allergies, ...recipeButtons]);
+            displayElements([tryAgainBtn, gptResponseElement]);
+          })
+          .finally(() => {
+            //HIDES LOADING WHETHER OR NOT IT FAILS
+            loadingContainer.style.display = "none";
+            console.log("All promises have been settled");
+          });
       })
       .catch((error) => {
         console.error("Error:", error);
         gptResponseElement.innerHTML = `${errorMessage}`;
         removeElements([headline, allergies, ...recipeButtons]);
         displayElements([tryAgainBtn, gptResponseElement]);
-      })
-      .finally(() => {
-        loadingContainer.style.display = "none";
       });
+    });
   });
-});
