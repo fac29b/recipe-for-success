@@ -144,9 +144,6 @@ function resetCheckedStateToFalse(array) {
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons, mainElement]);
   removeElements([
-    gptResponseElement,
-    userWantAnotherRecipe,
-    sendRecipeToUserInboxBtn,
     userText,
     emailSection
   ]);
