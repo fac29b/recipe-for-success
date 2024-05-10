@@ -130,7 +130,7 @@ function emptyTheElement(elememt) {
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
   removeElements([sendRecipeToUserInboxBtn]);
-  emailSection.classList.add("grid");
+  
 });
 
 function resetCheckedStateToFalse(array) {
@@ -148,12 +148,12 @@ userWantAnotherRecipe.addEventListener("click", () => {
     userWantAnotherRecipe,
     sendRecipeToUserInboxBtn,
     userText,
-    userEmail,
+    emailSection
   ]);
   emptyTheElement(gptResponseElement);
   resetCheckedStateToFalse(dietaryRequirements);
   userText.value = "";
-  emailSection.classList.remove("grid");
+  // emailSection.classList.remove("grid");
 });
 
 tryAgainBtn.addEventListener("click", () => {

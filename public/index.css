@@ -113,18 +113,21 @@ button {
 }
 
 .send-recipe-to-user-inbox,
-.email-section,
 .want-another-recipe {
-  /* display: none; */
   width: 200px;
   margin: auto;
 }
 
-.grid {
-  /* display: grid; */
+.email-section {
+  width: 200px;
+  display: none;
   grid-template-columns: 2fr 1fr;
   gap: 1rem;
+  
+ 
 }
+
+
 
 .try-again-btn {
   text-transform: uppercase;
