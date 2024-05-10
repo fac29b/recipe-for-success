@@ -68,6 +68,7 @@ main {
   width: 500px;
   min-height: 100vh;
   border-radius: 5%;
+  border: 4px black solid;
 }
 
 h1 {
