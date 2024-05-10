@@ -47,10 +47,14 @@ main {
 
 .test {
   position: absolute;
-  z-index: 0;
-  height: 200px;
-  width: 200px;
+    z-index: 0;
+    height: 584px;
+    width: 420px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
+
 
 #background-img {
   background-color: blue;
