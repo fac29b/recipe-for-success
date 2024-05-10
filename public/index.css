@@ -117,6 +117,7 @@ button {
 .want-another-recipe {
   /* display: none; */
   width: 200px;
+  margin: auto;
 }
 
 .grid {
