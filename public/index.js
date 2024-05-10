@@ -1,9 +1,9 @@
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
-console.log(test)
+console.log(test);
 test.addEventListener("click", () => {
-  console.log("test")
-})
+  console.log("test");
+});
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
@@ -130,7 +130,6 @@ function emptyTheElement(elememt) {
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
   removeElements([sendRecipeToUserInboxBtn]);
-  
 });
 
 function resetCheckedStateToFalse(array) {
@@ -143,14 +142,10 @@ function resetCheckedStateToFalse(array) {
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons, mainElement]);
-  removeElements([
-    userText,
-    emailSection
-  ]);
+  removeElements([userText, emailSection]);
   emptyTheElement(gptResponseElement);
   resetCheckedStateToFalse(dietaryRequirements);
   userText.value = "";
-  // emailSection.classList.remove("grid");
 });
 
 tryAgainBtn.addEventListener("click", () => {
@@ -255,8 +250,8 @@ recipeButtons.forEach((button) => {
           // Wait for background image to be loaded
           backgroundImg.addEventListener("load", () => {
             resolve();
-            mainElement.style.display = "none"
-          
+            mainElement.style.display = "none";
+
             console.log("image end");
           });
 
