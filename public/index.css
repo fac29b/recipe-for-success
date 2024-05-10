@@ -45,15 +45,17 @@ main {
   background: transparent;
 }
 
+
 .test {
   position: absolute;
-    z-index: 0;
-    height: 584px;
-    width: 420px;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+  z-index: 0;
+  height: 605px;
+  width: 420px;
+  top: 405px;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
+
 
 
 #background-img {
