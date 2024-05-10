@@ -24,8 +24,11 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
     url("./image/Designer_2.png");
   background-size: cover;
-
   background-color: rgb(67, 63, 63);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 .preserve-line-breaks {
@@ -53,8 +56,9 @@ main {
   background-color: blue;
   z-index: -2;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   right: 0;
   bottom: 0;
   width: 500px;
