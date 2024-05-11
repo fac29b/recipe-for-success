@@ -1,8 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon server.cjs",
-    "devStart": "nodemon server.cjs"
-
+    "start": "nodemon server.js",
+    "devStart": "nodemon server.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -17,5 +16,4 @@
   "devDependencies": {
     "nodemon": "^3.1.0"
   }
-  
 }
