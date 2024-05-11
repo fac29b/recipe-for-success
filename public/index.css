@@ -9,6 +9,15 @@
   --black: rgb(67, 63, 63);
 }
 
+
+.fa-paper-plane {
+  background: white;
+ 
+}
+
+
+
+
 .parent-container {
   height: 100vh;
   width: 100vw;
@@ -101,6 +110,14 @@ h1 {
   margin-top: 80px;
 }
 
+
+.user-img {
+  height: 200px;
+  width: 200px;
+}
+
+
+
 .want-another-recipe,
 button {
   text-transform: uppercase;
@@ -118,9 +135,15 @@ button {
   margin: auto;
 }
 
+
 .email-section {
   width: 200px;
   display: none;
+
+
+.grid {
+  /* display: grid; */
+
   grid-template-columns: 2fr 1fr;
   gap: 1rem;
   margin:auto
@@ -136,9 +159,11 @@ button {
   background-color: var(--green);
   transition: background-color 0.5s ease;
   display: block;
+
   margin: auto;
   margin-top: 20px;
   width: fit-content;
+
 }
 
 .gpt-response {
@@ -212,6 +237,7 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
@@ -222,6 +248,11 @@ input:checked + .slider:before {
 }
 
 /* Loading indicator */
+
+#user-text {
+  display: none;
+}
+r
 
 #loading-container {
   display: none;
@@ -246,9 +277,6 @@ input:checked + .slider:before {
   text-align: center;
 }
 
-.off {
-  display: none;
-}
 
 .legend {
   /* background: var(--green) */
