@@ -1,4 +1,10 @@
 const mainElement = document.querySelector(".main-element");
+const test = document.querySelector(".test");
+console.log(test);
+test.addEventListener("click", () => {
+  console.log("test");
+});
+const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
@@ -7,7 +13,7 @@ const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
-const tryAgainBtn = document.querySelector(".try-again-btn")
+const tryAgainBtn = document.querySelector(".try-again-btn");
 const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
@@ -80,13 +86,15 @@ let errorMessage = `
       ${defaultRecipe}
   `;
 
+tryAgainBtn.style.display = "none";
+
 
 function createQuery(myObject) {
-  let esc =  encodeURIComponent;
+  let esc = encodeURIComponent;
   let query = Object.keys(myObject)
-  .map((k) => esc(k) + "=" + esc(myObject[k]))
-  .join("&");
-  return query
+    .map((k) => esc(k) + "=" + esc(myObject[k]))
+    .join("&");
+  return query;
 }
 
 
@@ -99,7 +107,7 @@ function loopOverArrayOfElements(array, display) {
 }
 
 otherDietaryRequirements.addEventListener("click", () => {
-  if(otherDietaryRequirements.checked) {
+  if (otherDietaryRequirements.checked) {
     displayElements([userText]);
   } else {
     removeElements([userText]);
@@ -125,7 +133,6 @@ function emptyTheElement(elememt) {
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
   removeElements([sendRecipeToUserInboxBtn]);
-  emailSection.classList.add("grid");
 });
 
 function resetCheckedStateToFalse(array) {
@@ -137,18 +144,11 @@ function resetCheckedStateToFalse(array) {
 }
 
 userWantAnotherRecipe.addEventListener("click", () => {
-  displayElements([headline, allergies, ...recipeButtons]);
-  removeElements([
-    gptResponseElement,
-    userWantAnotherRecipe,
-    sendRecipeToUserInboxBtn,
-    userText,
-    userEmail,
-  ]);
+  displayElements([headline, allergies, ...recipeButtons, mainElement]);
+  removeElements([userText, emailSection]);
   emptyTheElement(gptResponseElement);
   resetCheckedStateToFalse(dietaryRequirements);
   userText.value = "";
-  emailSection.classList.remove("grid");
 });
 
 tryAgainBtn.addEventListener("click", () => {
@@ -176,7 +176,6 @@ darkLightButton.addEventListener("change", () => {
   });
 });
 
-
 paperPlane.addEventListener("click", () => {
   let emailOBject = {
     [userEmail.name]: userEmail.value,
@@ -196,7 +195,6 @@ paperPlane.addEventListener("click", () => {
       console.error("Error", error);
     });
 
-   
   fetch(`/email?${createQuery(emailOBject)}`)
     .then((response) => response.json())
     .then((data) => {
@@ -205,9 +203,8 @@ paperPlane.addEventListener("click", () => {
     .catch((error) => console.error("Error:", error));
 });
 
-
 recipeButtons.forEach((button) => {
-  console.log(userText.value)
+  console.log(userText.value);
   button.addEventListener("click", async () => {
     // recipeTextLoaded = false; undefined
     // recipeImageLoaded = false; undefined
@@ -247,28 +244,32 @@ recipeButtons.forEach((button) => {
         console.error("Error", error);
       });
 
-  
     fetch(`/openai?${createQuery(userRecipe)}`)
 
       .then((response) => response.json())
       .then((data) => {
-        // CREATE TEXT PROMISE
-        const textPromise = new Promise((resolve) => {
-          textContent = data.text.choices[0].message.content;
-          resolve();
-        });
-    
         // CREATE IMAGE PROMISE
         const imagePromise = new Promise((resolve) => {
+          console.log("image begin");
+
+          // Wait for background image to be loaded
+          backgroundImg.addEventListener("load", () => {
+            resolve();
+            mainElement.style.display = "none";
+
+            console.log("image end");
+          });
+
+          // Set background image
           imageUrl = data.image.data[0].url;
-          resolve();
+          backgroundImg.src = imageUrl;
         });
-        // WAIT FOR PROMISES TO RESOLVE
-        Promise.all([textPromise, imagePromise])
+
+        // Update text contennt once image is loaded
+        Promise.all([imagePromise])
           .then(() => {
-            // ONCE BOTH PROMISE RESOLVED, UPDATE UI 
-            console.log(Promise.all.status)
-            mainElement.style.backgroundImage = `url(${imageUrl})`;
+            console.log("image loaded:", Promise.all.status);
+            textContent = data.text.choices[0].message.content;
             gptResponseElement.innerHTML = `${textContent}`;
             removeElements([headline, allergies, ...recipeButtons]);
             displayElements([
@@ -278,7 +279,6 @@ recipeButtons.forEach((button) => {
             ]);
           })
           .catch((error) => {
-            
             console.error("Error:", error);
             gptResponseElement.innerHTML = `${errorMessage}`;
             removeElements([headline, allergies, ...recipeButtons]);
@@ -296,5 +296,5 @@ recipeButtons.forEach((button) => {
         removeElements([headline, allergies, ...recipeButtons]);
         displayElements([tryAgainBtn, gptResponseElement]);
       });
-    });
   });
+});
