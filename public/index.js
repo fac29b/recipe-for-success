@@ -273,10 +273,24 @@ recipeButtons.forEach((button) => {
               sendRecipeToUserInboxBtn,
             ]);
 
+            const utterance = new SpeechSynthesisUtterance();
+
+            function readRecipe(recipe) {
+              utterance.text = recipe;
+              speechSynthesis.speak(utterance);
+            }
+
             const microphone = document.querySelector(".fa-microphone");
             microphone.addEventListener("click", () => {
+              readRecipe(`${textContent}`)
               console.log("mic's on");
             })
+
+          
+
+
+
+
            
           })
           .catch((error) => {
