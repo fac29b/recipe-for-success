@@ -286,8 +286,19 @@ recipeButtons.forEach((button) => {
               speechSynthesis.speak(utterance);
             }
 
-            const microphone = document.querySelector(".fa-microphone");
-            microphone.addEventListener("click", () => {
+            const microphoneBtn = document.querySelector(".fa-microphone");
+            const pauseBtn = document.querySelector(".fa-pause");
+            const stopBtn = document.querySelector(".fa-stop");
+
+            stopBtn.addEventListener("click", () => {
+              console.log("stop button");
+            });
+
+            pauseBtn.addEventListener("click", () => {
+              console.log("pause");
+            });
+
+            microphoneBtn.addEventListener("click", () => {
               readRecipe(`${textContent}`);
               console.log("mic's on");
             });
