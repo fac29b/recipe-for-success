@@ -265,7 +265,7 @@ recipeButtons.forEach((button) => {
           .then(() => {
             console.log("image loaded:", Promise.all.status);
             textContent = data.text.choices[0].message.content;
-            gptResponseElement.innerHTML = `<i class="fa-solid fa-microphone"></i>${textContent}`;
+            gptResponseElement.innerHTML = `<i class="fa-solid fa-microphone"><i class="fa-solid fa-pause"><i class="fa-solid fa-stop"></i></i></i>${textContent}`;
             removeElements([headline, allergies, ...recipeButtons]);
             displayElements([
               userWantAnotherRecipe,
