@@ -265,7 +265,13 @@ recipeButtons.forEach((button) => {
           .then(() => {
             console.log("image loaded:", Promise.all.status);
             textContent = data.text.choices[0].message.content;
-            gptResponseElement.innerHTML = `<i class="fa-solid fa-microphone"><i class="fa-solid fa-pause"><i class="fa-solid fa-stop"></i></i></i>${textContent}`;
+            gptResponseElement.innerHTML = `
+            <div class="recording">
+              <i class="fa-solid fa-microphone"></i>
+              <i class="fa-solid fa-pause"></i>
+              <i class="fa-solid fa-stop"></i>
+            </div>
+            ${textContent}`;
             removeElements([headline, allergies, ...recipeButtons]);
             displayElements([
               userWantAnotherRecipe,
@@ -282,16 +288,9 @@ recipeButtons.forEach((button) => {
 
             const microphone = document.querySelector(".fa-microphone");
             microphone.addEventListener("click", () => {
-              readRecipe(`${textContent}`)
+              readRecipe(`${textContent}`);
               console.log("mic's on");
-            })
-
-          
-
-
-
-
-           
+            });
           })
           .catch((error) => {
             console.error("Error:", error);
