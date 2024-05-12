@@ -265,13 +265,19 @@ recipeButtons.forEach((button) => {
           .then(() => {
             console.log("image loaded:", Promise.all.status);
             textContent = data.text.choices[0].message.content;
-            gptResponseElement.innerHTML = `${textContent}`;
+            gptResponseElement.innerHTML = `<i class="fa-solid fa-microphone"></i>${textContent}`;
             removeElements([headline, allergies, ...recipeButtons]);
             displayElements([
               userWantAnotherRecipe,
               gptResponseElement,
               sendRecipeToUserInboxBtn,
             ]);
+
+            const microphone = document.querySelector(".fa-microphone");
+            microphone.addEventListener("click", () => {
+              console.log("mic's on");
+            })
+           
           })
           .catch((error) => {
             console.error("Error:", error);

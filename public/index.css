@@ -56,6 +56,10 @@ main {
   transform: translate(-50%,-50%);
 }
 
+.fa-microphone {
+  height: 30px;
+  width: 30px;
+}
 
 
 #background-img {
