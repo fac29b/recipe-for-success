@@ -278,10 +278,13 @@ recipeButtons.forEach((button) => {
             const utterance = new SpeechSynthesisUtterance();
 
             function readRecipe(recipe) {
+              if(speechSynthesis.paused && speechSynthesis.speaking) {
+                return speechSynthesis.resume();
+              }
+              if(speechSynthesis.speaking) return
               utterance.text = recipe;
               speechSynthesis.speak(utterance);
             }
-
             function pauseReading() {
               if (speechSynthesis.speaking) speechSynthesis.pause();
             }
