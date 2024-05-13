@@ -289,13 +289,16 @@ recipeButtons.forEach((button) => {
               if (speechSynthesis.speaking) speechSynthesis.pause();
             }
 
+            function stopREeading() {
+              speechSynthesis.resume();
+              speechSynthesis.cancel();
+            }
+
             const microphoneBtn = document.querySelector(".fa-microphone");
             const pauseBtn = document.querySelector(".fa-pause");
             const stopBtn = document.querySelector(".fa-stop");
 
-            stopBtn.addEventListener("click", () => {
-              console.log("stop button");
-            });
+            stopBtn.addEventListener("click",  stopREeading);
 
             pauseBtn.addEventListener("click", pauseReading);
 
