@@ -104,17 +104,14 @@ app.get("/openai", async (req, res) => {
   }
 });
 
+//   const dishCountry = req.body.recipe_country_of_origin;
+//   const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
 
 
-app.post("/server.js", (req, res) => {
-  const dishCountry = req.body.recipe_country_of_origin;
-  const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
-
-
-  res.json({
-    message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
-  });
-});
+//   res.json({
+//     message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
+//   });
+// });
 
 
 
