@@ -1,9 +1,5 @@
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
-console.log(test);
-test.addEventListener("click", () => {
-  console.log("test");
-});
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
@@ -286,6 +282,10 @@ recipeButtons.forEach((button) => {
               speechSynthesis.speak(utterance);
             }
 
+            function pauseReading() {
+              if (speechSynthesis.speaking) speechSynthesis.pause();
+            }
+
             const microphoneBtn = document.querySelector(".fa-microphone");
             const pauseBtn = document.querySelector(".fa-pause");
             const stopBtn = document.querySelector(".fa-stop");
@@ -294,13 +294,12 @@ recipeButtons.forEach((button) => {
               console.log("stop button");
             });
 
-            pauseBtn.addEventListener("click", () => {
-              console.log("pause");
-            });
+            pauseBtn.addEventListener("click", pauseReading);
+
+ 
 
             microphoneBtn.addEventListener("click", () => {
               readRecipe(`${textContent}`);
-              console.log("mic's on");
             });
           })
           .catch((error) => {
