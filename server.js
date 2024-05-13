@@ -47,6 +47,8 @@ app.get("/email", async (req, res) => {
   });
 });
 
+
+
 app.get("/openai", async (req, res) => {
   console.log(req.query);
   try {
@@ -101,6 +103,20 @@ app.get("/openai", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
+
+app.post("/server.js", (req, res) => {
+  const dishCountry = req.body.recipe_country_of_origin;
+  const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
+
+
+  res.json({
+    message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
+  });
+});
+
+
 
 app.use(express.static("public"));
 const port = process.env.PORT || 3000;
