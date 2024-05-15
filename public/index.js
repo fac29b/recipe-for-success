@@ -1,9 +1,5 @@
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
-console.log(test);
-test.addEventListener("click", () => {
-  console.log("test");
-});
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
@@ -33,6 +29,7 @@ let textContent;
 let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
+let currentChar
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
 
@@ -265,13 +262,71 @@ recipeButtons.forEach((button) => {
           .then(() => {
             console.log("image loaded:", Promise.all.status);
             textContent = data.text.choices[0].message.content;
-            gptResponseElement.innerHTML = `${textContent}`;
+            gptResponseElement.innerHTML = `
+            <div class="recording">
+              <i class="fa-solid fa-microphone"></i>
+              <i class="fa-solid fa-pause"></i>
+              <i class="fa-solid fa-stop"></i>
+              <div class="speed-wrapper">
+              <label for="speed">Speed</label>
+              <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
+              </div>
+            </div>
+            ${textContent}`;
             removeElements([headline, allergies, ...recipeButtons]);
             displayElements([
               userWantAnotherRecipe,
               gptResponseElement,
               sendRecipeToUserInboxBtn,
             ]);
+
+            const utterance = new SpeechSynthesisUtterance();
+
+            function readRecipe(recipe) {
+              if(speechSynthesis.paused && speechSynthesis.speaking) {
+                return speechSynthesis.resume();
+              }
+              if(speechSynthesis.speaking) return
+              utterance.text = recipe;
+              utterance.rate = speedBtn.value || 1;
+              speechSynthesis.speak(utterance);
+            }
+            function pauseReading() {
+              if (speechSynthesis.speaking) speechSynthesis.pause();
+            }
+
+            function stopREeading() {
+              speechSynthesis.resume();
+              speechSynthesis.cancel();
+            }
+
+            const microphoneBtn = document.querySelector(".fa-microphone");
+            const pauseBtn = document.querySelector(".fa-pause");
+            const stopBtn = document.querySelector(".fa-stop");
+            const speedBtn = document.querySelector("#speed");
+
+          console.log(speedBtn);
+
+          // speedBtn.addEventListener("input", () => {
+          //   stopREeading();
+          //   readRecipe(utterance.text.substring(currentChar));
+
+          //   console.log("speed has been incremented")
+          // })
+
+          // utterance.addEventListener("boundary", (e) => {
+          //   currentChar = e.charIndex;
+          // })
+
+            stopBtn.addEventListener("click",  stopREeading);
+
+            pauseBtn.addEventListener("click", pauseReading);
+
+ 
+
+            microphoneBtn.addEventListener("click", () => {
+              readRecipe(`${textContent}`);
+            });
           })
           .catch((error) => {
             console.error("Error:", error);
