@@ -269,7 +269,7 @@ recipeButtons.forEach((button) => {
               <i class="fa-solid fa-stop"></i>
               <div class="speed-wrapper">
               <label for="speed">Speed</label>
-              <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="2">
+              <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
               </div>
             </div>
             ${textContent}`;
@@ -288,6 +288,7 @@ recipeButtons.forEach((button) => {
               }
               if(speechSynthesis.speaking) return
               utterance.text = recipe;
+              utterance.rate = speedBtn.value || 1;
               speechSynthesis.speak(utterance);
             }
             function pauseReading() {
@@ -306,11 +307,16 @@ recipeButtons.forEach((button) => {
 
           console.log(speedBtn);
 
-          speedBtn.addEventListener("change", () => {
+          speedBtn.addEventListener("input", () => {
             stopREeading();
             readRecipe(utterance.text.substring(currentChar));
 
             console.log("speed has been incremented")
+          })
+
+          utterance.addEventListener("boundary", (e) => {
+            currentChar = e.charIndex;
+
           })
 
             stopBtn.addEventListener("click",  stopREeading);
