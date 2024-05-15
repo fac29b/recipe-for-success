@@ -27,14 +27,8 @@
 
 
 
-.speeed-wrapper {
+.speed-wrapper {
   display: flex;
-  height: 25px;
-  width: 25px;
-
-
-
- 
 }
 
 #speed {

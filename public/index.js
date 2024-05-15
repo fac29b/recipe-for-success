@@ -266,9 +266,9 @@ recipeButtons.forEach((button) => {
               <i class="fa-solid fa-microphone"></i>
               <i class="fa-solid fa-pause"></i>
               <i class="fa-solid fa-stop"></i>
-              <div class="speeed-wrapper>
+              <div class="speed-wrapper">
               <label for="speed">Speed</label>
-              <input type="number" name="speed" id="speed" min="0.1" max="10" step="0.1" value="1">
+              <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="2">
               </div>
             </div>
             ${textContent}`;
@@ -301,6 +301,13 @@ recipeButtons.forEach((button) => {
             const microphoneBtn = document.querySelector(".fa-microphone");
             const pauseBtn = document.querySelector(".fa-pause");
             const stopBtn = document.querySelector(".fa-stop");
+            const speed = document.querySelector("#speed");
+
+          console.log(speed);
+
+          speed.addEventListener("change", () => {
+            console.log("speed has been incremented")
+          })
 
             stopBtn.addEventListener("click",  stopREeading);
 
