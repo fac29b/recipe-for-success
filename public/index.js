@@ -308,7 +308,7 @@ recipeButtons.forEach((button) => {
 
           speedBtn.addEventListener("change", () => {
             stopREeading();
-            readRecipe();
+            readRecipe(utterance.text.substring(currentChar));
 
             console.log("speed has been incremented")
           })
