@@ -29,6 +29,7 @@ let textContent;
 let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
+let currentChar
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
 
@@ -301,11 +302,14 @@ recipeButtons.forEach((button) => {
             const microphoneBtn = document.querySelector(".fa-microphone");
             const pauseBtn = document.querySelector(".fa-pause");
             const stopBtn = document.querySelector(".fa-stop");
-            const speed = document.querySelector("#speed");
+            const speedBtn = document.querySelector("#speed");
 
-          console.log(speed);
+          console.log(speedBtn);
 
-          speed.addEventListener("change", () => {
+          speedBtn.addEventListener("change", () => {
+            stopREeading();
+            readRecipe();
+
             console.log("speed has been incremented")
           })
 
