@@ -266,6 +266,10 @@ recipeButtons.forEach((button) => {
               <i class="fa-solid fa-microphone"></i>
               <i class="fa-solid fa-pause"></i>
               <i class="fa-solid fa-stop"></i>
+              <div class="speeed-wrapper>
+              <label for="speed">Speed</label>
+              <input type="number" name="speed" id="speed" min="0.1" max="10" step="0.1" value="1">
+              </div>
             </div>
             ${textContent}`;
             removeElements([headline, allergies, ...recipeButtons]);
