@@ -16,7 +16,7 @@
 
 .recording {
   /* position: fixed; */
-  width: 30%;
+  width: 50%;
   height: fit-content;
   display: flex;
   justify-content: space-evenly;
@@ -28,6 +28,11 @@
   display: flex;
   height: 25px;
   width: 25px;
+}
+
+#speed {
+  margin-left: 10px;
+
 }
 
 .main-element {
