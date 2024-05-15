@@ -307,17 +307,16 @@ recipeButtons.forEach((button) => {
 
           console.log(speedBtn);
 
-          speedBtn.addEventListener("input", () => {
-            stopREeading();
-            readRecipe(utterance.text.substring(currentChar));
+          // speedBtn.addEventListener("input", () => {
+          //   stopREeading();
+          //   readRecipe(utterance.text.substring(currentChar));
 
-            console.log("speed has been incremented")
-          })
+          //   console.log("speed has been incremented")
+          // })
 
-          utterance.addEventListener("boundary", (e) => {
-            currentChar = e.charIndex;
-
-          })
+          // utterance.addEventListener("boundary", (e) => {
+          //   currentChar = e.charIndex;
+          // })
 
             stopBtn.addEventListener("click",  stopREeading);
 
