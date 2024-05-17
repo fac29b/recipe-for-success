@@ -50,28 +50,26 @@ app.get("/email", async (req, res) => {
 
 
 app.get("/openai", async (req, res) => {
-  console.log(req.query);
+  
+  const {recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements } = req.query
   try {
     console.log(
-      { country: req.query.recipe_country_of_origin },
-      { lactose_intolerant: req.query.is_lactose_intolerant },
-      { is_vegan: req.query.is_vegan },
-      {
-        user_otherdietary_requirements:
-          req.query.what_are_user_other_dietary_requirements,
-      }
+      { recipe_country_of_origin },
+      { is_lactose_intolerant },
+      { is_vegan },
+      {what_are_user_other_dietary_requirements}
     );
 
     const prompt = `Provide a recipe for a dish from ${
-      req.query.recipe_country_of_origin
+      recipe_country_of_origin
     }, taking into account the fact that I'm ${
-      req.query.is_lactose_intolerant === "true"
+      is_lactose_intolerant === "true"
         ? "lactose intolerant"
         : "not lactose intolerant"
-    } ${req.query.is_vegan === "true" ? "vegan" : "not vegan"} and ${
-      req.query.what_are_user_other_dietary_requirements === ""
+    } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${
+      what_are_user_other_dietary_requirements === ""
         ? "I have no other dietary requirements"
-        : req.query.what_are_user_other_dietary_requirements
+        : what_are_user_other_dietary_requirements
     } `;
 
     console.log(prompt);

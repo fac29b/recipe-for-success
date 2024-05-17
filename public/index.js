@@ -18,6 +18,9 @@ const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
 const paperPlane = document.querySelector(".fa-paper-plane");
+const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
+console.log(sendToUserInboxBtn);
+
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
@@ -29,7 +32,8 @@ let textContent;
 let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
-let currentChar
+let currentChar;
+
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
 
@@ -170,7 +174,7 @@ darkLightButton.addEventListener("change", () => {
   });
 });
 
-paperPlane.addEventListener("click", () => {
+sendToUserInboxBtn.addEventListener("click", () => {
   let emailOBject = {
     [userEmail.name]: userEmail.value,
   };
@@ -264,9 +268,9 @@ recipeButtons.forEach((button) => {
             textContent = data.text.choices[0].message.content;
             gptResponseElement.innerHTML = `
             <div class="recording">
-              <i class="fa-solid fa-microphone"></i>
-              <i class="fa-solid fa-pause"></i>
-              <i class="fa-solid fa-stop"></i>
+              <i class="fa-solid fa-microphone" name="microphone"></i>
+              <i class="fa-solid fa-pause" name="pause"></i>
+              <i class="fa-solid fa-stop" name="stop"></i>
               <div class="speed-wrapper">
               <label for="speed">Speed</label>
               <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
@@ -282,11 +286,18 @@ recipeButtons.forEach((button) => {
 
             const utterance = new SpeechSynthesisUtterance();
 
+            const speechBtns = Array.from(
+              document.querySelectorAll(".fa-solid")
+            );
+            const speedBtn = document.querySelector("#speed");
+
+            console.log(speechBtns);
+
             function readRecipe(recipe) {
-              if(speechSynthesis.paused && speechSynthesis.speaking) {
+              if (speechSynthesis.paused && speechSynthesis.speaking) {
                 return speechSynthesis.resume();
               }
-              if(speechSynthesis.speaking) return
+              if (speechSynthesis.speaking) return;
               utterance.text = recipe;
               utterance.rate = speedBtn.value || 1;
               speechSynthesis.speak(utterance);
@@ -300,32 +311,18 @@ recipeButtons.forEach((button) => {
               speechSynthesis.cancel();
             }
 
-            const microphoneBtn = document.querySelector(".fa-microphone");
-            const pauseBtn = document.querySelector(".fa-pause");
-            const stopBtn = document.querySelector(".fa-stop");
-            const speedBtn = document.querySelector("#speed");
-
-          console.log(speedBtn);
-
-          // speedBtn.addEventListener("input", () => {
-          //   stopREeading();
-          //   readRecipe(utterance.text.substring(currentChar));
-
-          //   console.log("speed has been incremented")
-          // })
-
-          // utterance.addEventListener("boundary", (e) => {
-          //   currentChar = e.charIndex;
-          // })
-
-            stopBtn.addEventListener("click",  stopREeading);
-
-            pauseBtn.addEventListener("click", pauseReading);
-
- 
-
-            microphoneBtn.addEventListener("click", () => {
-              readRecipe(`${textContent}`);
+            speechBtns.forEach((speechBtn) => {
+              speechBtn.addEventListener("click", () => {
+                const btnName = speechBtn.getAttribute("name");
+                if (btnName === "microphone") {
+                  console.log(btnName);
+                  readRecipe(`${textContent}`);
+                } else if (btnName === "pause") {
+                  pauseReading();
+                } else if (btnName === "stop") {
+                  stopREeading();
+                }
+              });
             });
           })
           .catch((error) => {
