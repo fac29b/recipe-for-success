@@ -80,13 +80,15 @@ main {
   transform: translate(-50%,-50%);
 }
 
-.fa-paper-plane {
+
+
+/* .fa-paper-plane {
   background-color: white;
   border-radius: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .fa-microphone {
   height: 30px;
@@ -151,6 +153,16 @@ button {
   transition: background-color 0.5s ease;
 }
 
+.send-to-user-inbox-btn {
+  text-transform: uppercase;
+  height: 40px;
+  margin-right: 10px;
+  margin-left: 0px;
+  border-radius: 5px;
+  background-color: var(--green);
+  transition: background-color 0.5s ease;
+}
+
 .send-recipe-to-user-inbox,
 .want-another-recipe {
   width: 170px;
@@ -162,9 +174,7 @@ button {
   width: 170px;
   display: none;
   grid-template-columns: 2fr 1fr;
-  gap: 1rem;
-  margin:auto
- 
+  margin:auto;
 }
 
 

@@ -18,6 +18,9 @@ const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
 const paperPlane = document.querySelector(".fa-paper-plane");
+const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
+console.log(sendToUserInboxBtn);
+
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
 );
@@ -171,7 +174,7 @@ darkLightButton.addEventListener("change", () => {
   });
 });
 
-paperPlane.addEventListener("click", () => {
+sendToUserInboxBtn.addEventListener("click", () => {
   let emailOBject = {
     [userEmail.name]: userEmail.value,
   };
