@@ -321,10 +321,6 @@ recipeButtons.forEach((button) => {
                 }
               });
             });
-
-            console.log(speechBtns);
-
-            console.log(speedBtn);
           })
           .catch((error) => {
             console.error("Error:", error);
