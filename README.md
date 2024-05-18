@@ -43,10 +43,7 @@ The application is hosted on Vercel and can be accessed at [Recipe For Success](
 
 ### Install Dependencies
 
-```sh
 npm install dotenv express node nodemailer openai type nodemon
-
-
 
 ### Setup Environment Variables
 
@@ -67,19 +64,19 @@ Email the recipe to yourself or request a new recipe.
 ## Screenshots
 
 - Home Screen
-![Home Screen](public/image/Screenshot 2024-05-18 at 08.19.25.png)
+  ![Home Screen](public/image/Screenshot 2024-05-18 at 08.19.25.png)
 - Dietary Requirements
-![Dietary Requirements](public/image/dietary.png)
+  ![Dietary Requirements](public/image/dietary.png)
 - Specify Other Dietary Requirements
-![Specify Other Dietart Requirements](public/image/other.png)
+  ![Specify Other Dietart Requirements](public/image/other.png)
 - Toggle Dark Mode
-![Toggle Dark Mode](public/image/darkmode.png)
+  ![Toggle Dark Mode](public/image/darkmode.png)
 - Loading Indicator
-![Loading Indicator](public/image/loading.png)
+  ![Loading Indicator](public/image/loading.png)
 - Recipe Result
-![Recipe Result](public/image/recipe.png)
+  ![Recipe Result](public/image/recipe.png)
 - Email Recipe
-![Email Recipe](public/image/email.png)
+  ![Email Recipe](public/image/email.png)
 
 ## Contributors
 
@@ -92,4 +89,7 @@ Thanks to OpenAI for their API.
 Inspiration from various cooking apps.
 Special thanks to Founders and Coders for providing the basic knowledge to pursue the project.
 Special thanks to everyone who helped with the project.
+
+```
+
 ```
