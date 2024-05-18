@@ -304,10 +304,15 @@ recipeButtons.forEach((button) => {
             speedBtn.addEventListener("input", () => {
               stopREeading();
               readRecipe(utterance.text.substring(currentChar));
-              console.log("button")
+              console.log("button");
             })
 
-            
+            utterance.addEventListener("boundary", (e) => {
+              currentChar = e.charIndex;
+              console.log(currentChar)
+            })
+
+
 
             console.log(speechBtns);
 
