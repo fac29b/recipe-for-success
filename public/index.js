@@ -301,6 +301,14 @@ recipeButtons.forEach((button) => {
             );
             const speedBtn = document.querySelector("#speed");
 
+            speedBtn.addEventListener("input", () => {
+              stopREeading();
+              readRecipe(utterance.text.substring(currentChar));
+              console.log("button")
+            })
+
+            
+
             console.log(speechBtns);
 
             function readRecipe(recipe) {
