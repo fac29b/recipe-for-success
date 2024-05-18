@@ -89,6 +89,14 @@ let errorMessage = `
 
 tryAgainBtn.style.display = "none";
 
+
+
+sendToUserInboxBtn.addEventListener("click", () => {
+  if (userEmail.value !== "") {
+    console.log("email sent");
+  }
+})
+
 function createQuery(myObject) {
   let esc = encodeURIComponent;
   let query = Object.keys(myObject)
