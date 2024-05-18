@@ -65,20 +65,47 @@ Email the recipe to yourself or request a new recipe.
 
 ## Screenshots
 
-- Home Screen
+### Home Screen
+
+<div align="center">
   <img src="public/image/Screenshot 2024-05-18 at 08.19.25.png" width="500">
-- Dietary Requirements
+</div>
+
+### Dietary Requirements
+
+<div align="center">
   <img src="public/image/dietary.png" width="500">
-- Specify Other Dietary Requirements
+</div>
+
+### Specify Other Dietary Requirements
+
+<div align="center">
   <img src="public/image/other.png" width="500">
-- Toggle Dark Mode
+</div>
+
+### Toggle Dark Mode
+
+<div align="center">
   <img src="public/image/darkmode.png" width="500">
-- Loading Indicator
+</div>
+
+### Loading Indicator
+
+<div align="center">
   <img src="public/image/loading.png" width="500">
-- Recipe Result
+</div>
+
+### Recipe Result
+
+<div align="center">
   <img src="public/image/recipe.png" width="500">
-- Email Recipe
+</div>
+
+### Email Recipe
+
+<div align="center">
   <img src="public/image/email.png" width="500">
+</div>
 
 ## Contributors
 
