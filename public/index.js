@@ -92,8 +92,10 @@ tryAgainBtn.style.display = "none";
 
 
 sendToUserInboxBtn.addEventListener("click", () => {
-  if (userEmail.value !== "") {
-    alert("an email has been sent to your inbox");
+  if (userEmail.value === "") {
+    alert("write an email address");
+  } else {
+    alert("an email's been sent to your inbox");
   }
 })
 
