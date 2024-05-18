@@ -93,7 +93,7 @@ tryAgainBtn.style.display = "none";
 
 sendToUserInboxBtn.addEventListener("click", () => {
   if (userEmail.value !== "") {
-    console.log("email sent");
+    alert("an email has been send to your inbox")
   }
 })
 
