@@ -47,22 +47,22 @@ app.get("/email", async (req, res) => {
   });
 });
 
-
-
 app.get("/openai", async (req, res) => {
-  
-  const {recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements } = req.query
+  const {
+    recipe_country_of_origin,
+    is_lactose_intolerant,
+    is_vegan,
+    what_are_user_other_dietary_requirements,
+  } = req.query;
   try {
     console.log(
       { recipe_country_of_origin },
       { is_lactose_intolerant },
       { is_vegan },
-      {what_are_user_other_dietary_requirements}
+      { what_are_user_other_dietary_requirements }
     );
 
-    const prompt = `Provide a recipe for a dish from ${
-      recipe_country_of_origin
-    }, taking into account the fact that I'm ${
+    const prompt = `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${
       is_lactose_intolerant === "true"
         ? "lactose intolerant"
         : "not lactose intolerant"
@@ -105,13 +105,10 @@ app.get("/openai", async (req, res) => {
 //   const dishCountry = req.body.recipe_country_of_origin;
 //   const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
 
-
 //   res.json({
 //     message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
 //   });
 // });
-
-
 
 app.use(express.static("public"));
 const port = process.env.PORT || 3000;
