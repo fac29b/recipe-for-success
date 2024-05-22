@@ -1,4 +1,5 @@
 const express = require("express");
+
 const path = require('path');
 var nodemailer = require("nodemailer");
 require("dotenv").config();
@@ -85,6 +86,15 @@ app.get("/openai", async (req, res) => {
       model: "gpt-3.5-turbo",
       max_tokens: 2000,
     });
+
+    console.log(completion.choices[0].message.content)
+
+    const recipe = completion.choices[0].message.content;
+
+  
+
+
+
     const imageResponse = await openai.images.generate({
       model: "dall-e-3",
       prompt: `${prompt}`,
