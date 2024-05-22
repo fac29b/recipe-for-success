@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 
 const path = require('path');
 var nodemailer = require("nodemailer");
@@ -90,6 +91,20 @@ app.get("/openai", async (req, res) => {
     console.log(completion.choices[0].message.content)
 
     const recipe = completion.choices[0].message.content;
+
+    const speechFile = path.resolve("./speech.mp3");
+
+async function main() {
+  const mp3 = await openai.audio.speech.create({
+    model: "tts-1",
+    voice: "alloy",
+    input: `${recipe}`,
+  });
+  console.log(speechFile);
+  const buffer = Buffer.from(await mp3.arrayBuffer());
+  await fs.promises.writeFile(speechFile, buffer);
+}
+main();
 
   
 
