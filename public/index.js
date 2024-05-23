@@ -235,6 +235,27 @@ recipeButtons.forEach((button) => {
     dishOriginCountry = button.value; // needed ?∫
     displayElements([loadingContainer]);
     gptResponseElement.innerHTML = "";
+
+
+  fetch("/audio")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.blob(); // Expect a Blob (binary data) instead of JSON
+  })
+  .then((blob) => {
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    audio.play();
+    console.log("Audio is playing");
+  })
+  .catch((error) => {
+    console.error("Error", error);
+  });
+
+    
+ 
     fetch("/server.js", {
       method: "POST",
       headers: {
@@ -276,6 +297,10 @@ recipeButtons.forEach((button) => {
             textContent = data.text.choices[0].message.content;
             gptResponseElement.innerHTML = `
             <div class="recording">
+            <audio id="myAudio">
+              <source src="" type="audio/mpeg">
+            </audio>
+              <button class="aiAudio"></button>
               <i class="fa-solid fa-microphone" name="microphone"></i>
               <i class="fa-solid fa-pause" name="pause"></i>
               <i class="fa-solid fa-stop" name="stop"></i>
@@ -319,8 +344,31 @@ recipeButtons.forEach((button) => {
               speechSynthesis.cancel();
             }
 
+            // let aiTextToSpeechBtn = document.querySelector("#aiAudio");
+
+            // function playTextToSpeech() {
+            //   let audio = new Audio("/speech.mp3")
+            //   audio.play()
+            // }
+
+            // aiTextToSpeechBtn.addEventListener("click", playTextToSpeech )
+
+            
+
+          
+
+
+
+
+
+   
+
+
+
+
+
             speechBtns.forEach((speechBtn) => {
-              speechBtn.addEventListener("click", () => {
+              speechBtn?.addEventListener("click", () => {
                 const btnName = speechBtn.getAttribute("name");
                 if (btnName === "microphone") {
                   console.log(btnName);

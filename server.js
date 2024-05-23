@@ -88,23 +88,51 @@ app.get("/openai", async (req, res) => {
       max_tokens: 2000,
     });
 
+
     console.log(completion.choices[0].message.content)
 
-    const recipe = completion.choices[0].message.content;
+    
 
-    const speechFile = path.resolve("./speech.mp3");
+    app.get("/audio", async (req, res) => {
+      console.log(req.query)
+      async function main() {
+        const recipe = completion.choices[0].message.content; 
+        const speechFile = path.resolve("./speech.mp3");
+        const mp3 = await openai.audio.speech.create({
+          model: "tts-1",
+          voice: "alloy",
+          input: `${recipe}`,
+        });
+        console.log(speechFile);
+        const buffer = Buffer.from(await mp3.arrayBuffer());
+        await fs.promises.writeFile(speechFile, buffer); 
+        res.sendFile(path.join(__dirname, "speech.mp3")); 
+      }
+    
+      try {
+        await main();
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
 
-async function main() {
-  const mp3 = await openai.audio.speech.create({
-    model: "tts-1",
-    voice: "alloy",
-    input: `${recipe}`,
-  });
-  console.log(speechFile);
-  const buffer = Buffer.from(await mp3.arrayBuffer());
-  await fs.promises.writeFile(speechFile, buffer);
-}
-main();
+    
+
+
+    
+
+ 
+
+
+    
+
+
+
+
+
+
+
 
   
 
@@ -120,6 +148,7 @@ main();
     doubleResponse = {
       text: completion,
       image: imageResponse,
+      // audio: buf.toString('base64'),
     };
     res.json(doubleResponse);
   } catch (error) {
