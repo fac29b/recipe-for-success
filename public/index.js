@@ -237,8 +237,25 @@ recipeButtons.forEach((button) => {
     gptResponseElement.innerHTML = "";
 
 
+  // fetch("/audio")
+  // .then((response) => {
+  //   if (!response.ok) {
+  //     throw new Error('Network response was not ok');
+  //   }
+  //   return response.blob(); // Expect a Blob (binary data) instead of JSON
+  // })
+  // .then((blob) => {
+  //   const url = URL.createObjectURL(blob);
+  //   const audio = new Audio(url);
+  //   audio.play();
+  //   console.log("Audio is playing");
+  // })
+  // .catch((error) => {
+  //   console.error("Error", error);
+  // });
+
   fetch("/audio")
-  .then((response) => {
+  .then((response) => { 
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
