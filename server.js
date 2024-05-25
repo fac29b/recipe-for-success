@@ -98,62 +98,41 @@ app.get("/openai", async (req, res) => {
       size: "1024x1024",
     });
 
-    doubleResponse = {
-      text: completion,
-      image: imageResponse,
-      // audio: buf.toString('base64'),
-    };
-    res.json(doubleResponse);
-  } catch (error) {
+    const speechFile = path.resolve("./speech.mp3");
+    const recipeText = completion.choices[0].message.content;
+
+    
+
+
+  const mp3 = await openai.audio.speech.create({
+    model: "tts-1",
+    voice: "alloy",
+    input: `${recipeText}`,
+  });
+  console.log(speechFile);
+  const buffer = Buffer.from(await mp3.arrayBuffer());
+  await fs.promises.writeFile(speechFile, buffer);
+
+
+
+
+  doubleResponse = {
+    text: completion,
+    image: imageResponse,
+    // audio: buf.toString('base64'),
+ 
+};
+
+res.json(doubleResponse);
+
+  }
+
+catch (error) {
     console.error("An error occurred:", error.message);
-    res.status(500).json({ error: error.message });
+  } finally {
+    console.log("finally")
   }
 });
-
-
-   app.get("/audio", async (req, res) => {
-      console.log(req.query)
-      async function main() {
-        const recipe = completion.choices[0].message.content; 
-        const speechFile = path.resolve("./speech.mp3");
-        const mp3 = await openai.audio.speech.create({
-          model: "tts-1",
-          voice: "alloy",
-          input: `${recipe}`,
-        });
-        console.log(speechFile);
-        const buffer = Buffer.from(await mp3.arrayBuffer());
-        await fs.promises.writeFile(speechFile, buffer); 
-        res.sendFile(path.join(__dirname, "speech.mp3")); 
-      }
-    
-      try {
-        await main();
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-      }
-    });
-
-
-    
-    // app.get("/audio", async (req, res) => { 
-    //   try {
-    //     const recipe = completion.choices[0].message.content;
-    //     const speechFile = path.resolve("./speech.mp3");
-    //     const mp3 = await openai.audio.speech.create({
-    //       model: "tts-1",
-    //       voice: "alloy",
-    //       input: `${recipe}`,
-    //     });
-    //     const buffer = Buffer.from(await mp3.arrayBuffer());
-    //     await fs.promises.writeFile(speechFile, buffer);
-    //     res.sendFile(path.join(__dirname, "speech.mp3"));
-    //   } catch (error) {
-    //     console.error(error);
-    //     res.status(500).send('Internal Server Error');
-    //   }
-    // });
 
 app.use(express.static(path.join(__dirname, "public")));
 const port = process.env.PORT || 3000;
