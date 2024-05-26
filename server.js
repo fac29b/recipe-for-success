@@ -85,9 +85,15 @@ app.get("/openai", async (req, res) => {
       model: "gpt-3.5-turbo",
       max_tokens: 2000,
     });
+
+
+    const recipeImagePrompt = completion.choices[0].message.content;
+
+    
+   
     const imageResponse = await openai.images.generate({
       model: "dall-e-3",
-      prompt: `${prompt}`,
+      prompt: `${recipeImagePrompt}`,
       n: 1,
       size: "1024x1024",
     });
