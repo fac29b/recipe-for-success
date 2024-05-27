@@ -215,6 +215,15 @@ recipeButtons.forEach((button) => {
     recipeTextLoaded = false;
     recipeImageLoaded = false;
 
+
+    removeElements([mainElement])
+
+
+
+
+
+
+
     let userRecipe = {
       [button.name]: button.value,
       array: [...dietaryRequirements, ...[userText]],
