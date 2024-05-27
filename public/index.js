@@ -124,6 +124,10 @@ function displayElements(array) {
   loopOverArrayOfElements(array, "block");
 }
 
+function displayElementsFlex(array) {
+  loopOverArrayOfElements(array, "grid")
+}
+
 function displayElementsGrid(array) {
   loopOverArrayOfElements(array, "grid");
 }
@@ -242,7 +246,7 @@ recipeButtons.forEach((button) => {
     console.log(userRecipe);
 
     dishOriginCountry = button.value; // needed ?∫
-    displayElements([loadingContainer]);
+    displayElementsFlex([loadingContainer]);
     gptResponseElement.innerHTML = "";
     fetch("/server.js", {
       method: "POST",
