@@ -33,6 +33,7 @@ let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 let currentChar;
+let mp3
 
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
@@ -271,7 +272,12 @@ recipeButtons.forEach((button) => {
 
           // Set background image
           imageUrl = data.image.data[0].url;
+          mp3 = data.audio
           backgroundImg.src = imageUrl;
+
+
+          console.log({mp3})
+        
         });
 
         // Update text contennt once image is loaded

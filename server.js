@@ -19,7 +19,7 @@ const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
 
-let doubleResponse;
+let tripleResponse;
 
 app.get("/email", async (req, res) => {
   var transporter = nodemailer.createTransport({
@@ -30,12 +30,12 @@ app.get("/email", async (req, res) => {
     },
   });
 
-  if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
+  if (tripleResponse && tripleResponse.text && tripleResponse.text.choices) {
     var mailOptions = {
       from: process.env.from,
       to: req.query.user_email_address,
       subject: "Your recipe from recipe-for-success dynamic app",
-      text: doubleResponse.text.choices[0].message.content,
+      text: tripleResponse.text.choices[0].message.content,
     };
   } else {
     console.log("doubleResponse is not defined yet.");
@@ -116,14 +116,14 @@ app.get("/openai", async (req, res) => {
 
 
 
-  doubleResponse = {
+  tripleResponse = {
     text: completion,
     image: imageResponse,
-    // audio: buf.toString('base64'),
+    audio: buffer.toString('base64'),
  
 };
 
-res.json(doubleResponse);
+res.json(tripleResponse);
 
   }
 
