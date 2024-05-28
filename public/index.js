@@ -313,6 +313,8 @@ recipeButtons.forEach((button) => {
             );
             const speedBtn = document.querySelector("#speed");
 
+
+
          
 
 
@@ -344,16 +346,16 @@ recipeButtons.forEach((button) => {
             function stopAudio() {
               audioElement.stop();
             }
-            
 
 
-
+            speedBtn.addEventListener("change", () => {
+              audioElement.playbackRate = speedBtn.value || 1;
+            })
             
             speechBtns.forEach((speechBtn) => {
               speechBtn.addEventListener("click", () => {
                 const btnName = speechBtn.getAttribute("name");
                 if (btnName === "microphone") {
-               
                   playAudio();
                 } else if (btnName === "pause") {
                   pauseAudio();
