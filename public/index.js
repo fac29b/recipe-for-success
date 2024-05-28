@@ -311,32 +311,14 @@ recipeButtons.forEach((button) => {
               sendRecipeToUserInboxBtn,
             ]);
 
-            const utterance = new SpeechSynthesisUtterance();
-
+  
             const speechBtns = Array.from(
               document.querySelectorAll(".fa-solid")
             );
             const speedBtn = document.querySelector("#speed");
 
-            console.log(speechBtns);
+         
 
-            function readRecipe(recipe) {
-              if (speechSynthesis.paused && speechSynthesis.speaking) {
-                return speechSynthesis.resume();
-              }
-              if (speechSynthesis.speaking) return;
-              utterance.text = recipe;
-              utterance.rate = speedBtn.value || 1;
-              speechSynthesis.speak(utterance);
-            }
-            function pauseReading() {
-              if (speechSynthesis.speaking) speechSynthesis.pause();
-            }
-
-            function stopREeading() {
-              speechSynthesis.resume();
-              speechSynthesis.cancel();
-            }
 
             const binaryData = atob(data.audio);
 
@@ -352,34 +334,26 @@ recipeButtons.forEach((button) => {
 
             let aiTextToSpeechBtn = document.querySelector(".aiAudio");
 
-            function playTextToSpeech() {
+            function playAudio() {
               audioElement.play()
             }
 
-            aiTextToSpeechBtn.addEventListener("click", playTextToSpeech )
+            function pauseAudio() {
+              audioElement.pause()
+            }
+
+            // aiTextToSpeechBtn.addEventListener("click", playTextToSpeech )
 
             
-
-          
-
-
-
-
-
-   
-
-
-
-
-
             speechBtns.forEach((speechBtn) => {
-              speechBtn?.addEventListener("click", () => {
+              speechBtn.addEventListener("click", () => {
                 const btnName = speechBtn.getAttribute("name");
                 if (btnName === "microphone") {
-                  console.log(btnName);
-                  readRecipe(`${textContent}`);
+                  // console.log(btnName);
+                  // readRecipe(`${textContent}`);
+                  playAudio()
                 } else if (btnName === "pause") {
-                  pauseReading();
+                  pauseAudio();
                 } else if (btnName === "stop") {
                   stopREeading();
                 }
