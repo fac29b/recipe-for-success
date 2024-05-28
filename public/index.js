@@ -275,8 +275,12 @@ recipeButtons.forEach((button) => {
           mp3 = data.audio
           backgroundImg.src = imageUrl;
 
-
           console.log({mp3})
+
+       
+
+
+
         
         });
 
@@ -334,14 +338,25 @@ recipeButtons.forEach((button) => {
               speechSynthesis.cancel();
             }
 
-            // let aiTextToSpeechBtn = document.querySelector("#aiAudio");
+            const binaryData = atob(data.audio);
 
-            // function playTextToSpeech() {
-            //   let audio = new Audio("/speech.mp3")
-            //   audio.play()
-            // }
+            const audioData = new Uint8Array(binaryData.length);
+            for (let i = 0; i < binaryData.length; i++) {
+              audioData[i] = binaryData.charCodeAt(i);
+            }
 
-            // aiTextToSpeechBtn.addEventListener("click", playTextToSpeech )
+            const audioBlob = new Blob([audioData], { type: 'audio/mpeg' });
+            const audioElement = new Audio();
+            audioElement.src = URL.createObjectURL(audioBlob);
+
+
+            let aiTextToSpeechBtn = document.querySelector(".aiAudio");
+
+            function playTextToSpeech() {
+              audioElement.play()
+            }
+
+            aiTextToSpeechBtn.addEventListener("click", playTextToSpeech )
 
             
 
