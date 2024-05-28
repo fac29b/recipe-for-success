@@ -291,10 +291,6 @@ recipeButtons.forEach((button) => {
             textContent = data.text.choices[0].message.content;
             gptResponseElement.innerHTML = `
             <div class="recording">
-            <audio id="myAudio">
-              <source src="" type="audio/mpeg">
-            </audio>
-              <button class="aiAudio"></button>
               <i class="fa-solid fa-microphone" name="microphone"></i>
               <i class="fa-solid fa-pause" name="pause"></i>
               <i class="fa-solid fa-stop" name="stop"></i>
@@ -332,8 +328,6 @@ recipeButtons.forEach((button) => {
             audioElement.src = URL.createObjectURL(audioBlob);
 
 
-            let aiTextToSpeechBtn = document.querySelector(".aiAudio");
-
             function playAudio() {
               audioElement.play()
             }
@@ -342,20 +336,29 @@ recipeButtons.forEach((button) => {
               audioElement.pause()
             }
 
-            // aiTextToSpeechBtn.addEventListener("click", playTextToSpeech )
+            audioElement.stop = function() {
+              this.pause();
+              this.currentTime = 0;
+            }
+
+            function stopAudio() {
+              audioElement.stop();
+            }
+            
+
+
 
             
             speechBtns.forEach((speechBtn) => {
               speechBtn.addEventListener("click", () => {
                 const btnName = speechBtn.getAttribute("name");
                 if (btnName === "microphone") {
-                  // console.log(btnName);
-                  // readRecipe(`${textContent}`);
-                  playAudio()
+               
+                  playAudio();
                 } else if (btnName === "pause") {
                   pauseAudio();
                 } else if (btnName === "stop") {
-                  stopREeading();
+                  stopAudio();
                 }
               });
             });
