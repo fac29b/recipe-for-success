@@ -98,24 +98,43 @@ app.get("/openai", async (req, res) => {
       size: "1024x1024",
     });
 
-    async function main() {
-      const messageThread = await openai.beta.threads.create({
-        messages: [
-          {
-            role: "user",
-            content: "Hello, what is AI?"
-          },
-          {
-            role: "user",
-            content: "How does AI work? Explain it in simple terms.",
-          },
-        ],
-      });
+
+
+ 
+
+  const assistant = await openai.beta.assistants.create({
+    name: "Cuisine expert",
+    instructions: "You are one of the best chefs in the world. Write and run code to help user with their question.",
+    tools: [{ type: "code_interpreter" }],
+    model: "gpt-4o"
+  });
+
+ 
+
+
+
+
+
+
+
+    // const threadId = 'thread_8f0SOguFBVyGGLP7Np8lyvzK'
+
+
+    //   const messageThread = await openai.beta.threads.create( threadId, {
+    //     messages: [
+    //       {
+    //         role: "user",
+    //         content: "I'm need help with cooking. Would you be my cooking adviser?"
+    //       },
+    //     ],
+    //   });
+
+    //   const messages = await openai.beta.threads.messages.list(threadId)
+
+    //   const run = await openai.beta.threads.runs.retrieve(threadId)
     
-      console.log(messageThread);
-    }
-    
-    main();
+    //   console.log({messageThread}, {messages}, {run});
+  
 
 
 
