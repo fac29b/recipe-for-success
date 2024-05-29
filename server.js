@@ -109,6 +109,8 @@ app.get("/openai", async (req, res) => {
     model: "gpt-4o"
   });
 
+  const thread = await openai.beta.threads.create();
+
  
 
 
