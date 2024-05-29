@@ -111,6 +111,15 @@ app.get("/openai", async (req, res) => {
 
   const thread = await openai.beta.threads.create();
 
+
+  const message = await openai.beta.threads.messages.create(
+    thread.id,
+    {
+      role: "user",
+      content: "I've got some tomatoes, onions, and some beef. What can I cook?"
+    }
+  );
+
  
 
 
