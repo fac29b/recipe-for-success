@@ -98,6 +98,28 @@ app.get("/openai", async (req, res) => {
       size: "1024x1024",
     });
 
+    async function main() {
+      const messageThread = await openai.beta.threads.create({
+        messages: [
+          {
+            role: "user",
+            content: "Hello, what is AI?"
+          },
+          {
+            role: "user",
+            content: "How does AI work? Explain it in simple terms.",
+          },
+        ],
+      });
+    
+      console.log(messageThread);
+    }
+    
+    main();
+
+
+
+
     doubleResponse = {
       text: completion,
       image: imageResponse,
