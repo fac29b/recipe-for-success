@@ -33,6 +33,7 @@ let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 let currentChar;
+let mp3
 
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
@@ -248,6 +249,11 @@ recipeButtons.forEach((button) => {
     dishOriginCountry = button.value; // needed ?∫
     displayElementsFlex([loadingContainer]);
     gptResponseElement.innerHTML = "";
+
+
+
+
+
     fetch("/server.js", {
       method: "POST",
       headers: {
@@ -279,7 +285,16 @@ recipeButtons.forEach((button) => {
 
           // Set background image
           imageUrl = data.image.data[0].url;
+          mp3 = data.audio
           backgroundImg.src = imageUrl;
+
+          console.log({mp3})
+
+       
+
+
+
+        
         });
 
         // Update text contennt once image is loaded
@@ -305,43 +320,60 @@ recipeButtons.forEach((button) => {
               sendRecipeToUserInboxBtn,
             ]);
 
-            const utterance = new SpeechSynthesisUtterance();
-
+  
             const speechBtns = Array.from(
               document.querySelectorAll(".fa-solid")
             );
             const speedBtn = document.querySelector("#speed");
 
-            console.log(speechBtns);
 
-            function readRecipe(recipe) {
-              if (speechSynthesis.paused && speechSynthesis.speaking) {
-                return speechSynthesis.resume();
-              }
-              if (speechSynthesis.speaking) return;
-              utterance.text = recipe;
-              utterance.rate = speedBtn.value || 1;
-              speechSynthesis.speak(utterance);
-            }
-            function pauseReading() {
-              if (speechSynthesis.speaking) speechSynthesis.pause();
+
+         
+
+
+            const binaryData = atob(data.audio);
+
+            const audioData = new Uint8Array(binaryData.length);
+            for (let i = 0; i < binaryData.length; i++) {
+              audioData[i] = binaryData.charCodeAt(i);
             }
 
-            function stopREeading() {
-              speechSynthesis.resume();
-              speechSynthesis.cancel();
+            const audioBlob = new Blob([audioData], { type: 'audio/mpeg' });
+            const audioElement = new Audio();
+            audioElement.src = URL.createObjectURL(audioBlob);
+
+
+            function playAudio() {
+              audioElement.play()
             }
 
+            function pauseAudio() {
+              audioElement.pause()
+            }
+
+            audioElement.stop = function() {
+              this.pause();
+              this.currentTime = 0;
+            }
+
+            function stopAudio() {
+              audioElement.stop();
+            }
+
+
+            speedBtn.addEventListener("change", () => {
+              audioElement.playbackRate = speedBtn.value || 1;
+            })
+            
             speechBtns.forEach((speechBtn) => {
               speechBtn.addEventListener("click", () => {
                 const btnName = speechBtn.getAttribute("name");
                 if (btnName === "microphone") {
-                  console.log(btnName);
-                  readRecipe(`${textContent}`);
+                  playAudio();
                 } else if (btnName === "pause") {
-                  pauseReading();
+                  pauseAudio();
                 } else if (btnName === "stop") {
-                  stopREeading();
+                  stopAudio();
                 }
               });
             });

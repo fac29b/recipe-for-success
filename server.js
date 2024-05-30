@@ -1,4 +1,6 @@
 const express = require("express");
+const fs = require("fs");
+
 const path = require('path');
 var nodemailer = require("nodemailer");
 require("dotenv").config();
@@ -17,7 +19,7 @@ const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
 
-let doubleResponse;
+let tripleResponse;
 
 app.get("/email", async (req, res) => {
   var transporter = nodemailer.createTransport({
@@ -28,12 +30,12 @@ app.get("/email", async (req, res) => {
     },
   });
 
-  if (doubleResponse && doubleResponse.text && doubleResponse.text.choices) {
+  if (tripleResponse && tripleResponse.text && tripleResponse.text.choices) {
     var mailOptions = {
       from: process.env.from,
       to: req.query.user_email_address,
       subject: "Your recipe from recipe-for-success dynamic app",
-      text: doubleResponse.text.choices[0].message.content,
+      text: tripleResponse.text.choices[0].message.content,
     };
   } else {
     console.log("doubleResponse is not defined yet.");
@@ -87,10 +89,15 @@ app.get("/openai", async (req, res) => {
     });
 
 
+
+    console.log(completion.choices[0].message.content)
+
+
     const recipeImagePrompt = completion.choices[0].message.content;
 
     
    
+
     const imageResponse = await openai.images.generate({
       model: "dall-e-3",
       prompt: `${recipeImagePrompt}`,
@@ -98,24 +105,41 @@ app.get("/openai", async (req, res) => {
       size: "1024x1024",
     });
 
-    doubleResponse = {
-      text: completion,
-      image: imageResponse,
-    };
-    res.json(doubleResponse);
-  } catch (error) {
+    const speechFile = path.resolve("./speech.mp3");
+    const recipeText = completion.choices[0].message.content;
+
+    
+
+
+  const mp3 = await openai.audio.speech.create({
+    model: "tts-1",
+    voice: "alloy",
+    input: `${recipeText}`,
+  });
+  console.log(speechFile);
+  const buffer = Buffer.from(await mp3.arrayBuffer());
+  await fs.promises.writeFile(speechFile, buffer);
+
+
+
+
+  tripleResponse = {
+    text: completion,
+    image: imageResponse,
+    audio: buffer.toString('base64'),
+ 
+};
+
+res.json(tripleResponse);
+
+  }
+
+catch (error) {
     console.error("An error occurred:", error.message);
-    res.status(500).json({ error: error.message });
+  } finally {
+    console.log("finally")
   }
 });
-
-//   const dishCountry = req.body.recipe_country_of_origin;
-//   const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
-
-//   res.json({
-//     message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
-//   });
-// });
 
 app.use(express.static(path.join(__dirname, "public")));
 const port = process.env.PORT || 3000;
