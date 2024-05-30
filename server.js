@@ -89,11 +89,18 @@ app.get("/openai", async (req, res) => {
     });
 
 
+
     console.log(completion.choices[0].message.content)
+
+
+    const recipeImagePrompt = completion.choices[0].message.content;
+
+    
+   
 
     const imageResponse = await openai.images.generate({
       model: "dall-e-3",
-      prompt: `${prompt}`,
+      prompt: `${recipeImagePrompt}`,
       n: 1,
       size: "1024x1024",
     });
