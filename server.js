@@ -77,7 +77,7 @@ app.get("/openai", async (req, res) => {
 
     console.log(prompt);
 
-    const completion = await openai.chat.completions.create({
+    const stream = await openai.chat.completions.create({
       messages: [
         {
           role: "user",
@@ -86,14 +86,20 @@ app.get("/openai", async (req, res) => {
       ],
       model: "gpt-3.5-turbo",
       max_tokens: 2000,
+      stream: true,
     });
 
+    for await (const chunk of stream) {
+      process.stdout.write(chunk.choices[0]?.delta?.content || "");
+  }
 
 
-    console.log(completion.choices[0].message.content)
 
 
-    const recipeImagePrompt = completion.choices[0].message.content;
+    console.log(stream.choices[0].message.content)
+
+
+    const recipeImagePrompt = stream.choices[0].message.content;
 
     
    
@@ -106,7 +112,8 @@ app.get("/openai", async (req, res) => {
     });
 
     const speechFile = path.resolve("./speech.mp3");
-    const recipeText = completion.choices[0].message.content;
+    const recipeText = stream.choices[0].message.content;
+    // const recipeText = stream.choices[0].message.content;
 
     
 
@@ -124,7 +131,7 @@ app.get("/openai", async (req, res) => {
 
 
   tripleResponse = {
-    text: completion,
+    text: stream,
     image: imageResponse,
     audio: buffer.toString('base64'),
  
