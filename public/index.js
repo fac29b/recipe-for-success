@@ -14,12 +14,13 @@ const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
 );
+const stream = document.querySelector(".stream");
+console.log(stream);
 const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
 const paperPlane = document.querySelector(".fa-paper-plane");
 const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
-console.log(sendToUserInboxBtn);
 
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
@@ -33,7 +34,7 @@ let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 let currentChar;
-let mp3
+let mp3;
 
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
@@ -90,13 +91,11 @@ let errorMessage = `
 
 tryAgainBtn.style.display = "none";
 
-
-
 sendToUserInboxBtn.addEventListener("click", () => {
   if (userEmail.value !== "") {
     alert("an email has been sent to your inbox");
   }
-})
+});
 
 function createQuery(myObject) {
   let esc = encodeURIComponent;
@@ -126,7 +125,7 @@ function displayElements(array) {
 }
 
 function displayElementsFlex(array) {
-  loopOverArrayOfElements(array, "grid")
+  loopOverArrayOfElements(array, "grid");
 }
 
 function displayElementsGrid(array) {
@@ -220,14 +219,7 @@ recipeButtons.forEach((button) => {
     recipeTextLoaded = false;
     recipeImageLoaded = false;
 
-
-    removeElements([mainElement])
-
-
-
-
-
-
+    removeElements([mainElement]);
 
     let userRecipe = {
       [button.name]: button.value,
@@ -246,13 +238,19 @@ recipeButtons.forEach((button) => {
     userRecipe.loopOverArray();
     console.log(userRecipe);
 
-    dishOriginCountry = button.value; // needed ?∫
+    dishOriginCountry = button.value; // needed ?
     displayElementsFlex([loadingContainer]);
     gptResponseElement.innerHTML = "";
 
+    const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
-
-
+    eventSource.onmessage = function (event) {
+      if (event.data === "stop") {
+        eventSource.close();
+        return;
+      }
+      document.querySelector(".stream").textContent += event.data + "\n";
+    };
 
     fetch("/server.js", {
       method: "POST",
@@ -285,16 +283,10 @@ recipeButtons.forEach((button) => {
 
           // Set background image
           imageUrl = data.image.data[0].url;
-          mp3 = data.audio
+          mp3 = data.audio;
           backgroundImg.src = imageUrl;
 
-          console.log({mp3})
-
-       
-
-
-
-        
+          console.log({ mp3 });
         });
 
         // Update text contennt once image is loaded
@@ -320,16 +312,10 @@ recipeButtons.forEach((button) => {
               sendRecipeToUserInboxBtn,
             ]);
 
-  
             const speechBtns = Array.from(
               document.querySelectorAll(".fa-solid")
             );
             const speedBtn = document.querySelector("#speed");
-
-
-
-         
-
 
             const binaryData = atob(data.audio);
 
@@ -338,33 +324,31 @@ recipeButtons.forEach((button) => {
               audioData[i] = binaryData.charCodeAt(i);
             }
 
-            const audioBlob = new Blob([audioData], { type: 'audio/mpeg' });
+            const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
             const audioElement = new Audio();
             audioElement.src = URL.createObjectURL(audioBlob);
 
-
             function playAudio() {
-              audioElement.play()
+              audioElement.play();
             }
 
             function pauseAudio() {
-              audioElement.pause()
+              audioElement.pause();
             }
 
-            audioElement.stop = function() {
+            audioElement.stop = function () {
               this.pause();
               this.currentTime = 0;
-            }
+            };
 
             function stopAudio() {
               audioElement.stop();
             }
 
-
             speedBtn.addEventListener("change", () => {
               audioElement.playbackRate = speedBtn.value || 1;
-            })
-            
+            });
+
             speechBtns.forEach((speechBtn) => {
               speechBtn.addEventListener("click", () => {
                 const btnName = speechBtn.getAttribute("name");
