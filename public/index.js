@@ -258,6 +258,8 @@ recipeButtons.forEach((button) => {
       if (data.image) {
         // TODO: handle image (copy the /openai fetch handler)
         console.log(data.image);
+        // backgroundImg.src = data.image;
+        backgroundImg.src = data.image.data[0].url;
       }
 
       if (data.audio) {
