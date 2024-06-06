@@ -1,3 +1,4 @@
+
 const express = require("express");
 const fs = require("fs");
 
@@ -153,15 +154,17 @@ app.get("/stream", async (req, res) => {
     stream: true,
   });
 
+  let recipe = "";
+
   for await (const chunk of stream) {
     const finishReason = chunk.choices[0].finish_reason;
 
-    console.log(finishReason);
+    // console.log(finishReason);
 
     if (finishReason === "stop") {
-      res.write("data: stop\n\n");
-      res.end();
-      return; // exit the fuction
+      console.log("finished generating recipe");
+      console.log(`recipie=${recipe}`);
+      break;
     }
 
     if (typeof recipe_country_of_origin === "undefined") {
@@ -169,9 +172,44 @@ app.get("/stream", async (req, res) => {
       return;
     } else {
       const message = chunk.choices[0]?.delta?.content || "";
-      res.write(`data: ${message}\n\n`); // Send the message to the client
+      recipe += message;
+      messageJSON = JSON.stringify({ message });
+      res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
     }
   }
+
+  const imagePromise = openai.images
+    .generate({
+      model: "dall-e-3",
+      prompt: `${recipe}`,
+      n: 1,
+      size: "1024x1024",
+    })
+    .then((image) => {
+      messageJSON = JSON.stringify({ image });
+      res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
+    });
+
+  const audioPromise = openai.audio.speech
+    .create({
+      model: "tts-1",
+      voice: "alloy",
+      input: `${recipe}`,
+    })
+    .then(async (mp3) => {
+      const speechFile = path.resolve("./speech.mp3");
+      console.log(speechFile);
+      const buffer = Buffer.from(await mp3.arrayBuffer());
+      await fs.promises.writeFile(speechFile, buffer);
+      messageJSON = JSON.stringify({ audio: buffer.toString("base64") });
+      res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
+    });
+
+  return Promise.all([imagePromise, audioPromise]).then(() => {
+    messageJSON = JSON.stringify({ message: "stop" });
+    res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
+    res.end();
+  });
 });
 
 app.use(express.static(path.join(__dirname, "public")));
