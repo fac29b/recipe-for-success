@@ -239,7 +239,7 @@ recipeButtons.forEach((button) => {
     console.log(userRecipe);
 
     dishOriginCountry = button.value; // needed ?
-    displayElementsFlex([loadingContainer]);
+    // displayElementsFlex([loadingContainer]);
     gptResponseElement.innerHTML = "";
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
@@ -251,14 +251,14 @@ recipeButtons.forEach((button) => {
           eventSource.close();
           return;
         }
-        document.querySelector(".stream").textContent += data.message + "\n";
+        displayElements([gptResponseElement])
+        gptResponseElement.textContent += data.message;
         return;
       }
 
       if (data.image) {
         // TODO: handle image (copy the /openai fetch handler)
         console.log(data.image);
-        // backgroundImg.src = data.image;
         backgroundImg.src = data.image.data[0].url;
       }
 
