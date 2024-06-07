@@ -14,7 +14,7 @@ const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
 );
-const loadingText = document.querySelector("#loading-text")
+const loadingText = document.querySelector("#loading-text");
 const recording = document.querySelector(".recording");
 const stream = document.querySelector(".stream");
 const userEmail = document.querySelector("#user-email");
@@ -240,7 +240,6 @@ recipeButtons.forEach((button) => {
     console.log(userRecipe);
 
     dishOriginCountry = button.value; // needed ?
-    // displayElementsFlex([loadingContainer]);
     gptResponseElement.innerHTML = "";
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
@@ -252,210 +251,73 @@ recipeButtons.forEach((button) => {
           eventSource.close();
           return;
         }
-        displayElements([gptResponseElement])
+        displayElements([gptResponseElement]);
         gptResponseElement.textContent += data.message;
         return;
       }
 
       if (data.audio) {
         // TODO: handle audio (copy the /openai fetch handler)
-        console.log(data.audio)
-        loadingText.innerHTML = "Hang in there creating the image..."
-          displayElementsFlex([recording]);
-          displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
+        console.log(data.audio);
+        loadingText.innerHTML = "Hang in there creating the image...";
+        displayElementsFlex([recording]);
+        displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
 
-                  const speechBtns = Array.from(
-                document.querySelectorAll(".fa-solid")
-              );
-              const speedBtn = document.querySelector("#speed");
+        const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
+        const speedBtn = document.querySelector("#speed");
 
-              const binaryData = atob(data.audio);
+        const binaryData = atob(data.audio);
 
-              const audioData = new Uint8Array(binaryData.length);
-              for (let i = 0; i < binaryData.length; i++) {
-                audioData[i] = binaryData.charCodeAt(i);
-              }
+        const audioData = new Uint8Array(binaryData.length);
+        for (let i = 0; i < binaryData.length; i++) {
+          audioData[i] = binaryData.charCodeAt(i);
+        }
 
-              const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
-              const audioElement = new Audio();
-              audioElement.src = URL.createObjectURL(audioBlob);
+        const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
+        const audioElement = new Audio();
+        audioElement.src = URL.createObjectURL(audioBlob);
 
-              function playAudio() {
-                audioElement.play();
-              }
+        function playAudio() {
+          audioElement.play();
+        }
 
-              function pauseAudio() {
-                audioElement.pause();
-              }
+        function pauseAudio() {
+          audioElement.pause();
+        }
 
-              audioElement.stop = function () {
-                this.pause();
-                this.currentTime = 0;
-              };
+        audioElement.stop = function () {
+          this.pause();
+          this.currentTime = 0;
+        };
 
-              function stopAudio() {
-                audioElement.stop();
-              }
+        function stopAudio() {
+          audioElement.stop();
+        }
 
-                speedBtn.addEventListener("change", () => {
-                audioElement.playbackRate = speedBtn.value || 1;
-              });
+        speedBtn.addEventListener("change", () => {
+          audioElement.playbackRate = speedBtn.value || 1;
+        });
 
-
-              speechBtns.forEach((speechBtn) => {
-                            speechBtn.addEventListener("click", () => {
-                              const btnName = speechBtn.getAttribute("name");
-                              if (btnName === "microphone") {
-                                playAudio();
-                              } else if (btnName === "pause") {
-                                pauseAudio();
-                              } else if (btnName === "stop") {
-                                stopAudio();
-                              }
-                            });
-                          });
-
+        speechBtns.forEach((speechBtn) => {
+          speechBtn.addEventListener("click", () => {
+            const btnName = speechBtn.getAttribute("name");
+            if (btnName === "microphone") {
+              playAudio();
+            } else if (btnName === "pause") {
+              pauseAudio();
+            } else if (btnName === "stop") {
+              stopAudio();
+            }
+          });
+        });
       }
 
       if (data.image) {
         // TODO: handle image (copy the /openai fetch handler)
         console.log(data.image);
-        removeElements([loadingContainer])
+        removeElements([loadingContainer]);
         backgroundImg.src = data.image.data[0].url;
       }
-
-  
     };
-
-    // fetch("/server.js", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(userRecipe),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log("Response from the back-end", data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error", error);
-    //   });
-    //   fetch(`/openai?${createQuery(userRecipe)}`)
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       // CREATE IMAGE PROMISE
-    //       const imagePromise = new Promise((resolve) => {
-    //         console.log("image begin");
-
-    //         // Wait for background image to be loaded
-    //         backgroundImg.addEventListener("load", () => {
-    //           resolve();
-    //           mainElement.style.display = "none";
-
-    //           console.log("image end");
-    //         });
-
-    //         // Set background image
-    //         imageUrl = data.image.data[0].url;
-    //         mp3 = data.audio;
-    //         backgroundImg.src = imageUrl;
-
-    //         console.log({ mp3 });
-    //       });
-
-    //       // Update text contennt once image is loaded
-    //       Promise.all([imagePromise])
-    //         .then(() => {
-    //           console.log("image loaded:", Promise.all.status);
-    //           textContent = data.text.choices[0].message.content;
-    //           gptResponseElement.innerHTML = `
-    //           <div class="recording">
-    //             <i class="fa-solid fa-microphone" name="microphone"></i>
-    //             <i class="fa-solid fa-pause" name="pause"></i>
-    //             <i class="fa-solid fa-stop" name="stop"></i>
-    //             <div class="speed-wrapper">
-    //             <label for="speed">Speed</label>
-    //             <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
-    //             </div>
-    //           </div>
-    //           ${textContent}`;
-    //           removeElements([headline, allergies, ...recipeButtons]);
-    //           displayElements([
-    //             userWantAnotherRecipe,
-    //             gptResponseElement,
-    //             sendRecipeToUserInboxBtn,
-    //           ]);
-
-    //           const speechBtns = Array.from(
-    //             document.querySelectorAll(".fa-solid")
-    //           );
-    //           const speedBtn = document.querySelector("#speed");
-
-    //           const binaryData = atob(data.audio);
-
-    //           const audioData = new Uint8Array(binaryData.length);
-    //           for (let i = 0; i < binaryData.length; i++) {
-    //             audioData[i] = binaryData.charCodeAt(i);
-    //           }
-
-    //           const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
-    //           const audioElement = new Audio();
-    //           audioElement.src = URL.createObjectURL(audioBlob);
-
-    //           function playAudio() {
-    //             audioElement.play();
-    //           }
-
-    //           function pauseAudio() {
-    //             audioElement.pause();
-    //           }
-
-    //           audioElement.stop = function () {
-    //             this.pause();
-    //             this.currentTime = 0;
-    //           };
-
-    //           function stopAudio() {
-    //             audioElement.stop();
-    //           }
-
-    //           speedBtn.addEventListener("change", () => {
-    //             audioElement.playbackRate = speedBtn.value || 1;
-    //           });
-
-    //           speechBtns.forEach((speechBtn) => {
-    //             speechBtn.addEventListener("click", () => {
-    //               const btnName = speechBtn.getAttribute("name");
-    //               if (btnName === "microphone") {
-    //                 playAudio();
-    //               } else if (btnName === "pause") {
-    //                 pauseAudio();
-    //               } else if (btnName === "stop") {
-    //                 stopAudio();
-    //               }
-    //             });
-    //           });
-    //         })
-    //         .catch((error) => {
-    //           console.error("Error:", error);
-    //           gptResponseElement.innerHTML = `${errorMessage}`;
-    //           removeElements([headline, allergies, ...recipeButtons]);
-    //           displayElements([tryAgainBtn, gptResponseElement]);
-    //         })
-    //         .finally(() => {
-    //           //HIDES LOADING WHETHER OR NOT IT FAILS
-    //           loadingContainer.style.display = "none";
-    //           console.log("All promises have been settled");
-    //         });
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error:", error);
-    //       gptResponseElement.innerHTML = `${errorMessage}`;
-    //       removeElements([headline, allergies, ...recipeButtons]);
-    //       displayElements([tryAgainBtn, gptResponseElement]);
-    //     });
   });
 });
-
-

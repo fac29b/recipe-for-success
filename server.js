@@ -1,7 +1,6 @@
 
 const express = require("express");
 const fs = require("fs");
-
 const path = require("path");
 var nodemailer = require("nodemailer");
 require("dotenv").config();
@@ -87,8 +86,6 @@ app.get("/openai", async (req, res) => {
     });
 
     const speechFile = path.resolve("./speech.mp3");
-    // const recipeText = stream.choices[0].message.content;
-    // const recipeText = stream.choices[0].message.content;
 
     const mp3 = await openai.audio.speech.create({
       model: "tts-1",
@@ -125,10 +122,7 @@ app.get("/stream", async (req, res) => {
     what_are_user_other_dietary_requirements,
   } = req.query;
 
-  // if (typeof recipe_country_of_origin === 'undefined') {
-  //   res.status(400).send('Missing recipe_country_of_origin query parameter');
-  //   return;
-  // }
+
 
   let prompt = `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${
     is_lactose_intolerant === "true"
@@ -159,7 +153,7 @@ app.get("/stream", async (req, res) => {
   for await (const chunk of stream) {
     const finishReason = chunk.choices[0].finish_reason;
 
-    // console.log(finishReason);
+   
 
     if (finishReason === "stop") {
       console.log("finished generating recipe");
