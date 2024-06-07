@@ -268,6 +268,7 @@ recipeButtons.forEach((button) => {
         // TODO: handle audio (copy the /openai fetch handler)
         console.log(data.audio)
           displayElementsFlex([recording]);
+          displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
       }
     };
 
