@@ -20,8 +20,12 @@
   height: fit-content;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   flex-direction: row;
   margin: auto;
+  background-color: var(--green);
+  border-radius: 5px;
+  padding: 10px;
 }
 
 
@@ -90,10 +94,10 @@ main {
   justify-content: center;
 } */
 
-.fa-microphone {
+/* .fa-microphone {
   height: 30px;
   width: 30px;
-}
+} */
 
 
 #background-img {

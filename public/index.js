@@ -14,6 +14,8 @@ const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
 );
+const recording = document.querySelector(".recording");
+console.log(recording);
 const stream = document.querySelector(".stream");
 console.log(stream);
 const userEmail = document.querySelector("#user-email");
@@ -265,6 +267,15 @@ recipeButtons.forEach((button) => {
       if (data.audio) {
         // TODO: handle audio (copy the /openai fetch handler)
         console.log(data.audio);
+                  recording.innerHTML = `
+                <i class="fa-solid fa-microphone" name="microphone"></i>
+                <i class="fa-solid fa-pause" name="pause"></i>
+                <i class="fa-solid fa-stop" name="stop"></i>
+                <div class="speed-wrapper">
+                <label for="speed">Speed</label>
+                <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
+                </div>
+             `;
       }
     };
 
