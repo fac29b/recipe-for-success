@@ -15,10 +15,8 @@
 }
 
 .recording {
-  /* position: fixed; */
   width: 50%;
   height: fit-content;
-  display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-direction: row;
@@ -26,6 +24,7 @@
   background-color: var(--green);
   border-radius: 5px;
   padding: 10px;
+  display: none;
 }
 
 

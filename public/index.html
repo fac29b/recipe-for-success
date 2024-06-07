@@ -109,7 +109,16 @@
 
       <div class="test">
 
-        <div class="recording"></div>
+        <div class="recording">
+          <i class="fa-solid fa-microphone" name="microphone"></i>
+          <i class="fa-solid fa-pause" name="pause"></i>
+          <i class="fa-solid fa-stop" name="stop"></i>
+          <div class="speed-wrapper">
+          <label for="speed">Speed</label>
+          <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
+          </div>
+
+        </div>
      
         <section
           aria-label="gpt-response"
