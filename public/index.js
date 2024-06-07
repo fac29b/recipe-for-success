@@ -263,6 +263,58 @@ recipeButtons.forEach((button) => {
         loadingText.innerHTML = "Hang in there creating the image..."
           displayElementsFlex([recording]);
           displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
+
+                  const speechBtns = Array.from(
+                document.querySelectorAll(".fa-solid")
+              );
+              const speedBtn = document.querySelector("#speed");
+
+              const binaryData = atob(data.audio);
+
+              const audioData = new Uint8Array(binaryData.length);
+              for (let i = 0; i < binaryData.length; i++) {
+                audioData[i] = binaryData.charCodeAt(i);
+              }
+
+              const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
+              const audioElement = new Audio();
+              audioElement.src = URL.createObjectURL(audioBlob);
+
+              function playAudio() {
+                audioElement.play();
+              }
+
+              function pauseAudio() {
+                audioElement.pause();
+              }
+
+              audioElement.stop = function () {
+                this.pause();
+                this.currentTime = 0;
+              };
+
+              function stopAudio() {
+                audioElement.stop();
+              }
+
+                speedBtn.addEventListener("change", () => {
+                audioElement.playbackRate = speedBtn.value || 1;
+              });
+
+
+              speechBtns.forEach((speechBtn) => {
+                            speechBtn.addEventListener("click", () => {
+                              const btnName = speechBtn.getAttribute("name");
+                              if (btnName === "microphone") {
+                                playAudio();
+                              } else if (btnName === "pause") {
+                                pauseAudio();
+                              } else if (btnName === "stop") {
+                                stopAudio();
+                              }
+                            });
+                          });
+
       }
 
       if (data.image) {
