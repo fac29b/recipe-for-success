@@ -18,6 +18,7 @@
     />
   </head>
   <body>
+    <div class="stream"></div>
    
     <div aria-label="parent container" class="parent-container">
       <img src="" alt="" id="background-img" />
@@ -98,26 +99,33 @@
         <!-- <label for="user-email">Enter you email address</label> -->
         <button class="try-again-btn">Try again</button>
       </main>
-      <div id="loading-container">
-        <div>
-          <div id="loading-indicator"></div>
-          <h3 id="loading-text">Creating Recipe...</h3>
-        </div>
-       
-      </div>
 
       <div class="test">
+        <div class="recording">
+          <i class="fa-solid fa-microphone" name="microphone"></i>
+          <i class="fa-solid fa-pause" name="pause"></i>
+          <i class="fa-solid fa-stop" name="stop"></i>
+          <div class="speed-wrapper">
+          <label for="speed">Speed</label>
+          <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
+          </div>
+        </div>
+        <div id="loading-container">
+          <div id="loading-indicator"></div>
+          <h3 id="loading-text">Creating audio and image...</h3>
+        </div>
         <section
           aria-label="gpt-response"
           class="gpt-response preserve-line-breaks"
-        ></section>
+        >
+      </section>
         <button class="want-another-recipe">I want another recipe</button>
         <button
           class="send-recipe-to-user-inbox"
           name="do_we_email_user"
           value="false"
         >
-          send recipe to my in
+          send recipe to my inbox
         </button>
         <section class="email-section">
           <input
@@ -134,5 +142,9 @@
       </div>
     </div>
     <script src="index.js"></script>
+
+
+    
+    
   </body>
 </html>

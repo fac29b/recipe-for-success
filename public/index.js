@@ -14,12 +14,14 @@ const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
 );
+const loadingText = document.querySelector("#loading-text");
+const recording = document.querySelector(".recording");
+const stream = document.querySelector(".stream");
 const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
 const paperPlane = document.querySelector(".fa-paper-plane");
 const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
-console.log(sendToUserInboxBtn);
 
 const dietaryRequirements = Array.from(
   document.querySelectorAll(".dietary-requirements")
@@ -33,7 +35,7 @@ let imageUrl;
 let isLactoseIntolerant;
 let dishOriginCountry;
 let currentChar;
-let mp3
+let mp3;
 
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
@@ -90,13 +92,11 @@ let errorMessage = `
 
 tryAgainBtn.style.display = "none";
 
-
-
 sendToUserInboxBtn.addEventListener("click", () => {
   if (userEmail.value !== "") {
     alert("an email has been sent to your inbox");
   }
-})
+});
 
 function createQuery(myObject) {
   let esc = encodeURIComponent;
@@ -126,7 +126,7 @@ function displayElements(array) {
 }
 
 function displayElementsFlex(array) {
-  loopOverArrayOfElements(array, "grid")
+  loopOverArrayOfElements(array, "flex");
 }
 
 function displayElementsGrid(array) {
@@ -220,14 +220,7 @@ recipeButtons.forEach((button) => {
     recipeTextLoaded = false;
     recipeImageLoaded = false;
 
-
-    removeElements([mainElement])
-
-
-
-
-
-
+    removeElements([mainElement]);
 
     let userRecipe = {
       [button.name]: button.value,
@@ -246,155 +239,85 @@ recipeButtons.forEach((button) => {
     userRecipe.loopOverArray();
     console.log(userRecipe);
 
-    dishOriginCountry = button.value; // needed ?∫
-    displayElementsFlex([loadingContainer]);
+    dishOriginCountry = button.value; // needed ?
     gptResponseElement.innerHTML = "";
 
+    const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
+    eventSource.onmessage = function (event) {
+      let data = JSON.parse(event.data);
+      if (data.message) {
+        if (data.message === "stop") {
+          eventSource.close();
+          return;
+        }
+        displayElements([gptResponseElement]);
+        gptResponseElement.textContent += data.message;
+        return;
+      }
 
+      if (data.audio) {
+        // TODO: handle audio (copy the /openai fetch handler)
+        console.log(data.audio);
+        loadingText.innerHTML = "Hang in there creating the image...";
+        displayElementsFlex([recording]);
+        displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
 
+        const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
+        const speedBtn = document.querySelector("#speed");
 
-    fetch("/server.js", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userRecipe),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response from the back-end", data);
-      })
-      .catch((error) => {
-        console.error("Error", error);
-      });
-    fetch(`/openai?${createQuery(userRecipe)}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // CREATE IMAGE PROMISE
-        const imagePromise = new Promise((resolve) => {
-          console.log("image begin");
+        const binaryData = atob(data.audio);
 
-          // Wait for background image to be loaded
-          backgroundImg.addEventListener("load", () => {
-            resolve();
-            mainElement.style.display = "none";
+        const audioData = new Uint8Array(binaryData.length);
+        for (let i = 0; i < binaryData.length; i++) {
+          audioData[i] = binaryData.charCodeAt(i);
+        }
 
-            console.log("image end");
-          });
+        const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
+        const audioElement = new Audio();
+        audioElement.src = URL.createObjectURL(audioBlob);
 
-          // Set background image
-          imageUrl = data.image.data[0].url;
-          mp3 = data.audio
-          backgroundImg.src = imageUrl;
+        function playAudio() {
+          audioElement.play();
+        }
 
-          console.log({mp3})
+        function pauseAudio() {
+          audioElement.pause();
+        }
 
-       
+        audioElement.stop = function () {
+          this.pause();
+          this.currentTime = 0;
+        };
 
+        function stopAudio() {
+          audioElement.stop();
+        }
 
-
-        
+        speedBtn.addEventListener("change", () => {
+          audioElement.playbackRate = speedBtn.value || 1;
         });
 
-        // Update text contennt once image is loaded
-        Promise.all([imagePromise])
-          .then(() => {
-            console.log("image loaded:", Promise.all.status);
-            textContent = data.text.choices[0].message.content;
-            gptResponseElement.innerHTML = `
-            <div class="recording">
-              <i class="fa-solid fa-microphone" name="microphone"></i>
-              <i class="fa-solid fa-pause" name="pause"></i>
-              <i class="fa-solid fa-stop" name="stop"></i>
-              <div class="speed-wrapper">
-              <label for="speed">Speed</label>
-              <input type="number" name="speed" id="speed" min="0.25" max="2" step="0.25" value="1">
-              </div>
-            </div>
-            ${textContent}`;
-            removeElements([headline, allergies, ...recipeButtons]);
-            displayElements([
-              userWantAnotherRecipe,
-              gptResponseElement,
-              sendRecipeToUserInboxBtn,
-            ]);
-
-  
-            const speechBtns = Array.from(
-              document.querySelectorAll(".fa-solid")
-            );
-            const speedBtn = document.querySelector("#speed");
-
-
-
-         
-
-
-            const binaryData = atob(data.audio);
-
-            const audioData = new Uint8Array(binaryData.length);
-            for (let i = 0; i < binaryData.length; i++) {
-              audioData[i] = binaryData.charCodeAt(i);
+        speechBtns.forEach((speechBtn) => {
+          speechBtn.addEventListener("click", () => {
+            const btnName = speechBtn.getAttribute("name");
+            if (btnName === "microphone") {
+              playAudio();
+            } else if (btnName === "pause") {
+              pauseAudio();
+            } else if (btnName === "stop") {
+              stopAudio();
             }
-
-            const audioBlob = new Blob([audioData], { type: 'audio/mpeg' });
-            const audioElement = new Audio();
-            audioElement.src = URL.createObjectURL(audioBlob);
-
-
-            function playAudio() {
-              audioElement.play()
-            }
-
-            function pauseAudio() {
-              audioElement.pause()
-            }
-
-            audioElement.stop = function() {
-              this.pause();
-              this.currentTime = 0;
-            }
-
-            function stopAudio() {
-              audioElement.stop();
-            }
-
-
-            speedBtn.addEventListener("change", () => {
-              audioElement.playbackRate = speedBtn.value || 1;
-            })
-            
-            speechBtns.forEach((speechBtn) => {
-              speechBtn.addEventListener("click", () => {
-                const btnName = speechBtn.getAttribute("name");
-                if (btnName === "microphone") {
-                  playAudio();
-                } else if (btnName === "pause") {
-                  pauseAudio();
-                } else if (btnName === "stop") {
-                  stopAudio();
-                }
-              });
-            });
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            gptResponseElement.innerHTML = `${errorMessage}`;
-            removeElements([headline, allergies, ...recipeButtons]);
-            displayElements([tryAgainBtn, gptResponseElement]);
-          })
-          .finally(() => {
-            //HIDES LOADING WHETHER OR NOT IT FAILS
-            loadingContainer.style.display = "none";
-            console.log("All promises have been settled");
           });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        gptResponseElement.innerHTML = `${errorMessage}`;
-        removeElements([headline, allergies, ...recipeButtons]);
-        displayElements([tryAgainBtn, gptResponseElement]);
-      });
+        });
+      }
+
+      if (data.image) {
+        // TODO: handle image (copy the /openai fetch handler)
+        console.log(data.image);
+        removeElements([loadingContainer]);
+        backgroundImg.src = data.image.data[0].url;
+      }
+    };
   });
 });
