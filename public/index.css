@@ -78,7 +78,7 @@ main {
   z-index: 0;
   height: 605px;
   width: 420px;
-  top: 405px;
+  top: 360px;
   left: 50%;
   transform: translate(-50%,-50%);
 }
@@ -277,8 +277,8 @@ input:checked + .slider:before {
 /* Loading indicator */
 
 #loading-container {
-  display: none;
-  justify-content: center;
+  /* display: none; */
+  /* justify-content: center;
   align-items: center;
   margin-bottom: 1em;
   min-height: 100vh;
@@ -287,8 +287,10 @@ input:checked + .slider:before {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 }
+
+
 #loading-indicator {
   border: 5px solid transparent;
   border-top: 5px solid rgb(73, 180, 87);

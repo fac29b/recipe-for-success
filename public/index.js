@@ -14,10 +14,9 @@ const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
 );
+const loadingText = document.querySelector("#loading-text")
 const recording = document.querySelector(".recording");
-console.log(recording);
 const stream = document.querySelector(".stream");
-console.log(stream);
 const userEmail = document.querySelector("#user-email");
 const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
@@ -258,18 +257,22 @@ recipeButtons.forEach((button) => {
         return;
       }
 
-      if (data.image) {
-        // TODO: handle image (copy the /openai fetch handler)
-        console.log(data.image);
-        backgroundImg.src = data.image.data[0].url;
-      }
-
       if (data.audio) {
         // TODO: handle audio (copy the /openai fetch handler)
         console.log(data.audio)
+        loadingText.innerHTML = "Hang in there creating the image..."
           displayElementsFlex([recording]);
           displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
       }
+
+      if (data.image) {
+        // TODO: handle image (copy the /openai fetch handler)
+        console.log(data.image);
+        removeElements([loadingContainer])
+        backgroundImg.src = data.image.data[0].url;
+      }
+
+  
     };
 
     // fetch("/server.js", {
