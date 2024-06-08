@@ -21,6 +21,7 @@ const openai = new OpenAI({
 
 let tripleResponse;
 let recipe = "";
+let url;
 
 
 
@@ -158,7 +159,7 @@ app.get("/stream", async (req, res) => {
       messageJSON = JSON.stringify({ image });
       res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
       const folderPath = path.join(__dirname, "./public/url_folder");
-      const url = image.data[0].url;
+      url = image.data[0].url;
       const filePath = path.join(folderPath, "url_folder.txt");
       fs.writeFileSync(filePath, url);
     });
@@ -194,16 +195,50 @@ app.get("/email", async (req, res) => {
     },
   });
 
+
+  const emailDocument = `
+  <html>
+    <head>
+      <style>
+        .preserve-line-breaks {
+          white-space: pre-line
+        }
+        .user-img {
+          width: 200px;
+          height: 200px;
+        }
+      </style>
+    </head>
+    <body class="preserve-line-breaks" >
+      ${recipe}
+      <br />
+       Embedded image:
+      <br /> 
+      <img class="user-img" src="${url}"/>
+    </body>
+  </html>
+`;
+
   if (recipe !== "") {
     var mailOptions = {
       from: process.env.from,
       to: req.query.user_email_address,
       subject: "Your recipe from recipe-for-success dynamic app",
       text: recipe,
+      html: emailDocument,
+      attachments: [
+        {
+          filename: "url_folder.txt",
+          path: path.join(__dirname, "/public/url_folder/url_folder.txt"),
+          cid: "url",
+        },
+      ],
+      
     };
   } else {
     console.log("doubleResponse is not defined yet.");
   }
+
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
