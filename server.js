@@ -20,35 +20,9 @@ const openai = new OpenAI({
 });
 
 let tripleResponse;
+let recipe = "";
 
-app.get("/email", async (req, res) => {
-  var transporter = nodemailer.createTransport({
-    service: process.env.service,
-    auth: {
-      user: process.env.from,
-      pass: process.env.third_party_app_password,
-    },
-  });
 
-  if (tripleResponse && tripleResponse.text && tripleResponse.text.choices) {
-    var mailOptions = {
-      from: process.env.from,
-      to: req.query.user_email_address,
-      subject: "Your recipe from recipe-for-success dynamic app",
-      text: tripleResponse.text.choices[0].message.content,
-    };
-  } else {
-    console.log("doubleResponse is not defined yet.");
-  }
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
-});
 
 app.get("/openai", async (req, res) => {
   const {
@@ -148,7 +122,7 @@ app.get("/stream", async (req, res) => {
     stream: true,
   });
 
-  let recipe = "";
+
 
   for await (const chunk of stream) {
     const finishReason = chunk.choices[0].finish_reason;
@@ -203,6 +177,35 @@ app.get("/stream", async (req, res) => {
     messageJSON = JSON.stringify({ message: "stop" });
     res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
     res.end();
+  });
+});
+
+app.get("/email", async (req, res) => {
+  var transporter = nodemailer.createTransport({
+    service: process.env.service,
+    auth: {
+      user: process.env.from,
+      pass: process.env.third_party_app_password,
+    },
+  });
+
+  if (recipe !== "") {
+    var mailOptions = {
+      from: process.env.from,
+      to: req.query.user_email_address,
+      subject: "Your recipe from recipe-for-success dynamic app",
+      text: recipe,
+    };
+  } else {
+    console.log("doubleResponse is not defined yet.");
+  }
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
   });
 });
 
