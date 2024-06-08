@@ -154,8 +154,13 @@ app.get("/stream", async (req, res) => {
       size: "1024x1024",
     })
     .then((image) => {
+      console.log(image)
       messageJSON = JSON.stringify({ image });
       res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
+      const folderPath = path.join(__dirname, "./public/url_folder");
+      const url = image.data[0].url;
+      const filePath = path.join(folderPath, "url_folder.txt");
+      fs.writeFileSync(filePath, url);
     });
 
   const audioPromise = openai.audio.speech
