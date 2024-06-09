@@ -54,7 +54,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   margin: 0 auto;
 }
 
@@ -80,7 +80,7 @@ main {
   width: 420px;
   top: 360px;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 
 
@@ -107,10 +107,10 @@ main {
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  max-width: 500px; 
+  max-width: 500px;
   min-height: 100vh;
   border-radius: 5%;
-  border: 2px solid black; 
+  border: 2px solid black;
   background-image: url("./image/Designer_2.png");
   background-size: cover;
   background-position: center;
@@ -177,7 +177,7 @@ button {
   width: 170px;
   display: none;
   grid-template-columns: 2fr 1fr;
-  margin:auto;
+  margin: auto;
 }
 
 
@@ -212,10 +212,10 @@ button {
 /* The switch - the box around the slider */
 .switch {
   position: relative;
-  display: block; 
+  display: block;
   width: 60px;
   height: 34px;
-  margin: 10px auto; 
+  margin: 10px auto;
 }
 
 
@@ -250,16 +250,16 @@ button {
   transition: 0.4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: var(--black);
   transition: background-color 0.5s ease;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px var(--green);
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -299,7 +299,7 @@ input:checked + .slider:before {
   width: 60px;
   height: 60px;
   animation: spin 1.6s linear infinite;
-  margin:  auto;
+  margin: auto;
 }
 
 #loading-text {
@@ -319,17 +319,68 @@ input:checked + .slider:before {
   background-color: white;
 }
 
+/* Style for the upload label */
+.upload-label {
+  display: inline-block;
+  background-color: #f2f2f2;
+  padding: 10px 20px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 10px 0;
+  transition: background-color 0.4s;
+}
+
+/* Style for the file input field */
+input[type="file"] {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+
+/* Style for the generate recipe button */
+.send-to-user-inbox-btn {
+  background-color: #4CAF50;
+  /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.4s;
+}
+
+/* Change background color of the button on hover */
+.send-to-user-inbox-btn:hover {
+  background-color: #45a049;
+}
+
+/* Change background color of the label on hover */
+.upload-label:hover {
+  background-color: #ddd;
+  /* Light grey */
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
+
 @media only screen and (max-width: 768px) {
   .main-element {
-    width: 100%; /* Adjusted width for smaller screens */
+    width: 100%;
+    /* Adjusted width for smaller screens */
     max-width: none;
   }
 }

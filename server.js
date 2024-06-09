@@ -8,6 +8,7 @@ const { OpenAI } = require("openai");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
+
 app.post("/server.js", (req, res) => {
   const dishCountry = req.body.recipe_country_of_origin;
   const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
@@ -43,15 +44,13 @@ app.get("/openai", async (req, res) => {
       { what_are_user_other_dietary_requirements }
     );
 
-    const prompt = `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${
-      is_lactose_intolerant === "true"
-        ? "lactose intolerant"
-        : "not lactose intolerant"
-    } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${
-      what_are_user_other_dietary_requirements === ""
+    const prompt = `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true"
+      ? "lactose intolerant"
+      : "not lactose intolerant"
+      } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === ""
         ? "I have no other dietary requirements"
         : what_are_user_other_dietary_requirements
-    } `;
+      } `;
 
     const imageResponse = await openai.images.generate({
       model: "dall-e-3",
@@ -59,6 +58,7 @@ app.get("/openai", async (req, res) => {
       n: 1,
       size: "1024x1024",
     });
+
 
     const speechFile = path.resolve("./speech.mp3");
 
@@ -99,15 +99,13 @@ app.get("/stream", async (req, res) => {
 
 
 
-  let prompt = `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${
-    is_lactose_intolerant === "true"
-      ? "lactose intolerant"
-      : "not lactose intolerant"
-  } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${
-    what_are_user_other_dietary_requirements === ""
+  let prompt = `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true"
+    ? "lactose intolerant"
+    : "not lactose intolerant"
+    } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === ""
       ? "I have no other dietary requirements"
       : what_are_user_other_dietary_requirements
-  } `;
+    } `;
 
   console.log({ streamPrompt: prompt });
 
@@ -128,7 +126,7 @@ app.get("/stream", async (req, res) => {
   for await (const chunk of stream) {
     const finishReason = chunk.choices[0].finish_reason;
 
-   
+
 
     if (finishReason === "stop") {
       console.log("finished generating recipe");
@@ -233,7 +231,7 @@ app.get("/email", async (req, res) => {
           cid: "url",
         },
       ],
-      
+
     };
   } else {
     console.log("doubleResponse is not defined yet.");

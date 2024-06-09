@@ -219,6 +219,7 @@ recipeButtons.forEach((button) => {
   button.addEventListener("click", async () => {
     recipeTextLoaded = false;
     recipeImageLoaded = false;
+    displayElementsFlex([recording]);
 
     removeElements([mainElement]);
 
@@ -263,7 +264,7 @@ recipeButtons.forEach((button) => {
         displayElementsFlex([recording]);
         displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
 
-        const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
+        const speechBtns = Array.from(fetchdocument.querySelectorAll(".fa-solid"));
         const speedBtn = document.querySelector("#speed");
 
         const binaryData = atob(data.audio);
