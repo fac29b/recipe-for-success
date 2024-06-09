@@ -95,6 +95,21 @@
             Random
           </button>
         </section>
+
+        <!-- UPLOAD RECIPE IMAGE HERE -->
+        <form id="upload-form" action="/path-to-your-server-endpoint" method="POST" enctype="multipart/form-data">
+          <section class="image-upload">
+            <label for="image-upload">Upload Image of Ingredients</label>
+            <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              placeholder="Upload an image"
+            />
+            <button type="submit">Submit Image</button>
+          </section>
+        </form>
+    
       
         <!-- <label for="user-email">Enter you email address</label> -->
         <button class="try-again-btn">Try again</button>
