@@ -12,6 +12,7 @@ const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
 const tryAgainBtn = document.querySelector(".try-again-btn");
+console.log(tryAgainBtn);
 const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
@@ -44,7 +45,7 @@ let mp3;
 
 let errorMessage = ` ${defaultRecipe}`;
 
-tryAgainBtn.style.display = "none";
+// tryAgainBtn.style.display = "none";
 
 sendToUserInboxBtn.addEventListener("click", () => {
   if (userEmail.value !== "") {
@@ -215,10 +216,10 @@ recipeButtons.forEach((button) => {
           return;
         } else if (data.errorMessage === 'invalid_api_key') {
           console.log(data.errorMessage)
-          displayElements([gptResponseElement]);
+          displayElements([gptResponseElement, tryAgainBtn]);
+          removeElements([loadingContainer]);
           gptResponseElement.innerHTML = errorMessage;
           return;
-
         }
 
   

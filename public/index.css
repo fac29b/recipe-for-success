@@ -188,7 +188,7 @@ button {
   border-radius: 5px;
   background-color: var(--green);
   transition: background-color 0.5s ease;
-  display: block;
+  display: none;
   margin: auto;
   margin-top: 20px;
   width: fit-content;
