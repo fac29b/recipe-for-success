@@ -215,6 +215,7 @@ recipeButtons.forEach((button) => {
           gptResponseElement.textContent += data.message;
           return;
         } else if (data.errorMessage === 'invalid_api_key') {
+          eventSource.close();
           console.log(data.errorMessage)
           displayElements([gptResponseElement, tryAgainBtn]);
           removeElements([loadingContainer]);
