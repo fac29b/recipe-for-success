@@ -203,6 +203,7 @@ recipeButtons.forEach((button) => {
 
     
         let data = JSON.parse(event.data);
+      
         console.log(data)
         if (data.message) {
           if (data.message === "stop") {
@@ -212,6 +213,12 @@ recipeButtons.forEach((button) => {
           displayElements([gptResponseElement]);
           gptResponseElement.textContent += data.message;
           return;
+        } else if (data.errorMessage === 'invalid_api_key') {
+          console.log(data.errorMessage)
+          displayElements([gptResponseElement]);
+          gptResponseElement.innerHTML = errorMessage;
+          return;
+
         }
 
   

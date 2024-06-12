@@ -86,6 +86,7 @@ app.get("/openai", async (req, res) => {
 });
 
 app.get("/stream", async (req, res) => {
+  try {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
@@ -179,11 +180,32 @@ app.get("/stream", async (req, res) => {
       res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
     });
 
-  return Promise.all([imagePromise, audioPromise]).then(() => {
-    messageJSON = JSON.stringify({ message: "stop" });
-    res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
-    res.end();
-  });
+    return Promise.all([imagePromise, audioPromise]).then(() => {
+      messageJSON = JSON.stringify({ message: "stop" });
+      res.write(`data: ${messageJSON}\n\n`); // Send the message to the client
+      res.end();
+    });
+
+
+} catch (error) {
+  if (error.code === 'invalid_api_key') {
+    let errorMessage = error.code;
+    let errorJSON = JSON.stringify({errorMessage})
+    res.write(`data: ${errorJSON}\n\n`) // send the message to the client
+    console.error('Invalid API key provided. Please check your API key.');
+
+    // res.status(401).json({ error: 'Invalid API key provided. Please check your API key.' });
+  
+
+  } else {
+    console.error("An error occurred:", error.message);
+    // res.status(500).json({ error: error.message });
+   
+  }
+
+  console.log("error")
+}
+
 });
 
 app.get("/email", async (req, res) => {
