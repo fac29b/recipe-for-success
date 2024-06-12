@@ -1,4 +1,4 @@
-import {defaultRecipe, createQuery} from "./js_utilities/default_recipe.js"
+import {defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement } from "./js_utilities/default_recipe.js"
 
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
@@ -55,13 +55,6 @@ sendToUserInboxBtn.addEventListener("click", () => {
 
 
 
-function loopOverArrayOfElements(array, display) {
-  array.forEach((elememt) => {
-    elememt.style.display = display;
-    elememt.style.transition = "all 2s";
-  });
-}
-
 otherDietaryRequirements.addEventListener("click", () => {
   if (otherDietaryRequirements.checked) {
     displayElements([userText]);
@@ -70,25 +63,7 @@ otherDietaryRequirements.addEventListener("click", () => {
   }
 });
 
-function displayElements(array) {
-  loopOverArrayOfElements(array, "block");
-}
 
-function displayElementsFlex(array) {
-  loopOverArrayOfElements(array, "flex");
-}
-
-function displayElementsGrid(array) {
-  loopOverArrayOfElements(array, "grid");
-}
-
-function removeElements(array) {
-  loopOverArrayOfElements(array, "none");
-}
-
-function emptyTheElement(elememt) {
-  elememt.innerHTML = "";
-}
 
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);

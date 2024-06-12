@@ -59,6 +59,35 @@ function createQuery(myObject) {
   return query;
 }
 
+function loopOverArrayOfElements(array, display) {
+  array.forEach((elememt) => {
+    elememt.style.display = display;
+    elememt.style.transition = "all 2s";
+  });
+}
 
 
-export {defaultRecipe, createQuery}
+
+function displayElements(array) {
+  loopOverArrayOfElements(array, "block");
+}
+
+function displayElementsFlex(array) {
+  loopOverArrayOfElements(array, "flex");
+}
+
+function displayElementsGrid(array) {
+  loopOverArrayOfElements(array, "grid");
+}
+
+function removeElements(array) {
+  loopOverArrayOfElements(array, "none");
+}
+
+function emptyTheElement(elememt) {
+  elememt.innerHTML = "";
+}
+
+
+
+export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement }
