@@ -118,7 +118,8 @@ userWantAnotherRecipe.addEventListener("click", () => {
 });
 
 tryAgainBtn.addEventListener("click", () => {
-  displayElements([headline, allergies, ...recipeButtons]);
+  console.log("try again");
+  displayElements([headline, allergies, ...recipeButtons, mainElement]);
   removeElements([gptResponseElement, tryAgainBtn]);
   emptyTheElement(gptResponseElement);
 });
