@@ -1,59 +1,35 @@
-import {defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio } from "./js_utilities/default_recipe.js"
+import {defaultRecipe,createQuery,displayElements,displayElementsFlex,displayElementsGrid,removeElements,
+emptyTheElement,resetCheckedStateToFalse,playAudio,pauseAudio,stopAudio} from "./js_utilities/functions_and_variables.js";
 
 const mainElement = document.querySelector(".main-element");
-const test = document.querySelector(".test");
+
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
 const lactoseIntolerant = document.querySelector("#lactose-intolerant");
-const vegan = document.querySelector("#vegan");
 const loadingContainer = document.querySelector("#loading-container");
 const allergies = document.querySelector(".allergies");
 const darkLightButton = document.querySelector(".dark-light-button");
 const userWantAnotherRecipe = document.querySelector(".want-another-recipe");
 const tryAgainBtn = document.querySelector(".try-again-btn");
-console.log(tryAgainBtn);
 const recipeButtons = document.querySelectorAll(".recipe-button");
 const sendRecipeToUserInboxBtn = document.querySelector(
   ".send-recipe-to-user-inbox"
 );
 const loadingText = document.querySelector("#loading-text");
 const recording = document.querySelector(".recording");
-const stream = document.querySelector(".stream");
 const userEmail = document.querySelector("#user-email");
-const sendEmailButton = document.querySelector(".send-email-btn");
 const emailSection = document.querySelector(".email-section");
-const paperPlane = document.querySelector(".fa-paper-plane");
 const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
-
-const dietaryRequirements = Array.from(
-  document.querySelectorAll(".dietary-requirements")
-);
-const otherDietaryRequirements = document.querySelector(
-  "#other-dietary-requirements"
-);
+const dietaryRequirements = Array.from(document.querySelectorAll(".dietary-requirements"));
+const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
 const userText = document.querySelector("#user-text");
-let textContent;
-let imageUrl;
-let isLactoseIntolerant;
-let dishOriginCountry;
-let currentChar;
-let mp3;
-
-
-
-
-let errorMessage = ` ${defaultRecipe}`;
-
-// tryAgainBtn.style.display = "none";
 
 sendToUserInboxBtn.addEventListener("click", () => {
   if (userEmail.value !== "") {
     alert("an email has been sent to your inbox");
   }
 });
-
-
 
 otherDietaryRequirements.addEventListener("click", () => {
   if (otherDietaryRequirements.checked) {
@@ -63,14 +39,10 @@ otherDietaryRequirements.addEventListener("click", () => {
   }
 });
 
-
-
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
   removeElements([sendRecipeToUserInboxBtn]);
 });
-
-
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons, mainElement]);
@@ -136,9 +108,6 @@ sendToUserInboxBtn.addEventListener("click", () => {
 recipeButtons.forEach((button) => {
   console.log(userText.value);
   button.addEventListener("click", async () => {
-    // recipeTextLoaded = false;
-    // recipeImageLoaded = false;
-
     removeElements([mainElement]);
 
     let userRecipe = {
@@ -157,42 +126,32 @@ recipeButtons.forEach((button) => {
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
-
-    dishOriginCountry = button.value; // needed ?
     gptResponseElement.innerHTML = "";
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
     eventSource.onmessage = function (event) {
+      let data = JSON.parse(event.data);
 
-
-    
-        let data = JSON.parse(event.data);
-      
-        console.log(data)
-        if (data.message) {
-          if (data.message === "stop") {
-            eventSource.close();
-            return;
-          }
-          displayElements([gptResponseElement]);
-          gptResponseElement.textContent += data.message;
-          return;
-        } else if (data.errorMessage === 'invalid_api_key') {
+      console.log(data);
+      if (data.message) {
+        if (data.message === "stop") {
           eventSource.close();
-          console.log(data.errorMessage)
-          displayElements([gptResponseElement, tryAgainBtn]);
-          removeElements([loadingContainer]);
-          gptResponseElement.innerHTML = errorMessage;
           return;
         }
-
-  
-      
-    
+        displayElements([gptResponseElement]);
+        gptResponseElement.textContent += data.message;
+        return;
+      } else if (data.errorMessage === "invalid_api_key") {
+        eventSource.close();
+        console.log(data.errorMessage);
+        displayElements([gptResponseElement, tryAgainBtn]);
+        removeElements([loadingContainer]);
+        gptResponseElement.innerHTML = defaultRecipe;
+        return;
+      }
 
       if (data.audio) {
-        // TODO: handle audio (copy the /openai fetch handler)
         console.log(data.audio);
         loadingText.innerHTML = "Hang in there creating the image...";
         displayElementsFlex([recording]);
@@ -212,14 +171,10 @@ recipeButtons.forEach((button) => {
         const audioElement = new Audio();
         audioElement.src = URL.createObjectURL(audioBlob);
 
-  
-
         audioElement.stop = function () {
           this.pause();
           this.currentTime = 0;
         };
-
-     
 
         speedBtn.addEventListener("change", () => {
           audioElement.playbackRate = speedBtn.value || 1;
@@ -240,7 +195,6 @@ recipeButtons.forEach((button) => {
       }
 
       if (data.image) {
-        // TODO: handle image (copy the /openai fetch handler)
         console.log(data.image);
         removeElements([loadingContainer]);
         backgroundImg.src = data.image.data[0].url;
