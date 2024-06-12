@@ -1,4 +1,4 @@
-import {defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse } from "./js_utilities/default_recipe.js"
+import {defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio } from "./js_utilities/default_recipe.js"
 
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
@@ -212,22 +212,14 @@ recipeButtons.forEach((button) => {
         const audioElement = new Audio();
         audioElement.src = URL.createObjectURL(audioBlob);
 
-        function playAudio() {
-          audioElement.play();
-        }
-
-        function pauseAudio() {
-          audioElement.pause();
-        }
+  
 
         audioElement.stop = function () {
           this.pause();
           this.currentTime = 0;
         };
 
-        function stopAudio() {
-          audioElement.stop();
-        }
+     
 
         speedBtn.addEventListener("change", () => {
           audioElement.playbackRate = speedBtn.value || 1;
@@ -237,11 +229,11 @@ recipeButtons.forEach((button) => {
           speechBtn.addEventListener("click", () => {
             const btnName = speechBtn.getAttribute("name");
             if (btnName === "microphone") {
-              playAudio();
+              playAudio(audioElement);
             } else if (btnName === "pause") {
-              pauseAudio();
+              pauseAudio(audioElement);
             } else if (btnName === "stop") {
-              stopAudio();
+              stopAudio(audioElement);
             }
           });
         });

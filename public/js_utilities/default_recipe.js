@@ -1,4 +1,9 @@
 // variables 
+
+
+
+
+
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
 
@@ -51,6 +56,18 @@ Apologies, but our AI Recipe-Making expert is unavailable. Please try again late
 
 // functions
 
+function playAudio(element) {
+  element.play();
+}
+
+function pauseAudio(element) {
+  element.pause();
+}
+
+function stopAudio(element) {
+  element.stop();
+}
+
 function createQuery(myObject) {
   let esc = encodeURIComponent;
   let query = Object.keys(myObject)
@@ -98,4 +115,4 @@ function resetCheckedStateToFalse(array) {
 
 
 
-export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse }
+export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio }
