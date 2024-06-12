@@ -88,6 +88,14 @@ function emptyTheElement(elememt) {
   elememt.innerHTML = "";
 }
 
+function resetCheckedStateToFalse(array) {
+  array.forEach((requirement) => {
+    if (requirement.checked) {
+      requirement.checked = false;
+    }
+  });
+}
 
 
-export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement }
+
+export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse }

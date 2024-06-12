@@ -1,4 +1,4 @@
-import {defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement } from "./js_utilities/default_recipe.js"
+import {defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse } from "./js_utilities/default_recipe.js"
 
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
@@ -70,13 +70,7 @@ sendRecipeToUserInboxBtn.addEventListener("click", () => {
   removeElements([sendRecipeToUserInboxBtn]);
 });
 
-function resetCheckedStateToFalse(array) {
-  array.forEach((requirement) => {
-    if (requirement.checked) {
-      requirement.checked = false;
-    }
-  });
-}
+
 
 userWantAnotherRecipe.addEventListener("click", () => {
   displayElements([headline, allergies, ...recipeButtons, mainElement]);
