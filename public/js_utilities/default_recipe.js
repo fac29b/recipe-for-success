@@ -1,4 +1,4 @@
-
+// variables 
 const defaultRecipe = `
 Apologies, but our AI Recipe-Making expert is unavailable. Please try again later. In the meantime, please find one of our favourite recipes below.
 
@@ -48,4 +48,17 @@ Apologies, but our AI Recipe-Making expert is unavailable. Please try again late
   </ol>
 `;
 
-export {defaultRecipe}
+
+// functions
+
+function createQuery(myObject) {
+  let esc = encodeURIComponent;
+  let query = Object.keys(myObject)
+    .map((k) => esc(k) + "=" + esc(myObject[k]))
+    .join("&");
+  return query;
+}
+
+
+
+export {defaultRecipe, createQuery}

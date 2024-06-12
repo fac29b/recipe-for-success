@@ -1,4 +1,4 @@
-import {defaultRecipe} from "./js_utilities/default_recipe.js"
+import {defaultRecipe, createQuery} from "./js_utilities/default_recipe.js"
 
 const mainElement = document.querySelector(".main-element");
 const test = document.querySelector(".test");
@@ -53,13 +53,7 @@ sendToUserInboxBtn.addEventListener("click", () => {
   }
 });
 
-function createQuery(myObject) {
-  let esc = encodeURIComponent;
-  let query = Object.keys(myObject)
-    .map((k) => esc(k) + "=" + esc(myObject[k]))
-    .join("&");
-  return query;
-}
+
 
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
