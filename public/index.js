@@ -219,6 +219,7 @@ recipeButtons.forEach((button) => {
   button.addEventListener("click", async () => {
     recipeTextLoaded = false;
     recipeImageLoaded = false;
+    // displayElementsFlex([recording]);
 
     removeElements([mainElement]);
 
