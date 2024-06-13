@@ -44,13 +44,7 @@ sendRecipeToUserInboxBtn.addEventListener("click", () => {
   removeElements([sendRecipeToUserInboxBtn]);
 });
 
-userWantAnotherRecipe.addEventListener("click", () => {
-  displayElements([headline, allergies, ...recipeButtons, mainElement]);
-  removeElements([userText, emailSection]);
-  emptyTheElement(gptResponseElement);
-  resetCheckedStateToFalse(dietaryRequirements);
-  userText.value = "";
-});
+
 
 tryAgainBtn.addEventListener("click", () => {
   console.log("try again");
@@ -175,6 +169,16 @@ recipeButtons.forEach((button) => {
           this.pause();
           this.currentTime = 0;
         };
+
+        userWantAnotherRecipe.addEventListener("click", () => {
+          displayElements([headline, allergies, ...recipeButtons, mainElement]);
+          removeElements([userText, emailSection]);
+          emptyTheElement(gptResponseElement);
+          resetCheckedStateToFalse(dietaryRequirements);
+          userText.value = "";
+          data.audio = "";
+          stopAudio(audioElement)
+        });
 
         speedBtn.addEventListener("change", () => {
           audioElement.playbackRate = speedBtn.value || 1;
