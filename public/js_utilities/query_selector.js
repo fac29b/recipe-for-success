@@ -21,3 +21,26 @@ const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
 const dietaryRequirements = Array.from(document.querySelectorAll(".dietary-requirements"));
 const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
 const userText = document.querySelector("#user-text");
+
+export {
+  mainElement,
+  backgroundImg,
+  gptResponseElement,
+  headline,
+  lactoseIntolerant,
+  loadingContainer,
+  allergies,
+  darkLightButton,
+  userWantAnotherRecipe,
+  tryAgainBtn,
+  recipeButtons,
+  sendRecipeToUserInboxBtn,
+  loadingText,
+  recording,
+  userEmail,
+  emailSection,
+  sendToUserInboxBtn,
+  dietaryRequirements,
+  otherDietaryRequirements,
+  userText
+};
