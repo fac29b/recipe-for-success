@@ -1,4 +1,9 @@
 const mainElement = document.querySelector(".main-element");
+const pictureSection = document.querySelector(".picture-section");
+const video = document.querySelector(".video");
+const canvas = document.querySelector(".canvas");
+
+
 
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
@@ -18,8 +23,12 @@ const recording = document.querySelector(".recording");
 const userEmail = document.querySelector("#user-email");
 const emailSection = document.querySelector(".email-section");
 const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
-const dietaryRequirements = Array.from(document.querySelectorAll(".dietary-requirements"));
-const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
+const dietaryRequirements = Array.from(
+  document.querySelectorAll(".dietary-requirements")
+);
+const otherDietaryRequirements = document.querySelector(
+  "#other-dietary-requirements"
+);
 const userText = document.querySelector("#user-text");
 
 export {
@@ -42,5 +51,11 @@ export {
   sendToUserInboxBtn,
   dietaryRequirements,
   otherDietaryRequirements,
-  userText
+  userText,
+  pictureSection,
+  video,
+  canvas,
 };
+
+
+
