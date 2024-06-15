@@ -12,13 +12,7 @@ require("dotenv").config();
 
 app.use(bodyParser.json());
 
-app.post("/server.js", (req, res) => {
-  const dishCountry = req.body.recipe_country_of_origin;
-  const isUserLactoseIntolerant = req.body.is_lactose_intolerant;
-  res.json({
-    message: `Variables ${dishCountry} and ${isUserLactoseIntolerant} received successfully`,
-  });
-});
+
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });

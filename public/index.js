@@ -53,20 +53,7 @@ sendToUserInboxBtn.addEventListener("click", () => {
   let emailOBject = {
     [userEmail.name]: userEmail.value,
   };
-  fetch("/server.js", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(emailOBject),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Response for user email", data);
-    })
-    .catch((error) => {
-      console.error("Error", error);
-    });
+
 
   fetch(`/email?${createQuery(emailOBject)}`)
     .then((response) => response.json())
