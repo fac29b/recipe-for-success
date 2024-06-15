@@ -2,9 +2,6 @@ const mainElement = document.querySelector(".main-element");
 const pictureSection = document.querySelector(".picture-section");
 const video = document.querySelector(".video");
 const canvas = document.querySelector(".canvas");
-
-
-
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
