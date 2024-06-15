@@ -1,4 +1,5 @@
 const mainElement = document.querySelector(".main-element");
+const takePicture = document.querySelector(".take-picture");
 const pictureSection = document.querySelector(".picture-section");
 const video = document.querySelector(".video");
 const canvas = document.querySelector(".canvas");
@@ -52,6 +53,7 @@ export {
   pictureSection,
   video,
   canvas,
+  takePicture
 };
 
 
