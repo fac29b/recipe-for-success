@@ -2,7 +2,7 @@ import {defaultRecipe,createQuery,displayElements,displayElementsFlex,displayEle
 import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection, video, canvas,takePicture, context} from "./js_utilities/query_selector.js";
 
 
-console.log(canvas)
+
 
 sendToUserInboxBtn.addEventListener("click", () => {
   if (userEmail.value !== "") {
@@ -176,45 +176,28 @@ recipeButtons.forEach((button) => {
 
 
 // picture section
-
-
-// Request access to the user's camera
 navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
-        // Set the video source and start playing
         video.srcObject = stream;
         video.play();
     })
     .catch((error) => {
         console.error('Error accessing camera:', error);
     });
-
-// Function to capture a photo
 function capturePhoto() {
-    // Set the canvas dimensions to match the video stream
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-
-    // Draw the current video frame onto the canvas
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // Get the image data from the canvas as a base64-encoded string
     const imageData = canvas.toDataURL('image/png');
-
-    // Do something with the captured photo (e.g., send it to a server)
     console.log('Captured photo:', imageData);
 }
 
-// Example usage: capture a photo when a button is clicked
+
 
 takePicture.addEventListener('click', () => {
-    // Capture the photo
     capturePhoto();
-
-    // Get the image data from the canvas as a base64-encoded string
     const imageData = canvas.toDataURL('image/png');
 
-    // Send the image data to the backend
     fetch('/upload', {
         method: 'POST',
         headers: {
