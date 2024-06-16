@@ -175,8 +175,19 @@ recipeButtons.forEach((button) => {
 
 
 
+
+const constraint = {
+    audio: false,
+    video: {
+    width: {min: 1024, ideal: 1280, max: 1920},
+    height: {min: 576, ideal: 720, max: 1080}
+  }
+}
+
+
 // picture section
-navigator.mediaDevices.getUserMedia({ video: true })
+navigator.mediaDevices.getUserMedia(constraint)
+  
     .then((stream) => {
         video.srcObject = stream;
         video.play();
@@ -187,7 +198,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
 function capturePhoto() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    context.drawImage(video, 0, 0, 640, 400);
     const imageData = canvas.toDataURL('image/png');
     console.log('Captured photo:', imageData);
 }
