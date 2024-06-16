@@ -192,7 +192,7 @@ app.get("/email", async (req, res) => {
 
 app.post("/upload", (req, res) => {
   const x = req.body;
-  console.log("upload", x);
+  console.log({josue_upload: x});
   res.status(200).json({ message: `variable ${JSON.stringify(x)} received` });
 });
 
