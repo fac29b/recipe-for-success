@@ -4,11 +4,13 @@ const path = require("path");
 var nodemailer = require("nodemailer");
 const { OpenAI } = require("openai");
 const app = express();
+app.use(express.json());
 const bodyParser = require("body-parser");
 
 require("dotenv").config();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
@@ -185,6 +187,13 @@ app.get("/email", async (req, res) => {
       console.log("Email sent: " + info.response);
     }
   });
+});
+
+
+app.post("/upload", (req, res) => {
+  const x = req.body;
+  console.log("upload", x);
+  res.status(200).json({ message: `variable ${JSON.stringify(x)} received` });
 });
 
 app.use(express.static(path.join(__dirname, "public")));

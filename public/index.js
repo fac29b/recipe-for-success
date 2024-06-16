@@ -1,8 +1,44 @@
-import {defaultRecipe,createQuery,displayElements,displayElementsFlex,displayElementsGrid,removeElements,emptyTheElement,resetCheckedStateToFalse,playAudio,pauseAudio,stopAudio} from "./js_utilities/functions_and_variables.js";
-import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection, video, canvas,takePicture, context} from "./js_utilities/query_selector.js";
-
-
-
+import {
+  defaultRecipe,
+  createQuery,
+  displayElements,
+  displayElementsFlex,
+  displayElementsGrid,
+  removeElements,
+  emptyTheElement,
+  resetCheckedStateToFalse,
+  playAudio,
+  pauseAudio,
+  stopAudio,
+} from "./js_utilities/functions_and_variables.js";
+import {
+  mainElement,
+  backgroundImg,
+  gptResponseElement,
+  headline,
+  lactoseIntolerant,
+  loadingContainer,
+  allergies,
+  darkLightButton,
+  userWantAnotherRecipe,
+  tryAgainBtn,
+  recipeButtons,
+  sendRecipeToUserInboxBtn,
+  loadingText,
+  recording,
+  userEmail,
+  emailSection,
+  sendToUserInboxBtn,
+  dietaryRequirements,
+  otherDietaryRequirements,
+  userText,
+  pictureSection,
+  video,
+  canvas,
+  takePicture,
+  context,
+  constraint,
+} from "./js_utilities/query_selector.js";
 
 sendToUserInboxBtn.addEventListener("click", () => {
   if (userEmail.value !== "") {
@@ -22,8 +58,6 @@ sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
   removeElements([sendRecipeToUserInboxBtn]);
 });
-
-
 
 tryAgainBtn.addEventListener("click", () => {
   console.log("try again");
@@ -55,7 +89,6 @@ sendToUserInboxBtn.addEventListener("click", () => {
   let emailOBject = {
     [userEmail.name]: userEmail.value,
   };
-
 
   fetch(`/email?${createQuery(emailOBject)}`)
     .then((response) => response.json())
@@ -92,8 +125,6 @@ recipeButtons.forEach((button) => {
 
     eventSource.onmessage = function (event) {
       let data = JSON.parse(event.data);
-
-      console.log(data);
       if (data.message) {
         if (data.message === "stop") {
           eventSource.close();
@@ -143,7 +174,7 @@ recipeButtons.forEach((button) => {
           resetCheckedStateToFalse(dietaryRequirements);
           userText.value = "";
           data.audio = "";
-          stopAudio(audioElement)
+          stopAudio(audioElement);
         });
 
         speedBtn.addEventListener("change", () => {
@@ -173,57 +204,47 @@ recipeButtons.forEach((button) => {
   });
 });
 
-
-
-
-const constraint = {
-    audio: false,
-    video: {
-    width: {min: 1024, ideal: 1280, max: 1920},
-    height: {min: 576, ideal: 720, max: 1080}
-  }
+// picture section
+navigator.mediaDevices
+  .getUserMedia(constraint)
+  .then((stream) => {
+    video.srcObject = stream;
+    video.play();
+  })
+  .catch((error) => {
+    console.error("Error accessing camera:", error);
+  });
+function capturePhoto() {
+  // canvas.width = video.videoWidth;
+  // canvas.height = video.videoHeight;
+  context.drawImage(video, 0, 0, 200, 200);
+  const imageData = canvas.toDataURL("image/png");
+  console.log("Captured photo:", imageData);
 }
 
+takePicture.addEventListener("click",() => {
+  capturePhoto();
+  const imageData = canvas.toDataURL("image/png");
 
-// picture section
-navigator.mediaDevices.getUserMedia(constraint)
-  
-    .then((stream) => {
-        video.srcObject = stream;
-        video.play();
+  fetch("/upload", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ image: imageData }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log("Image uploaded successfully");
+        return response.json();
+      } else {
+        throw new Error("Failed to upload image");
+      }
+    })
+    .then((data) => {
+      console.log("Response for user email", data);
     })
     .catch((error) => {
-        console.error('Error accessing camera:', error);
-    });
-function capturePhoto() {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, 640, 400);
-    const imageData = canvas.toDataURL('image/png');
-    console.log('Captured photo:', imageData);
-}
-
-
-
-takePicture.addEventListener('click', () => {
-    capturePhoto();
-    const imageData = canvas.toDataURL('image/png');
-
-    fetch('/upload', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ image: imageData })
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Image uploaded successfully');
-        } else {
-            console.error('Failed to upload image');
-        }
-    })
-    .catch(error => {
-        console.error('Error uploading image:', error);
+      console.error("Error", error);
     });
 });
