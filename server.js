@@ -195,7 +195,7 @@ app.get("/email", async (req, res) => {
 app.post("/upload", async (req, res) => {
   const picture = req.body.image;
   console.log({ josue_upload: picture });
-  res.status(200).json({ message: `variable ${JSON.stringify(picture)} received` });
+  // res.status(200).json({ message: `variable ${JSON.stringify(picture)} received` });
 
 
 
@@ -216,8 +216,10 @@ app.post("/upload", async (req, res) => {
       },
     ],
   });
-  
   console.log(response.choices[0]);
+  res.send(response.choices[0])
+  // res.response.choices[0]
+
 });
 
 app.use(express.static(path.join(__dirname, "public")));

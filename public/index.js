@@ -196,6 +196,7 @@ recipeButtons.forEach((button) => {
       }
 
       if (data.image) {
+        console.log(data);
         console.log(data.image);
         removeElements([loadingContainer]);
         backgroundImg.src = data.image.data[0].url;
@@ -248,6 +249,7 @@ takePicture.addEventListener("click",() => {
     })
     .then((data) => {
       console.log("Response for user email", data);
+      console.log("Response for user email", data.message.content);
     })
     .catch((error) => {
       console.error("Error", error);
