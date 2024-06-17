@@ -219,12 +219,17 @@ function capturePhoto() {
   // canvas.height = video.videoHeight;
   context.drawImage(video, 0, 0, 200, 200);
   const imageData = canvas.toDataURL("image/png");
+  const imgSplit = imageData.split(",")[1]
   console.log("Captured photo:", imageData);
+  console.log({imgSplit})
 }
 
 takePicture.addEventListener("click",() => {
   capturePhoto();
   const imageData = canvas.toDataURL("image/png");
+
+  console.log(imageData);
+  console.log(typeof imageData);
 
   fetch("/upload", {
     method: "POST",

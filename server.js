@@ -42,7 +42,7 @@ app.get("/stream", async (req, res) => {
         : what_are_user_other_dietary_requirements
     } `;
 
-    console.log({ streamPrompt: prompt });
+    // console.log({ streamPrompt: prompt });
 
     const stream = await openai.chat.completions.create({
       messages: [
@@ -56,12 +56,16 @@ app.get("/stream", async (req, res) => {
       stream: true,
     });
 
+    console.log({stream: stream.controller})
+
+ 
+
     for await (const chunk of stream) {
       const finishReason = chunk.choices[0].finish_reason;
 
       if (finishReason === "stop") {
         console.log("finished generating recipe");
-        console.log(`recipie=${recipe}`);
+        // console.log(`recipie=${recipe}`);
         break;
       }
 
@@ -86,7 +90,6 @@ app.get("/stream", async (req, res) => {
         size: "1024x1024",
       })
       .then((image) => {
-        console.log(image);
         messageJSON = JSON.stringify({ image });
         res.write(`data: ${messageJSON}\n\n`);
         const folderPath = path.join(__dirname, "./public/url_folder");
@@ -103,7 +106,6 @@ app.get("/stream", async (req, res) => {
       })
       .then(async (mp3) => {
         const speechFile = path.resolve("./speech.mp3");
-        console.log(speechFile);
         const buffer = Buffer.from(await mp3.arrayBuffer());
         await fs.promises.writeFile(speechFile, buffer);
         messageJSON = JSON.stringify({ audio: buffer.toString("base64") });
@@ -190,10 +192,32 @@ app.get("/email", async (req, res) => {
 });
 
 
-app.post("/upload", (req, res) => {
-  const x = req.body;
-  console.log({josue_upload: x});
-  res.status(200).json({ message: `variable ${JSON.stringify(x)} received` });
+app.post("/upload", async (req, res) => {
+  const picture = req.body.image;
+  console.log({ josue_upload: picture });
+  res.status(200).json({ message: `variable ${JSON.stringify(picture)} received` });
+
+
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "What’s in this image?" },
+          {
+            type: "image_url",
+            image_url: {
+              url: picture,
+            },
+          },
+        ],
+      },
+    ],
+  });
+  
+  console.log(response.choices[0]);
 });
 
 app.use(express.static(path.join(__dirname, "public")));
