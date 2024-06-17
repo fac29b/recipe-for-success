@@ -38,6 +38,7 @@ import {
   takePicture,
   context,
   constraint,
+  chatGptVisionText 
 } from "./js_utilities/query_selector.js";
 
 sendToUserInboxBtn.addEventListener("click", () => {
@@ -250,6 +251,7 @@ takePicture.addEventListener("click",() => {
     .then((data) => {
       console.log("Response for user email", data);
       console.log("Response for user email", data.message.content);
+      chatGptVisionText.textContent = data.message.content
     })
     .catch((error) => {
       console.error("Error", error);

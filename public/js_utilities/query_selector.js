@@ -1,6 +1,7 @@
 const mainElement = document.querySelector(".main-element");
 const takePicture = document.querySelector(".take-picture");
 const pictureSection = document.querySelector(".picture-section");
+const chatGptVisionText = document.querySelector(".chat-gpt-vision-text");
 const video = document.querySelector(".video");
 const canvas = document.querySelector(".canvas");
 const context = canvas.getContext('2d');
@@ -64,7 +65,8 @@ export {
   canvas,
   takePicture,
   context, 
-  constraint
+  constraint,
+  chatGptVisionText 
 };
 
 
