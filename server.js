@@ -9,8 +9,8 @@ const bodyParser = require("body-parser");
 
 require("dotenv").config();
 
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: "100mb"}));
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true, parameterLimit:50000}));
 
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,

@@ -219,10 +219,13 @@ navigator.mediaDevices
 function capturePhoto() {
   // canvas.width = video.videoWidth;
   // canvas.height = video.videoHeight;
-  context.drawImage(video, 0, 0, 200, 200);
+  const scaledWidth = 640;
+  const scaledHeight = (video.videoHeight / video.videoWidth) * scaledWidth;
+  context.drawImage(video, 0, 0, 400, 100);
   const imageData = canvas.toDataURL("image/png");
   const imgSplit = imageData.split(",")[1]
   console.log("Captured photo:", imageData);
+  console.log("Image data size (bytes):", imageData.length);
   console.log({imgSplit})
 }
 
