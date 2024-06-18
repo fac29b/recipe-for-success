@@ -32,18 +32,21 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-top: 140px;
+  /* margin-top: 140px; */
   height: fit-content;
   width: 400px;
   border: 1px red solid;
   display: flex;
   flex-direction: column;
+  row-gap: 20px;
 }
 
 
 .video {
   height: 300px;
   width: 300px;
+  border: 1px solid green;
+  border-radius: 5px;
 
 }
 
@@ -51,6 +54,7 @@
   height: 300px;
   width: 300px;
   border: 1px blue solid;
+  border-radius: 5px;
 
 }
 
