@@ -1,44 +1,7 @@
 import {
-  defaultRecipe,
-  createQuery,
-  displayElements,
-  displayElementsFlex,
-  displayElementsGrid,
-  removeElements,
-  emptyTheElement,
-  resetCheckedStateToFalse,
-  playAudio,
-  pauseAudio,
-  stopAudio,
+  defaultRecipe,createQuery,displayElements,displayElementsFlex,displayElementsGrid,removeElements,emptyTheElement,resetCheckedStateToFalse,playAudio,pauseAudio,stopAudio,
 } from "./js_utilities/functions_and_variables.js";
-import {
-  mainElement,
-  backgroundImg,
-  gptResponseElement,
-  headline,
-  lactoseIntolerant,
-  loadingContainer,
-  allergies,
-  darkLightButton,
-  userWantAnotherRecipe,
-  tryAgainBtn,
-  recipeButtons,
-  sendRecipeToUserInboxBtn,
-  loadingText,
-  recording,
-  userEmail,
-  emailSection,
-  sendToUserInboxBtn,
-  dietaryRequirements,
-  otherDietaryRequirements,
-  userText,
-  pictureSection,
-  video,
-  canvas,
-  takePicture,
-  context,
-  constraint,
-  chatGptVisionText 
+import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText 
 } from "./js_utilities/query_selector.js";
 
 sendToUserInboxBtn.addEventListener("click", () => {
@@ -120,7 +83,6 @@ recipeButtons.forEach((button) => {
 
     userRecipe.loopOverArray();
     console.log(userRecipe);
-    gptResponseElement.innerHTML = "";
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
@@ -218,16 +180,12 @@ navigator.mediaDevices
   });
 function capturePhoto() {
   context.drawImage(video, 0, 0, 400, 100);
-  const imageData = canvas.toDataURL("image/png");
-  console.log("Captured photo:", imageData);
 }
 
 takePicture.addEventListener("click",() => {
   capturePhoto();
   const imageData = canvas.toDataURL("image/png");
-
-  console.log(imageData);
-  console.log(typeof imageData);
+  console.log("Captured photo:", imageData);
 
   fetch("/upload", {
     method: "POST",
@@ -245,9 +203,8 @@ takePicture.addEventListener("click",() => {
       }
     })
     .then((data) => {
-      console.log("Response for user email", data);
-      console.log("Response for user email", data.message.content);
-      chatGptVisionText.textContent = data.message.content
+      const chatGptVisionResponse = data.message.content;
+      chatGptVisionText.textContent = chatGptVisionResponse;
     })
     .catch((error) => {
       console.error("Error", error);
