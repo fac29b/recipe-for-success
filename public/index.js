@@ -194,6 +194,7 @@ takePicture.addEventListener("click",() => {
     },
     body: JSON.stringify({ image: imageData }),
   })
+
     .then((response) => {
       if (response.ok) {
         console.log("Image uploaded successfully");
@@ -203,10 +204,14 @@ takePicture.addEventListener("click",() => {
       }
     })
     .then((data) => {
-      const chatGptVisionResponse = data.message.content;
-      chatGptVisionText.textContent = chatGptVisionResponse;
+      const chatGptVisionResponse = data.message.content
+      chatGptVisionText.textContent = chatGptVisionResponse
     })
+ 
     .catch((error) => {
       console.error("Error", error);
     });
 });
+
+
+
