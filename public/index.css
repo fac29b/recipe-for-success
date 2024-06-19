@@ -390,8 +390,13 @@ input:checked + .slider:before {
   background-position: center;
 }
 
+.takke-a-picture-btn {
+  position: absolute;
+  bottom: 10px;
+}
+
+
 .picture-section {
-  justify-content: center;
   align-items: center;
   position: relative;
   height: 100vh;
