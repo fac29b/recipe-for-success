@@ -29,34 +29,9 @@
 
 
 
-.picture-section {
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  height: 100vh;
-  width: 500px;
-  border: 1px red solid;
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-}
 
 
-.video {
-  height: 300px;
-  width: 300px;
-  border: 1px solid green;
-  border-radius: 5px;
 
-}
-
-.canvas {
-  height: 300px;
-  width: 300px;
-  border: 1px blue solid;
-  border-radius: 5px;
-
-}
 
 
 
@@ -76,8 +51,8 @@
   width: 100%;
   max-width: 500px;
   border: black 3px solid;
-  border-top-left-radius: 5%;
-  border-top-right-radius: 5%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   background-image: url("./image/Designer_2.png");
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
     url("./image/Designer_2.png");
@@ -172,6 +147,8 @@ main {
 }
 
 
+
+
 h1 {
   /* text-wrap: balance; */
   text-align: center;
@@ -211,6 +188,10 @@ button, .take-picture {
   border-radius: 5px;
   background-color: var(--green);
   transition: background-color 0.5s ease;
+}
+
+.take-picture {
+  display: hidden;
 }
 
 .send-to-user-inbox-btn {
@@ -338,18 +319,10 @@ input:checked + .slider:before {
 
 /* Loading indicator */
 
-#loading-container {
-  /* display: none; */
-  /* justify-content: center;
-  align-items: center;
-  margin-bottom: 1em;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
+
+
+.experiment {
+  display: none;
 }
 
 
@@ -395,3 +368,57 @@ input:checked + .slider:before {
     max-width: none;
   }
 }
+
+
+
+/* picture-section*/
+.background-img-picture-section {
+  z-index: -2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  max-width: 500px; 
+  min-height: 100vh;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 2px solid black; 
+  background-image: url("./image/Designer_8.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.picture-section {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100vh;
+  width: 500px;
+  border: 1px black solid;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+
+
+.video {
+  height: 300px;
+  width: 300px;
+  border: 1px solid green;
+  border-radius: 5px;
+  display: hidden;
+
+}
+
+.canvas {
+  height: 300px;
+  width: 300px;
+  border: 1px blue solid;
+  border-radius: 5px;
+  display: hidden;
+
+}
+
