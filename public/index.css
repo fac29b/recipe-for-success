@@ -390,7 +390,7 @@ input:checked + .slider:before {
   background-position: center;
 }
 
-.takke-a-picture-btn {
+.take-a-picture-btn {
   position: absolute;
   bottom: 10px;
 }

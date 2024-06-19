@@ -1,4 +1,5 @@
 const mainElement = document.querySelector(".main-element");
+const takeAPictureBtn = document.querySelector(".take-a-picture-btn");
 const takePicture = document.querySelector(".take-picture");
 const pictureSection = document.querySelector(".picture-section");
 const chatGptVisionText = document.querySelector(".chat-gpt-vision-text");
@@ -66,7 +67,8 @@ export {
   takePicture,
   context, 
   constraint,
-  chatGptVisionText 
+  chatGptVisionText,
+  takeAPictureBtn
 };
 
 
