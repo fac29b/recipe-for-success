@@ -204,8 +204,8 @@ takePicture.addEventListener("click",() => {
       }
     })
     .then((data) => {
-      const chatGptVisionResponse = data.message.content
-      chatGptVisionText.textContent = chatGptVisionResponse
+      // const chatGptVisionResponse = data.message.content
+      // chatGptVisionText.textContent = chatGptVisionResponse
     })
  
     .catch((error) => {
