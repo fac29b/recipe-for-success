@@ -6,8 +6,9 @@ import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,
 
 
 wantToTakeAPicture.addEventListener("click", () => {
-  displayElements([videoBtnCanvas])
-  removeElements([pictureSectionHeadline, wantToTakeAPicture])
+  // displayElements([videoBtnCanvas])
+  removeElements([pictureSectionHeadline, wantToTakeAPicture]);
+  displayElementsFlex([videoBtnCanvas]);
   console.log("picture taken")
 })
 

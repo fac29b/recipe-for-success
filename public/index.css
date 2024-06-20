@@ -189,9 +189,9 @@ button, .take-picture {
   transition: background-color 0.5s ease;
 }
 
-.take-picture {
+/* .take-picture {
   display: hidden;
-}
+} */
 
 .send-to-user-inbox-btn {
   text-transform: uppercase;
@@ -322,6 +322,10 @@ input:checked + .slider:before {
 
 .video-btn-canvas {
   display: none;
+  border: 1px orange solid;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -394,7 +398,6 @@ input:checked + .slider:before {
   bottom: 10px;
 }
 
-
 .picture-section {
   align-items: center;
   position: relative;
@@ -413,7 +416,7 @@ input:checked + .slider:before {
   width: 300px;
   border: 1px solid green;
   border-radius: 5px;
-  display: hidden;
+
 
 }
 
@@ -422,7 +425,6 @@ input:checked + .slider:before {
   width: 300px;
   border: 1px blue solid;
   border-radius: 5px;
-  display: hidden;
-
+  /* display: hidden; */
 }
 
