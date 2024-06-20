@@ -1,7 +1,8 @@
 const mainElement = document.querySelector(".main-element");
-const takeAPictureBtn = document.querySelector(".take-a-picture-btn");
+const pictureSectionHeadline = document.querySelector(".picture-section-headline");
+const  pictureSection = document.querySelector(".picture-section")
 const takePicture = document.querySelector(".take-picture");
-const pictureSection = document.querySelector(".picture-section");
+const wantToTakeAPicture = document.querySelector(".want-to-take-a-picture");
 const videoBtnCanvas = document.querySelector(".video-btn-canvas");
 const chatGptVisionText = document.querySelector(".chat-gpt-vision-text");
 const video = document.querySelector(".video");
@@ -69,8 +70,10 @@ export {
   context, 
   constraint,
   chatGptVisionText,
-  takeAPictureBtn,
-  videoBtnCanvas 
+  videoBtnCanvas,
+  pictureSectionHeadline,
+  wantToTakeAPicture
+  
 };
 
 
