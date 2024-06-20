@@ -105,8 +105,10 @@ app.get("/stream", async (req, res) => {
         input: `${recipe}`,
       })
       .then(async (mp3) => {
-        const speechFile = path.resolve("./speech.mp3");
+        // const random = Math.random();
+        // const speechFile = path.resolve(`./speech.${random}.mp3`);
         const buffer = Buffer.from(await mp3.arrayBuffer());
+        const speechFile = path.resolve("./speech.mp3");
         await fs.promises.writeFile(speechFile, buffer);
         messageJSON = JSON.stringify({ audio: buffer.toString("base64") });
         res.write(`data: ${messageJSON}\n\n`);
@@ -205,7 +207,7 @@ app.post("/upload", async (req, res) => {
       {
         role: "user",
         content: [
-          { type: "text", text: "What’s in this image?" },
+          { type: "text", text: "What can I cook with these ingredients?" },
           {
             type: "image_url",
             image_url: {

@@ -81,7 +81,6 @@
 }
 
 .recipe-section {
-  border: 1px brown solid;
   height: 100vh;
 }
 
@@ -321,7 +320,7 @@ input:checked + .slider:before {
 
 
 
-.experiment {
+.video-btn-canvas {
   display: none;
 }
 
