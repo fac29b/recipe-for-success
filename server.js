@@ -218,10 +218,10 @@ app.post("/upload", async (req, res) => {
       },
     ],
   });
-  console.log(response.choices[0])
+  console.log(response.choices[0]);
   console.log(response.choices[0].message.content);
-  res.send(response.choices[0])
-  // res.response.choices[0]
+  res.send(response.choices[0]);
+ 
 
 });
 
