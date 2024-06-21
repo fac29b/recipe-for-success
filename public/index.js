@@ -1,7 +1,7 @@
 import {
   defaultRecipe,createQuery,displayElements,displayElementsFlex,displayElementsGrid,removeElements,emptyTheElement,resetCheckedStateToFalse,playAudio,pauseAudio,stopAudio,
 } from "./js_utilities/functions_and_variables.js";
-import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText,videoBtnCanvas,pictureSectionHeadline, wantToTakeAPicture  
+import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText,videoBtnCanvas,pictureSectionHeadline, wantToTakeAPicture,emailRecipe  
 } from "./js_utilities/query_selector.js";
 
 
@@ -215,8 +215,10 @@ takePicture.addEventListener("click",() => {
       }
     })
     .then((data) => {
-      const chatGptVisionResponse = data.message.content
-      chatGptVisionText.textContent = chatGptVisionResponse
+      const chatGptVisionResponse = data.message.content;
+      chatGptVisionText.textContent = chatGptVisionResponse;
+      displayElements([emailRecipe]);
+
     })
  
     .catch((error) => {

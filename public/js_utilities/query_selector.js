@@ -1,3 +1,4 @@
+const emailRecipe = document.querySelector(".email-recipe");
 const mainElement = document.querySelector(".main-element");
 const pictureSectionHeadline = document.querySelector(".picture-section-headline");
 const  pictureSection = document.querySelector(".picture-section")
@@ -72,8 +73,8 @@ export {
   chatGptVisionText,
   videoBtnCanvas,
   pictureSectionHeadline,
-  wantToTakeAPicture
-  
+  wantToTakeAPicture,
+  emailRecipe
 };
 
 

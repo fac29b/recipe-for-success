@@ -210,9 +210,7 @@ button, .take-picture {
   display: none;
 }
 
-.take-picture {
-  width: 170px;
-}
+
 
 .email-section {
   width: 170px;
@@ -369,6 +367,13 @@ input:checked + .slider:before {
 
 
 /* picture-section*/
+
+
+.take-picture {
+  width: 170px;
+  margin-top: -24px;
+}
+
 .background-img-picture-section {
   z-index: -2;
   position: absolute;
@@ -385,6 +390,13 @@ input:checked + .slider:before {
   background-image: url("./image/Designer_8.png");
   background-size: cover;
   background-position: center;
+}
+
+.email-recipe {
+  width: 170px;
+  margin: auto;
+  display: none;
+
 }
 
 
