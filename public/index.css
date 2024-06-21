@@ -204,13 +204,12 @@ button, .take-picture {
 }
 
 .send-recipe-to-user-inbox,
+.email-recipe,
 .want-another-recipe {
   width: 170px;
   margin: auto;
   display: none;
 }
-
-
 
 .email-section {
   width: 170px;
@@ -386,18 +385,13 @@ input:checked + .slider:before {
   min-height: 100vh;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border: 2px solid black; 
+  border: 2px solid rgb(54, 49, 49); 
   background-image: url("./image/Designer_8.png");
   background-size: cover;
   background-position: center;
 }
 
-.email-recipe {
-  width: 170px;
-  margin: auto;
-  display: none;
 
-}
 
 
 
