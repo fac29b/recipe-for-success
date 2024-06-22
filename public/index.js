@@ -31,7 +31,7 @@ otherDietaryRequirements.addEventListener("click", () => {
 
 emailRecipe.addEventListener("click", () => {
   displayElementsGrid([pictureEmailSection]);
-  displayElements([previousPage]);
+  // displayElements([previousPage]);
   removeElements([emailRecipe]);
 })
 
@@ -40,6 +40,12 @@ sendRecipeToUserInboxBtn.addEventListener("click", () => {
     console.log("email to user")
     displayElementsGrid([emailSection]);
     removeElements([sendRecipeToUserInboxBtn]);
+})
+
+previousPage.addEventListener("click", () => {
+  removeElements([videoBtnCanvas, pictureEmailSection, previousPage, emailRecipe]);
+  displayElements([pictureSectionHeadline, wantToTakeAPicture]);
+  emptyTheElement(chatGptVisionText);
 })
 
 
@@ -227,7 +233,7 @@ takePicture.addEventListener("click",() => {
     .then((data) => {
       const chatGptVisionResponse = data.message.content;
       chatGptVisionText.textContent = chatGptVisionResponse;
-      displayElements([emailRecipe]);
+      displayElements([emailRecipe, previousPage]);
 
     })
  

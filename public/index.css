@@ -443,21 +443,21 @@ input:checked + .slider:before {
   row-gap: 10px;
 }
 
-
-
 .video {
   height: 300px;
   width: 300px;
   margin-top: -50px;
   /* border: 1px solid;
   border-radius: 5px; */
-
-
 }
 
 .canvas {
   height: 300px;
   width: 300px;
   border-radius: 5px;
+}
+
+.previous-page {
+  margin-top: 44px;
 }
 
