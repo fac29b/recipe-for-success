@@ -12,11 +12,11 @@ wantToTakeAPicture.addEventListener("click", () => {
   console.log("picture taken")
 })
 
-sendToUserInboxBtn.addEventListener("click", () => {
-  if (userEmail.value !== "") {
-    alert("an email has been sent to your inbox");
-  }
-});
+// sendToUserInboxBtn.addEventListener("click", () => {
+//   if (userEmail.value !== "") {
+//     alert("an email has been sent to your inbox");
+//   }
+// });
 
 otherDietaryRequirements.addEventListener("click", () => {
   if (otherDietaryRequirements.checked) {
@@ -31,7 +31,6 @@ otherDietaryRequirements.addEventListener("click", () => {
 
 emailRecipe.addEventListener("click", () => {
   displayElementsGrid([pictureEmailSection]);
-  // displayElements([previousPage]);
   removeElements([emailRecipe]);
 })
 
@@ -41,6 +40,9 @@ sendRecipeToUserInboxBtn.addEventListener("click", () => {
     displayElementsGrid([emailSection]);
     removeElements([sendRecipeToUserInboxBtn]);
 })
+
+
+
 
 previousPage.addEventListener("click", () => {
   removeElements([videoBtnCanvas, pictureEmailSection, previousPage, emailRecipe]);
