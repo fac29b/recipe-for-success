@@ -193,7 +193,9 @@ button, .take-picture {
   display: hidden;
 } */
 
-.send-to-user-inbox-btn {
+.send-to-user-inbox-btn,
+.send-to-user-inbox
+ {
   text-transform: uppercase;
   height: 20px;
   margin-right: 10px;

@@ -1,7 +1,7 @@
 import {
   defaultRecipe,createQuery,displayElements,displayElementsFlex,displayElementsGrid,removeElements,emptyTheElement,resetCheckedStateToFalse,playAudio,pauseAudio,stopAudio,
 } from "./js_utilities/functions_and_variables.js";
-import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText,videoBtnCanvas,pictureSectionHeadline, wantToTakeAPicture,emailRecipe, pictureEmailSection, previousPage   
+import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText,videoBtnCanvas,pictureSectionHeadline, wantToTakeAPicture,emailRecipe, pictureEmailSection, previousPage, sendToUserInbox,emailUserRecipeSection,  
 } from "./js_utilities/query_selector.js";
 
 
@@ -78,18 +78,25 @@ darkLightButton.addEventListener("change", () => {
   });
 });
 
-sendToUserInboxBtn.addEventListener("click", () => {
-  let emailOBject = {
-    [userEmail.name]: userEmail.value,
-  };
 
-  fetch(`/email?${createQuery(emailOBject)}`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log({ data }, { emailQuery });
-    })
-    .catch((error) => console.error("Error:", error));
-});
+
+[sendToUserInboxBtn, sendToUserInbox].forEach((element) => {
+  element.addEventListener("click", () => {
+   
+    let emailOBject = {
+      [userEmail.name]: userEmail.value || emailUserRecipeSection.value
+    };
+    fetch(`/email?${createQuery(emailOBject)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log({ data }, { emailQuery });
+      })
+      .catch((error) => console.error("Error:", error));
+  });
+  console.log(userEmail.value)
+})
+
+
 
 recipeButtons.forEach((button) => {
   console.log(userText.value);
