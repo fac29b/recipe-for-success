@@ -218,8 +218,9 @@ app.post("/upload", async (req, res) => {
       },
     ],
   });
-  console.log(response.choices[0]);
-  console.log(response.choices[0].message.content);
+
+  recipe = response.choices[0].message.content
+  console.log(`your recipe is ${recipe}`);
   res.send(response.choices[0]);
  
 

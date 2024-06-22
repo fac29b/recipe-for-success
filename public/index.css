@@ -211,11 +211,17 @@ button, .take-picture {
   display: none;
 }
 
-.email-section {
+.email-section,
+.picture-email-section
+ {
   width: 170px;
   display: none;
   grid-template-columns: 2fr 1fr;
   margin:auto;
+}
+
+.picture-email-section {
+  margin-top: -21px;
 }
 
 

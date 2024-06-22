@@ -1,4 +1,5 @@
 const emailRecipe = document.querySelector(".email-recipe");
+const pictureEmailSection = document.querySelector(".picture-email-section");
 const mainElement = document.querySelector(".main-element");
 const pictureSectionHeadline = document.querySelector(".picture-section-headline");
 const  pictureSection = document.querySelector(".picture-section")
@@ -24,7 +25,7 @@ const sendRecipeToUserInboxBtn = document.querySelector(
 );
 const loadingText = document.querySelector("#loading-text");
 const recording = document.querySelector(".recording");
-const userEmail = document.querySelector("#user-email");
+const userEmail = document.querySelector(".user-email");
 const emailSection = document.querySelector(".email-section");
 const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
 const dietaryRequirements = Array.from(
@@ -74,7 +75,8 @@ export {
   videoBtnCanvas,
   pictureSectionHeadline,
   wantToTakeAPicture,
-  emailRecipe
+  emailRecipe, 
+  pictureEmailSection 
 };
 
 

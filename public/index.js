@@ -1,7 +1,7 @@
 import {
   defaultRecipe,createQuery,displayElements,displayElementsFlex,displayElementsGrid,removeElements,emptyTheElement,resetCheckedStateToFalse,playAudio,pauseAudio,stopAudio,
 } from "./js_utilities/functions_and_variables.js";
-import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText,videoBtnCanvas,pictureSectionHeadline, wantToTakeAPicture,emailRecipe  
+import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText,videoBtnCanvas,pictureSectionHeadline, wantToTakeAPicture,emailRecipe, pictureEmailSection   
 } from "./js_utilities/query_selector.js";
 
 
@@ -29,10 +29,19 @@ otherDietaryRequirements.addEventListener("click", () => {
 
 
 
+emailRecipe.addEventListener("click", () => {
+  displayElementsGrid([pictureEmailSection]);
+  removeElements([emailRecipe]);
+})
+
+
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
-  displayElementsGrid([emailSection]);
-  removeElements([sendRecipeToUserInboxBtn]);
-});
+    console.log("email to user")
+    displayElementsGrid([emailSection]);
+    removeElements([sendRecipeToUserInboxBtn]);
+})
+
+
 
 tryAgainBtn.addEventListener("click", () => {
   console.log("try again");
