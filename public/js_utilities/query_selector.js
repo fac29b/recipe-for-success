@@ -1,4 +1,5 @@
 const emailRecipe = document.querySelector(".email-recipe");
+const previousPage = document.querySelector(".previous-page");
 const pictureEmailSection = document.querySelector(".picture-email-section");
 const mainElement = document.querySelector(".main-element");
 const pictureSectionHeadline = document.querySelector(".picture-section-headline");
@@ -76,7 +77,8 @@ export {
   pictureSectionHeadline,
   wantToTakeAPicture,
   emailRecipe, 
-  pictureEmailSection 
+  pictureEmailSection,
+  previousPage
 };
 
 

@@ -205,7 +205,8 @@ button, .take-picture {
 
 .send-recipe-to-user-inbox,
 .email-recipe,
-.want-another-recipe {
+.want-another-recipe,
+.previous-page {
   width: 170px;
   margin: auto;
   display: none;
