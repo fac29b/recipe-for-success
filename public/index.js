@@ -1,7 +1,8 @@
 import {
-  defaultRecipe,createQuery,displayElements,displayElementsFlex,displayElementsGrid,removeElements,emptyTheElement,resetCheckedStateToFalse,playAudio,pauseAudio,stopAudio,
+  defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio,
 } from "./js_utilities/functions_and_variables.js";
-import {mainElement,backgroundImg,gptResponseElement,headline,lactoseIntolerant,loadingContainer,allergies,darkLightButton,userWantAnotherRecipe,tryAgainBtn,recipeButtons,sendRecipeToUserInboxBtn,loadingText,recording,userEmail,emailSection,sendToUserInboxBtn,dietaryRequirements,otherDietaryRequirements,userText,pictureSection,video,canvas,takePicture,context,constraint,chatGptVisionText,videoBtnCanvas,pictureSectionHeadline, wantToTakeAPicture,emailRecipe, pictureEmailSection, previousPage, sendToUserInbox,emailUserRecipeSection,  
+import {
+  mainElement, backgroundImg, gptResponseElement, headline, lactoseIntolerant, loadingContainer, allergies, darkLightButton, userWantAnotherRecipe, tryAgainBtn, recipeButtons, sendRecipeToUserInboxBtn, loadingText, recording, userEmail, emailSection, sendToUserInboxBtn, dietaryRequirements, otherDietaryRequirements, userText, pictureSection, video, canvas, takePicture, context, constraint, chatGptVisionText, videoBtnCanvas, pictureSectionHeadline, wantToTakeAPicture, emailRecipe, pictureEmailSection, previousPage, sendToUserInbox, emailUserRecipeSection,
 } from "./js_utilities/query_selector.js";
 
 
@@ -36,9 +37,9 @@ emailRecipe.addEventListener("click", () => {
 
 
 sendRecipeToUserInboxBtn.addEventListener("click", () => {
-    console.log("email to user")
-    displayElementsGrid([emailSection]);
-    removeElements([sendRecipeToUserInboxBtn]);
+  console.log("email to user")
+  displayElementsGrid([emailSection]);
+  removeElements([sendRecipeToUserInboxBtn]);
 })
 
 
@@ -82,7 +83,7 @@ darkLightButton.addEventListener("change", () => {
 
 [sendToUserInboxBtn, sendToUserInbox].forEach((element) => {
   element.addEventListener("click", () => {
-    
+
     let emailOBject = {
       [userEmail.name]: userEmail.value || emailUserRecipeSection.value
     };
@@ -218,7 +219,7 @@ function capturePhoto() {
   context.drawImage(video, 0, 0, 400, 100);
 }
 
-takePicture.addEventListener("click",() => {
+takePicture.addEventListener("click", () => {
   capturePhoto();
   const imageData = canvas.toDataURL("image/png");
   console.log("Captured photo:", imageData);
@@ -245,7 +246,7 @@ takePicture.addEventListener("click",() => {
       displayElements([emailRecipe, previousPage]);
 
     })
- 
+
     .catch((error) => {
       console.error("Error", error);
     });
@@ -253,3 +254,9 @@ takePicture.addEventListener("click",() => {
 
 
 
+const menuIcon = document.querySelector(".menu-icon");
+const container = document.querySelector(".container");
+
+menuIcon.addEventListener("click", () => {
+  container.classList.toggle("change");
+});
