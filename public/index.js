@@ -82,7 +82,7 @@ darkLightButton.addEventListener("change", () => {
 
 [sendToUserInboxBtn, sendToUserInbox].forEach((element) => {
   element.addEventListener("click", () => {
-   
+    
     let emailOBject = {
       [userEmail.name]: userEmail.value || emailUserRecipeSection.value
     };
