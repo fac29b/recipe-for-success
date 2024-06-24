@@ -470,21 +470,7 @@ input:checked+.slider:before {
   margin-top: 44px;
 }
 
-/* .wrapper {
-  width: 100%;
 
-  max-width: 500px;
-
-  height: 200vh;
-  overflow-y: scroll;
-  display: flex;
-  border: 10px blue solid;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-
-} */
 
 .container {
   width: 100%;
@@ -492,16 +478,14 @@ input:checked+.slider:before {
   height: 100%;
   position: relative;
   margin: 0 auto;
-  content: fit-content;
-
 }
 
 .menu-icon {
   height: 3rem;
   width: 3rem;
-  position: fixed;
-  top: 5rem;
-  right: 5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -526,53 +510,55 @@ input:checked+.slider:before {
 }
 
 .navigation {
-  position: fixed;
-  top: -8rem;
-  right: -63rem;
-  width: 50rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70%;
+  max-width: 500px;
   height: 100vh;
   background-color: var(--green);
   z-index: 100;
-  display: flex;
+  display: none;
   align-items: center;
-  padding-left: 8rem;
-  transform: rotateZ(-15deg);
-  transition: all 0.6s;
-}
-
-.navigation .hamburger,
-.navigation .nav-menu {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+  padding-left: 1rem;
+  border-radius: 10px;
 }
 
 .change .navigation {
-  top: 0;
-  right: 0;
-  transform: rotateZ(0);
+  display: flex;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 500px;
+  height: 200vh;
+  overflow-y: scroll;
+  display: flex;
+  border: 10px blue solid;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .nav-items {
   display: flex;
   flex-direction: column;
-}
-
-.change .nav-items {
   opacity: 1;
   visibility: visible;
-  transition: all 0.5s 0.7s;
 }
 
 .nav-items a {
-  font-size: 3rem;
+  font-size: 1.5rem;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   color: var(--black);
   margin: 1rem 0;
+  transition: color 0.3s, text-decoration 0.3s;
 }
 
 .nav-items a:hover {
-  color: var(--green);
+  color: darkgreen;
+  text-decoration: underline;
 }
