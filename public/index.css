@@ -77,7 +77,7 @@
   height: 200vh;
   overflow-y: scroll;
   display: flex;
-  border: 10px blue solid;
+  /* border: 10px blue solid; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
