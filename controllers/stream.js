@@ -31,15 +31,7 @@ async function processStream(req, res) {
       what_are_user_other_dietary_requirements,
     } = req.query;
 
-    let prompt = `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${
-      is_lactose_intolerant === "true"
-        ? "lactose intolerant"
-        : "not lactose intolerant"
-    } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${
-      what_are_user_other_dietary_requirements === ""
-        ? "I have no other dietary requirements"
-        : what_are_user_other_dietary_requirements
-    } `;
+    let prompt = generateRecipePromt(recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements);
 
     // console.log({ streamPrompt: prompt });
 
@@ -73,10 +65,11 @@ async function processStream(req, res) {
         return;
       } else {
         message = chunk.choices[0]?.delta?.content || "";
-        console.log(`recipe after msg created: ${getStreamRecipe(message)}`);
+        // console.log(`recipe after msg created: ${getStreamRecipe(message)}`);
         messageJSON = JSON.stringify({ message });
         res.write(`data: ${messageJSON}\n\n`);
         getStreamRecipe(message);
+        // console.log(`recipe after msg created: ${getStreamRecipe(message)}`);
       }
       // console.log(`recipe after msg created: ${getStreamRecipe()}`);
     }
@@ -136,3 +129,11 @@ module.exports = {
   processStream,
   getStreamRecipe,
 };
+function generateRecipePromt(recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements) {
+  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true"
+      ? "lactose intolerant"
+      : "not lactose intolerant"} ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === ""
+      ? "I have no other dietary requirements"
+      : what_are_user_other_dietary_requirements} `;
+}
+
