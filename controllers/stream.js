@@ -1,10 +1,11 @@
 const path = require("path");
 const fs = require("fs");
 const { OpenAI } = require("openai");
+
 require("dotenv").config();
 let streamRecipe = "Recipe:";
 
-let url;
+let initialUrl = "";
 
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
@@ -15,6 +16,18 @@ function getStreamRecipe(newContent) {
     streamRecipe += newContent;
   }
   return streamRecipe;
+}
+
+function getUrl(newContent) {
+  if (newContent) {
+    initialUrl = newContent;
+  }
+  return initialUrl;
+  // console.log(`finally: ${dataUrl}`)
+  // dataUrl
+  // return dataUrl
+  
+
 }
 
 async function processStream(req, res) {
@@ -32,8 +45,6 @@ async function processStream(req, res) {
 
     let prompt = generateRecipePromt(recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements);
 
-    // console.log({ streamPrompt: prompt });
-
     const stream = await openai.chat.completions.create({
       messages: [
         {
@@ -46,14 +57,10 @@ async function processStream(req, res) {
       stream: true,
     });
 
-    console.log({ stream: stream.controller });
-
     for await (const chunk of stream) {
       const finishReason = chunk.choices[0].finish_reason;
 
       if (finishReason === "stop") {
-        console.log("finished generating recipe");
-        // console.log(`recipie=${recipe}`);
         break;
       }
 
@@ -64,13 +71,10 @@ async function processStream(req, res) {
         return;
       } else {
         const message = chunk.choices[0]?.delta?.content || "";
-        // console.log(`recipe after msg created: ${getStreamRecipe(message)}`);
         messageJSON = JSON.stringify({ message });
         res.write(`data: ${messageJSON}\n\n`);
         getStreamRecipe(message);
-        // console.log(`recipe after msg created: ${getStreamRecipe(message)}`);
       }
-      // console.log(`recipe after msg created: ${getStreamRecipe()}`);
     }
 
     const imagePromise = openai.images
@@ -84,10 +88,21 @@ async function processStream(req, res) {
         messageJSON = JSON.stringify({ image });
         res.write(`data: ${messageJSON}\n\n`);
         const folderPath = path.join(__dirname, "../public/url_folder");
-        url = image.data[0].url;
+        let url = image.data[0].url;
+        getUrl(url);
         const filePath = path.join(folderPath, "../url_folder.txt");
         fs.writeFileSync(filePath, url);
       });
+
+      imagePromise.dataUrl
+
+    
+
+     
+  
+    
+      
+      
 
     const audioPromise = openai.audio.speech
       .create({
@@ -96,8 +111,6 @@ async function processStream(req, res) {
         input: `${streamRecipe}`,
       })
       .then(async (mp3) => {
-        // const random = Math.random();
-        // const speechFile = path.resolve(`./speech.${random}.mp3`);
         const buffer = Buffer.from(await mp3.arrayBuffer());
         const speechFile = path.resolve("./speech.mp3");
         await fs.promises.writeFile(speechFile, buffer);
@@ -106,6 +119,8 @@ async function processStream(req, res) {
       });
 
     return Promise.all([imagePromise, audioPromise]).then(() => {
+      // getUrl(`promise all ${url}`);
+      // console.log(` promise image response: ${imagePromise.url}`)
       messageJSON = JSON.stringify({ message: "stop" });
       res.write(`data: ${messageJSON}\n\n`);
       res.end();
@@ -119,15 +134,18 @@ async function processStream(req, res) {
     } else {
       console.error("An error occurred:", error.message);
     }
-
-    console.log("error");
   }
 }
 
 module.exports = {
   processStream,
   getStreamRecipe,
+  getUrl,
 };
+
+
+
+
 function generateRecipePromt(recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements) {
   return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true"
       ? "lactose intolerant"

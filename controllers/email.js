@@ -3,10 +3,10 @@ const recipeFromStream = require("./stream.js");
 const path = require("path");
 
 
-let url = recipeFromStream.url
-
 async function processEmail(req, res) {
   let recipe = recipeFromStream.getStreamRecipe();
+  let url = recipeFromStream.getUrl();
+  console.log(`email.js file ${url}`)
     var transporter = nodemailer.createTransport({
       service: process.env.service,
       auth: {
