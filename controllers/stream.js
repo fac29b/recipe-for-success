@@ -23,11 +23,6 @@ function getUrl(newContent) {
     initialUrl = newContent;
   }
   return initialUrl;
-  // console.log(`finally: ${dataUrl}`)
-  // dataUrl
-  // return dataUrl
-  
-
 }
 
 async function processStream(req, res) {
@@ -43,7 +38,12 @@ async function processStream(req, res) {
       what_are_user_other_dietary_requirements,
     } = req.query;
 
-    let prompt = generateRecipePromt(recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements);
+    let prompt = generateRecipePromt(
+      recipe_country_of_origin,
+      is_lactose_intolerant,
+      is_vegan,
+      what_are_user_other_dietary_requirements
+    );
 
     const stream = await openai.chat.completions.create({
       messages: [
@@ -94,16 +94,6 @@ async function processStream(req, res) {
         fs.writeFileSync(filePath, url);
       });
 
-      imagePromise.dataUrl
-
-    
-
-     
-  
-    
-      
-      
-
     const audioPromise = openai.audio.speech
       .create({
         model: "tts-1",
@@ -119,8 +109,6 @@ async function processStream(req, res) {
       });
 
     return Promise.all([imagePromise, audioPromise]).then(() => {
-      // getUrl(`promise all ${url}`);
-      // console.log(` promise image response: ${imagePromise.url}`)
       messageJSON = JSON.stringify({ message: "stop" });
       res.write(`data: ${messageJSON}\n\n`);
       res.end();
@@ -143,14 +131,19 @@ module.exports = {
   getUrl,
 };
 
-
-
-
-function generateRecipePromt(recipe_country_of_origin, is_lactose_intolerant, is_vegan, what_are_user_other_dietary_requirements) {
-  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true"
+function generateRecipePromt(
+  recipe_country_of_origin,
+  is_lactose_intolerant,
+  is_vegan,
+  what_are_user_other_dietary_requirements
+) {
+  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${
+    is_lactose_intolerant === "true"
       ? "lactose intolerant"
-      : "not lactose intolerant"} ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === ""
+      : "not lactose intolerant"
+  } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${
+    what_are_user_other_dietary_requirements === ""
       ? "I have no other dietary requirements"
-      : what_are_user_other_dietary_requirements} `;
+      : what_are_user_other_dietary_requirements
+  } `;
 }
-
