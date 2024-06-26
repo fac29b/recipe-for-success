@@ -3,7 +3,6 @@ const fs = require("fs");
 const { OpenAI } = require("openai");
 require("dotenv").config();
 let streamRecipe = "Recipe:";
-let message;
 
 let url;
 
@@ -64,7 +63,7 @@ async function processStream(req, res) {
           .send("Missing recipe_country_of_origin query parameter");
         return;
       } else {
-        message = chunk.choices[0]?.delta?.content || "";
+        const message = chunk.choices[0]?.delta?.content || "";
         // console.log(`recipe after msg created: ${getStreamRecipe(message)}`);
         messageJSON = JSON.stringify({ message });
         res.write(`data: ${messageJSON}\n\n`);
