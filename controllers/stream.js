@@ -38,6 +38,13 @@ async function processStream(req, res) {
       what_are_user_other_dietary_requirements,
     } = req.query;
 
+    if (typeof recipe_country_of_origin === "undefined") {
+      res
+        .status(400)
+        .send("Missing recipe_country_of_origin query parameter");
+      return;
+    }
+
     let prompt = generateRecipePromt(
       recipe_country_of_origin,
       is_lactose_intolerant,
@@ -64,12 +71,7 @@ async function processStream(req, res) {
         break;
       }
 
-      if (typeof recipe_country_of_origin === "undefined") {
-        res
-          .status(400)
-          .send("Missing recipe_country_of_origin query parameter");
-        return;
-      } else {
+      {
         const message = chunk.choices[0]?.delta?.content || "";
         messageJSON = JSON.stringify({ message });
         res.write(`data: ${messageJSON}\n\n`);
