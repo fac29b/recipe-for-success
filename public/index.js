@@ -1,14 +1,14 @@
 import {
-  defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio,
+  defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio
 } from "./js_utilities/functions_and_variables.js";
 import {
   mainElement, backgroundImg, gptResponseElement, headline, lactoseIntolerant, loadingContainer, allergies, darkLightButton, userWantAnotherRecipe, tryAgainBtn, recipeButtons, sendRecipeToUserInboxBtn, loadingText, recording, userEmail, emailSection, sendToUserInboxBtn, dietaryRequirements, otherDietaryRequirements, userText, pictureSection, video, canvas, takePicture, context, constraint, chatGptVisionText, videoBtnCanvas, pictureSectionHeadline, wantToTakeAPicture, emailRecipe, pictureEmailSection, previousPage, sendToUserInbox, emailUserRecipeSection,
 } from "./js_utilities/query_selector.js";
 
 
-let binaryData
-let audioData 
-let audioBlob 
+// let binaryData
+// let audioData 
+// let audioBlob 
 let audioElement 
 
 
@@ -158,21 +158,9 @@ recipeButtons.forEach((button) => {
         const speedBtn = document.querySelector("#speed");
 
 
-        function createAudio() {
-          binaryData = atob(data.audio);
+     
 
-          audioData = new Uint8Array(binaryData.length);
-          for (let i = 0; i < binaryData.length; i++) {
-            audioData[i] = binaryData.charCodeAt(i);
-          }
-  
-          audioBlob = new Blob([audioData], { type: "audio/mpeg" });
-          audioElement = new Audio();
-          return audioElement.src = URL.createObjectURL(audioBlob);
-
-        }
-
-        createAudio()
+       audioElement = createAudio(data.audio)
 
     
 

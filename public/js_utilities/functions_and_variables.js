@@ -113,6 +113,21 @@ function resetCheckedStateToFalse(array) {
   });
 }
 
+function createAudio(data) {
+  const binaryData = atob(data);
+
+  const audioData = new Uint8Array(binaryData.length);
+  for (let i = 0; i < binaryData.length; i++) {
+    audioData[i] = binaryData.charCodeAt(i);
+  }
+
+  const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
+  const audioElement = new Audio();
+  audioElement.src = URL.createObjectURL(audioBlob);
+  return audioElement
+
+}
 
 
-export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio }
+
+export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio }
