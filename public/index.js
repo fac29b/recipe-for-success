@@ -6,6 +6,12 @@ import {
 } from "./js_utilities/query_selector.js";
 
 
+let binaryData
+let audioData 
+let audioBlob 
+let audioElement 
+
+
 wantToTakeAPicture.addEventListener("click", () => {
   // displayElements([videoBtnCanvas])
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
@@ -151,16 +157,24 @@ recipeButtons.forEach((button) => {
         const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
         const speedBtn = document.querySelector("#speed");
 
-        const binaryData = atob(data.audio);
 
-        const audioData = new Uint8Array(binaryData.length);
-        for (let i = 0; i < binaryData.length; i++) {
-          audioData[i] = binaryData.charCodeAt(i);
+        function createAudio() {
+          binaryData = atob(data.audio);
+
+          audioData = new Uint8Array(binaryData.length);
+          for (let i = 0; i < binaryData.length; i++) {
+            audioData[i] = binaryData.charCodeAt(i);
+          }
+  
+          audioBlob = new Blob([audioData], { type: "audio/mpeg" });
+          audioElement = new Audio();
+          return audioElement.src = URL.createObjectURL(audioBlob);
+
         }
 
-        const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
-        const audioElement = new Audio();
-        audioElement.src = URL.createObjectURL(audioBlob);
+        createAudio()
+
+    
 
         audioElement.stop = function () {
           this.pause();
