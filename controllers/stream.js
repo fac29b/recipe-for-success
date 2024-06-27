@@ -71,12 +71,12 @@ async function processStream(req, res) {
         break;
       }
 
-      {
+      
         const message = chunk.choices[0]?.delta?.content || "";
         messageJSON = JSON.stringify({ message });
         res.write(`data: ${messageJSON}\n\n`);
         getStreamRecipe(message);
-      }
+    
     }
 
     const imagePromise = openai.images
