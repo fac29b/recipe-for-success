@@ -5,13 +5,7 @@ import {
   mainElement, backgroundImg, gptResponseElement, headline, lactoseIntolerant, loadingContainer, allergies, darkLightButton, userWantAnotherRecipe, tryAgainBtn, recipeButtons, sendRecipeToUserInboxBtn, loadingText, recording, userEmail, emailSection, sendToUserInboxBtn, dietaryRequirements, otherDietaryRequirements, userText, pictureSection, video, canvas, takePicture, context, constraint, chatGptVisionText, videoBtnCanvas, pictureSectionHeadline, wantToTakeAPicture, emailRecipe, pictureEmailSection, previousPage, sendToUserInbox, emailUserRecipeSection,
 } from "./js_utilities/query_selector.js";
 
-
-// let binaryData
-// let audioData 
-// let audioBlob 
 let audioElement 
-
-
 wantToTakeAPicture.addEventListener("click", () => {
   // displayElements([videoBtnCanvas])
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
@@ -96,7 +90,11 @@ darkLightButton.addEventListener("change", () => {
     fetch(`/email?${createQuery(emailOBject)}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log({ data }, { emailQuery });
+        if(data.emailStatus === "250 OK , completed") {
+          alert("an email has been sent to your inbox");
+        } else {
+          alert("invalid email address try again");
+        }
       })
       .catch((error) => console.error("Error:", error));
   });
@@ -158,12 +156,10 @@ recipeButtons.forEach((button) => {
         const speedBtn = document.querySelector("#speed");
 
 
-     
-
-       audioElement = createAudio(data.audio)
-
     
+       audioElement = createAudio(data.audio);
 
+  
         audioElement.stop = function () {
           this.pause();
           this.currentTime = 0;

@@ -63,7 +63,9 @@ async function processEmail(req, res) {
       } else {
         console.log("Email sent: " + info.response);
       }
+      res.status(250).json({emailStatus: info.response})
     });
+    
   }
 
 
