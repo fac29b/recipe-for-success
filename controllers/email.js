@@ -59,15 +59,15 @@ async function processEmail(req, res) {
   
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
+        res.status(500).json({emailStatus: info.response});
         console.log(error);
       } else {
+        res.status(250).json({emailStatus: info.response});
         console.log("Email sent: " + info.response);
       }
-      res.status(250).json({emailStatus: info.response})
     });
     
   }
-
 
   module.exports = {
     processEmail
