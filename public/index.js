@@ -108,22 +108,31 @@ recipeButtons.forEach((button) => {
   button.addEventListener("click", async () => {
     removeElements([mainElement]);
 
-    let userRecipe = {
-      [button.name]: button.value,
-      array: [...dietaryRequirements, ...[userText]],
-      I_do_not_eat: userText.placeholder,
-      loopOverArray: function () {
-        this.array.forEach((dietaryRequirement) => {
-          this[dietaryRequirement.name] = dietaryRequirement.checked;
-          if (dietaryRequirement.value !== "on") {
-            this[dietaryRequirement.name] = dietaryRequirement.value;
-          }
-        });
-      },
-    };
 
-    userRecipe.loopOverArray();
+
+
+    function createUserRecipe(button, dietaryRequirements, userText) {
+      let recipe = {
+        [button.name]: button.value,
+        array: [...dietaryRequirements, ...[userText]],
+        I_do_not_eat: userText.placeholder
+      };
+    
+      recipe.array.forEach((dietaryRequirement) => {
+        recipe[dietaryRequirement.name] = dietaryRequirement.checked;
+        if (dietaryRequirement.value !== "on") {
+          recipe[dietaryRequirement.name] = dietaryRequirement.value;
+        }
+      });
+    
+      return recipe;
+    }
+
+    const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
+
+
+
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
