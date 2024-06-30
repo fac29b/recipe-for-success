@@ -76,6 +76,23 @@ function createQuery(myObject) {
   return query;
 }
 
+function createUserRecipe(button, dietaryRequirements, userText) {
+  let recipe = {
+    [button.name]: button.value,
+    array: [...dietaryRequirements, ...[userText]],
+    I_do_not_eat: userText.placeholder
+  };
+
+  recipe.array.forEach((dietaryRequirement) => {
+    recipe[dietaryRequirement.name] = dietaryRequirement.checked;
+    if (dietaryRequirement.value !== "on") {
+      recipe[dietaryRequirement.name] = dietaryRequirement.value;
+    }
+  });
+
+  return recipe;
+}
+
 function loopOverArrayOfElements(array, display) {
   array.forEach((elememt) => {
     elememt.style.display = display;
@@ -130,4 +147,4 @@ function createAudio(data) {
 
 
 
-export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio }
+export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }

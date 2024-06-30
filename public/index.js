@@ -1,5 +1,5 @@
 import {
-  defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio
+  defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe
 } from "./js_utilities/functions_and_variables.js";
 import {
   mainElement, backgroundImg, gptResponseElement, headline, lactoseIntolerant, loadingContainer, allergies, darkLightButton, userWantAnotherRecipe, tryAgainBtn, recipeButtons, sendRecipeToUserInboxBtn, loadingText, recording, userEmail, emailSection, sendToUserInboxBtn, dietaryRequirements, otherDietaryRequirements, userText, pictureSection, video, canvas, takePicture, context, constraint, chatGptVisionText, videoBtnCanvas, pictureSectionHeadline, wantToTakeAPicture, emailRecipe, pictureEmailSection, previousPage, sendToUserInbox, emailUserRecipeSection,
@@ -107,33 +107,8 @@ recipeButtons.forEach((button) => {
   console.log(userText.value);
   button.addEventListener("click", async () => {
     removeElements([mainElement]);
-
-
-
-
-    function createUserRecipe(button, dietaryRequirements, userText) {
-      let recipe = {
-        [button.name]: button.value,
-        array: [...dietaryRequirements, ...[userText]],
-        I_do_not_eat: userText.placeholder
-      };
-    
-      recipe.array.forEach((dietaryRequirement) => {
-        recipe[dietaryRequirement.name] = dietaryRequirement.checked;
-        if (dietaryRequirement.value !== "on") {
-          recipe[dietaryRequirement.name] = dietaryRequirement.value;
-        }
-      });
-    
-      return recipe;
-    }
-
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
-
-
-
-
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
     eventSource.onmessage = function (event) {
