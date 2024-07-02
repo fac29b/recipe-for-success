@@ -571,3 +571,18 @@ input:checked+.slider:before {
   color: darkgreen;
   text-decoration: underline;
 }
+
+/* Media Queries */
+@media only screen and (max-width: 768px) {
+  .menu-icon {
+    right: 2rem;
+    margin-right: 0;
+  }
+
+  .navigation {
+    left: 56%;
+    transform: translateX(-50%) translateY(-20px);
+    width: 100%;
+    max-width: 340px;
+  }
+}
