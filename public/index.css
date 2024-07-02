@@ -7,7 +7,62 @@
 :root {
   --green: rgb(183, 235, 183);
   --black: rgb(67, 63, 63);
+  --dark-grey: rgb(45, 45, 45);
+  --light-grey: rgb(200, 200, 200);
 }
+
+body.dark-mode {
+  --green: var(--dark-grey);
+  --black: var(--light-grey);
+  background-color: var(--green);
+  color: var(--black);
+}
+
+.recording,
+.main-element,
+.recipe-section-headline,
+.picture-section-headline,
+.allergies,
+.cusine-options button,
+.want-another-recipe,
+button,
+.take-picture,
+.send-to-user-inbox-btn,
+.send-to-user-inbox,
+.try-again-btn,
+.gpt-response,
+.slider,
+input:checked+.slider {
+  background-color: var(--green);
+  color: var(--black);
+}
+
+body.dark-mode .recording,
+body.dark-mode .main-element,
+body.dark-mode .recipe-section-headline,
+body.dark-mode .picture-section-headline,
+body.dark-mode .allergies,
+body.dark-mode .cusine-options button,
+body.dark-mode .want-another-recipe,
+body.dark-mode button,
+body.dark-mode .take-picture,
+body.dark-mode .send-to-user-inbox-btn,
+body.dark-mode .send-to-user-inbox,
+body.dark-mode .try-again-btn,
+body.dark-mode .gpt-response,
+body.dark-mode .slider,
+body.dark-mode input:checked+.slider {
+  background-color: var(--dark-grey);
+  color: var(--light-grey);
+}
+
+body.dark-mode .slider:before {
+  background-color: var(--light-grey);
+}
+
+/* Ensure other necessary elements are also styled for dark mode */
+
+
 
 .parent-container {
   height: 100vh;
@@ -26,14 +81,6 @@
   padding: 10px;
   display: none;
 }
-
-
-
-
-
-
-
-
 
 
 .speed-wrapper {
@@ -381,6 +428,9 @@ input:checked+.slider:before {
 
 
 
+
+
+
 /* picture-section*/
 
 
@@ -498,10 +548,26 @@ input:checked+.slider:before {
   color: black;
 }
 
-.line {
+.menu-icon .line {
   width: 3rem;
   height: 0.2rem;
   background-color: black;
+  transition: transform 0.3s;
+}
+
+.menu-icon.change .line-1 {
+  transform: rotateZ(45deg) translate(0.7rem, -0.1rem);
+}
+
+.menu-icon.change .line-2 {
+  transform: rotateZ(-45deg) translate(0.7rem, -0.1rem);
+}
+
+
+.line {
+  width: 3rem;
+  height: 0.2rem;
+  background-color: #bbb;
   transition: transform 0.3s;
 }
 
@@ -517,25 +583,24 @@ input:checked+.slider:before {
   position: fixed;
   top: 5px;
   left: 56%;
-  transform: translateX(-50%) translateY(-20px);
+  transform: translateX(-50%);
   width: 100%;
   max-width: 340px;
   height: 100vh;
+  /* Updated height to match the wrapper/container */
   background-color: var(--green);
   z-index: 100;
-  display: flex;
+  display: none;
   align-items: center;
   padding-left: 1rem;
+  border-radius: 1px;
   border: black 3px solid;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .change .navigation {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  display: flex;
 }
 
 .wrapper {
@@ -544,6 +609,7 @@ input:checked+.slider:before {
   height: 200vh;
   overflow-y: scroll;
   display: flex;
+  /* border: 10px blue solid; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
