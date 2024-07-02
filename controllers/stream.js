@@ -45,7 +45,7 @@ async function processStream(req, res) {
       return;
     }
 
-    let prompt = generateRecipePromt(
+    let prompt = generateRecipePrompt(
       recipe_country_of_origin,
       is_lactose_intolerant,
       is_vegan,
@@ -71,12 +71,12 @@ async function processStream(req, res) {
         break;
       }
 
-      
-        const message = chunk.choices[0]?.delta?.content || "";
-        messageJSON = JSON.stringify({ message });
-        res.write(`data: ${messageJSON}\n\n`);
-        getStreamRecipe(message);
-    
+
+      const message = chunk.choices[0]?.delta?.content || "";
+      messageJSON = JSON.stringify({ message });
+      res.write(`data: ${messageJSON}\n\n`);
+      getStreamRecipe(message);
+
     }
 
     const imagePromise = openai.images
@@ -133,19 +133,22 @@ module.exports = {
   getUrl,
 };
 
-function generateRecipePromt(
+function generateRecipePrompt(
   recipe_country_of_origin,
   is_lactose_intolerant,
   is_vegan,
   what_are_user_other_dietary_requirements
 ) {
-  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${
-    is_lactose_intolerant === "true"
-      ? "lactose intolerant"
-      : "not lactose intolerant"
-  } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${
-    what_are_user_other_dietary_requirements === ""
+  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true"
+    ? "lactose intolerant"
+    : "not lactose intolerant"
+    } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === ""
       ? "I have no other dietary requirements"
       : what_are_user_other_dietary_requirements
-  } `;
+    } `;
 }
+
+
+// export {
+//   generateRecipePrompt
+// }

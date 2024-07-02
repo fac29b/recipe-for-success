@@ -483,7 +483,7 @@ input:checked+.slider:before {
 .menu-icon {
   height: 3rem;
   width: 3rem;
-  position: absolute;
+  position: fixed;
   top: 1rem;
   right: 1rem;
   display: flex;
@@ -492,12 +492,16 @@ input:checked+.slider:before {
   align-items: center;
   cursor: pointer;
   z-index: 200;
+  left: auto;
+  margin-right: calc(50% - 250px);
+  background-color: transparent;
+  color: black;
 }
 
 .line {
   width: 3rem;
   height: 0.2rem;
-  background-color: #bbb;
+  background-color: black;
   transition: transform 0.3s;
 }
 
@@ -510,22 +514,28 @@ input:checked+.slider:before {
 }
 
 .navigation {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 70%;
-  max-width: 500px;
+  position: fixed;
+  top: 5px;
+  left: 56%;
+  transform: translateX(-50%) translateY(-20px);
+  width: 100%;
+  max-width: 340px;
   height: 100vh;
   background-color: var(--green);
   z-index: 100;
-  display: none;
+  display: flex;
   align-items: center;
   padding-left: 1rem;
-  border-radius: 10px;
+  border: black 3px solid;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .change .navigation {
-  display: flex;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .wrapper {
@@ -534,7 +544,6 @@ input:checked+.slider:before {
   height: 200vh;
   overflow-y: scroll;
   display: flex;
-  border: 10px blue solid;
   flex-direction: column;
   justify-content: center;
   align-items: center;
