@@ -94,9 +94,11 @@ function createUserRecipe(button, dietaryRequirements, userText) {
 }
 
 function loopOverArrayOfElements(array, display) {
-  array.forEach((elememt) => {
-    elememt.style.display = display;
-    elememt.style.transition = "all 2s";
+  array.forEach((element) => {
+    if (element) { // Check if the element is not null
+      element.style.display = display;
+      element.style.transition = "all 2s";
+    }
   });
 }
 
@@ -118,13 +120,15 @@ function removeElements(array) {
   loopOverArrayOfElements(array, "none");
 }
 
-function emptyTheElement(elememt) {
-  elememt.innerHTML = "";
+function emptyTheElement(element) {
+  if (element) { // Check if the element is not null
+    element.innerHTML = "";
+  }
 }
 
 function resetCheckedStateToFalse(array) {
   array.forEach((requirement) => {
-    if (requirement.checked) {
+    if (requirement && requirement.checked) { // Check if the requirement is not null and checked
       requirement.checked = false;
     }
   });
@@ -147,4 +151,4 @@ function createAudio(data) {
 
 
 
-export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }
+export { defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }

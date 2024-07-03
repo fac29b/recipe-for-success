@@ -141,7 +141,7 @@ recipeButtons.forEach((button) => {
           resetCheckedStateToFalse(dietaryRequirements);
           userText.value = "";
           data.audio = "";
-          stopAudio(audioElement);
+          stopAudio(audioElement)
         });
 
         speedBtn.addEventListener("change", () => {
@@ -163,7 +163,6 @@ recipeButtons.forEach((button) => {
       }
 
       if (data.image) {
-        console.log(data);
         console.log(data.image);
         removeElements([loadingContainer]);
         backgroundImg.src = data.image.data[0].url;
