@@ -3,13 +3,16 @@ const fs = require("fs");
 const { OpenAI } = require("openai");
 
 require("dotenv").config();
-let streamRecipe = "Recipe:";
-
+let streamRecipe = ""; // Reset for each request
 let initialUrl = "";
 
 const openai = new OpenAI({
   apiKey: process.env.openaiAPI,
 });
+
+function resetStreamRecipe() {
+  streamRecipe = "Recipe:";
+}
 
 function getStreamRecipe(newContent) {
   if (newContent) {
@@ -26,6 +29,8 @@ function getUrl(newContent) {
 }
 
 async function processStream(req, res) {
+  resetStreamRecipe(); // Reset for each new request as before it was sending one recipe request after another. 
+
   try {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
@@ -39,9 +44,7 @@ async function processStream(req, res) {
     } = req.query;
 
     if (typeof recipe_country_of_origin === "undefined") {
-      res
-        .status(400)
-        .send("Missing recipe_country_of_origin query parameter");
+      res.status(400).send("Missing recipe_country_of_origin query parameter");
       return;
     }
 
@@ -51,6 +54,12 @@ async function processStream(req, res) {
       is_vegan,
       what_are_user_other_dietary_requirements
     );
+
+    // Max limit on prompt length
+    const maxAllowedLength = 4096;
+    if (prompt.length > maxAllowedLength) {
+      prompt = prompt.slice(0, maxAllowedLength);
+    }
 
     const stream = await openai.chat.completions.create({
       messages: [
@@ -71,12 +80,10 @@ async function processStream(req, res) {
         break;
       }
 
-
       const message = chunk.choices[0]?.delta?.content || "";
-      messageJSON = JSON.stringify({ message });
+      const messageJSON = JSON.stringify({ message });
       res.write(`data: ${messageJSON}\n\n`);
       getStreamRecipe(message);
-
     }
 
     const imagePromise = openai.images
@@ -87,7 +94,7 @@ async function processStream(req, res) {
         size: "1024x1024",
       })
       .then((image) => {
-        messageJSON = JSON.stringify({ image });
+        const messageJSON = JSON.stringify({ image });
         res.write(`data: ${messageJSON}\n\n`);
         const folderPath = path.join(__dirname, "../public/url_folder");
         let url = image.data[0].url;
@@ -106,19 +113,19 @@ async function processStream(req, res) {
         const buffer = Buffer.from(await mp3.arrayBuffer());
         const speechFile = path.resolve("./speech.mp3");
         await fs.promises.writeFile(speechFile, buffer);
-        messageJSON = JSON.stringify({ audio: buffer.toString("base64") });
+        const messageJSON = JSON.stringify({ audio: buffer.toString("base64") });
         res.write(`data: ${messageJSON}\n\n`);
       });
 
     return Promise.all([imagePromise, audioPromise]).then(() => {
-      messageJSON = JSON.stringify({ message: "stop" });
+      const messageJSON = JSON.stringify({ message: "stop" });
       res.write(`data: ${messageJSON}\n\n`);
       res.end();
     });
   } catch (error) {
     if (error.code === "invalid_api_key") {
-      let errorMessage = error.code;
-      let errorJSON = JSON.stringify({ errorMessage });
+      const errorMessage = error.code;
+      const errorJSON = JSON.stringify({ errorMessage });
       res.write(`data: ${errorJSON}\n\n`);
       console.error("Invalid API key provided. Please check your API key.");
     } else {
@@ -139,9 +146,7 @@ function generateRecipePrompt(
   is_vegan,
   what_are_user_other_dietary_requirements
 ) {
-  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true"
-    ? "lactose intolerant"
-    : "not lactose intolerant"
+  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true" ? "lactose intolerant" : "not lactose intolerant"
     } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === ""
       ? "I have no other dietary requirements"
       : what_are_user_other_dietary_requirements

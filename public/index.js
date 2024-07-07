@@ -86,28 +86,37 @@ darkLightButton.addEventListener("change", () => {
   console.log(userEmail.value)
 })
 
-
+let currentEventSource = null;
 
 recipeButtons.forEach((button) => {
   console.log(userText.value);
   button.addEventListener("click", async () => {
+    // Close any existing EventSource connection
+    if (currentEventSource) {
+      currentEventSource.close();
+    }
+    // Display the loading indicator
+    displayElements([loadingContainer]);
+
+    // Hide the main element
     removeElements([mainElement]);
+
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
-    const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
+    currentEventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
-    eventSource.onmessage = function (event) {
+    currentEventSource.onmessage = function (event) {
       let data = JSON.parse(event.data);
       if (data.message) {
         if (data.message === "stop") {
-          eventSource.close();
+          currentEventSource.close();
           return;
         }
         displayElements([gptResponseElement]);
         gptResponseElement.textContent += data.message;
         return;
       } else if (data.errorMessage === "invalid_api_key") {
-        eventSource.close();
+        currentEventSource.close();
         console.log(data.errorMessage);
         displayElements([gptResponseElement, tryAgainBtn]);
         removeElements([loadingContainer]);
@@ -117,22 +126,25 @@ recipeButtons.forEach((button) => {
 
       if (data.audio) {
         console.log(data.audio);
-        loadingText.innerHTML = "Hang in there creating the image...";
-        displayElementsFlex([recording]);
-        displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
-
-        const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
-        const speedBtn = document.querySelector("#speed");
+        loadingText.innerHTML = "Hang in there creating the audio and image...";
 
 
+        // Reset the audio element before setting a new one
+        if (audioElement) {
+          stopAudio(audioElement);
+        }
 
         audioElement = createAudio(data.audio);
-
 
         audioElement.stop = function () {
           this.pause();
           this.currentTime = 0;
         };
+        displayElementsFlex([recording]);
+        displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
+        removeElements([loadingContainer]);
+        const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
+        const speedBtn = document.querySelector("#speed");
 
         userWantAnotherRecipe.addEventListener("click", () => {
           displayElements([headline, allergies, ...recipeButtons, mainElement]);
@@ -141,7 +153,8 @@ recipeButtons.forEach((button) => {
           resetCheckedStateToFalse(dietaryRequirements);
           userText.value = "";
           data.audio = "";
-          stopAudio(audioElement)
+          stopAudio(audioElement);
+          currentEventSource.close();
         });
 
         speedBtn.addEventListener("change", () => {
@@ -169,55 +182,8 @@ recipeButtons.forEach((button) => {
       }
     };
   });
+
 });
-
-// picture section
-navigator.mediaDevices
-  .getUserMedia(constraint)
-  .then((stream) => {
-    video.srcObject = stream;
-    video.play();
-  })
-  .catch((error) => {
-    console.error("Error accessing camera:", error);
-  });
-function capturePhoto() {
-  context.drawImage(video, 0, 0, 400, 100);
-}
-
-takePicture.addEventListener("click", () => {
-  capturePhoto();
-  const imageData = canvas.toDataURL("image/png");
-  console.log("Captured photo:", imageData);
-
-  fetch("/upload", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ image: imageData }),
-  })
-
-    .then((response) => {
-      if (response.ok) {
-        console.log("Image uploaded successfully");
-        return response.json();
-      } else {
-        throw new Error("Failed to upload image");
-      }
-    })
-    .then((data) => {
-      const chatGptVisionResponse = data.message.content;
-      chatGptVisionText.textContent = chatGptVisionResponse;
-      displayElements([emailRecipe, previousPage]);
-
-    })
-
-    .catch((error) => {
-      console.error("Error", error);
-    });
-});
-
 
 
 const menuIcon = document.querySelector(".menu-icon");
