@@ -29,7 +29,7 @@ function getUrl(newContent) {
 }
 
 async function processStream(req, res) {
-  resetStreamRecipe(); // Reset for each new request as before it was sending one recipe request after another. 
+  resetStreamRecipe(); // Reset for each new request to avoid concatenation of previous recipes
 
   try {
     res.setHeader("Content-Type", "text/event-stream");
@@ -43,7 +43,7 @@ async function processStream(req, res) {
       what_are_user_other_dietary_requirements,
     } = req.query;
 
-    if (typeof recipe_country_of_origin === "undefined") {
+    if (!recipe_country_of_origin) {
       res.status(400).send("Missing recipe_country_of_origin query parameter");
       return;
     }
@@ -146,14 +146,5 @@ function generateRecipePrompt(
   is_vegan,
   what_are_user_other_dietary_requirements
 ) {
-  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true" ? "lactose intolerant" : "not lactose intolerant"
-    } ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === ""
-      ? "I have no other dietary requirements"
-      : what_are_user_other_dietary_requirements
-    } `;
+  return `Provide a recipe for a dish from ${recipe_country_of_origin}, taking into account the fact that I'm ${is_lactose_intolerant === "true" ? "lactose intolerant" : "not lactose intolerant"}, ${is_vegan === "true" ? "vegan" : "not vegan"} and ${what_are_user_other_dietary_requirements === "" ? "I have no other dietary requirements" : what_are_user_other_dietary_requirements}.`;
 }
-
-
-// export {
-//   generateRecipePrompt
-// }
