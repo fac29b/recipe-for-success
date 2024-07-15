@@ -218,7 +218,7 @@ function capturePhoto() {
 }
 
 takePicture.addEventListener("click", () => {
-  displayElementsGrid([pictureSection])
+  displayElementsGrid([pictureEmailSection]);
   capturePhoto();
   const imageData = canvas.toDataURL("image/png");
   console.log("Captured photo:", imageData);
