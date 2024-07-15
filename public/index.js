@@ -218,7 +218,6 @@ function capturePhoto() {
 }
 
 takePicture.addEventListener("click", () => {
-  displayElementsGrid([pictureEmailSection]);
   capturePhoto();
   const imageData = canvas.toDataURL("image/png");
   console.log("Captured photo:", imageData);
@@ -242,6 +241,7 @@ takePicture.addEventListener("click", () => {
       const chatGptVisionResponse = data.message.content;
       chatGptVisionText.textContent = chatGptVisionResponse;
       displayElements([emailRecipe, previousPage]);
+      displayElementsGrid([pictureEmailSection]);
     })
     .catch((error) => {
       console.error("Error", error);
