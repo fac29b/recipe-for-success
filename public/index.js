@@ -60,6 +60,10 @@ wantToTakeAPicture.addEventListener("click", () => {
   console.log("Picture taken");
 });
 
+takePicture.addEventListener("click", () => {
+  console.log("take a picture")
+})
+
 otherDietaryRequirements.addEventListener("click", () => {
   if (otherDietaryRequirements.checked) {
     displayElements([userText]);
@@ -78,6 +82,8 @@ sendRecipeToUserInboxBtn.addEventListener("click", () => {
   displayElementsGrid([emailSection]);
   removeElements([sendRecipeToUserInboxBtn]);
 });
+
+
 
 previousPage.addEventListener("click", () => {
   removeElements([videoBtnCanvas, pictureEmailSection, previousPage, emailRecipe]);
@@ -212,6 +218,7 @@ function capturePhoto() {
 }
 
 takePicture.addEventListener("click", () => {
+  displayElementsGrid([pictureSection])
   capturePhoto();
   const imageData = canvas.toDataURL("image/png");
   console.log("Captured photo:", imageData);
