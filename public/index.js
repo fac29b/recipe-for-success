@@ -53,6 +53,7 @@ import {
 } from "./js_utilities/query_selector.js";
 
 let audioElement;
+let emailObject
 
 wantToTakeAPicture.addEventListener("click", () => {
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
@@ -102,11 +103,34 @@ darkLightButton.addEventListener("change", () => {
   document.body.classList.toggle('dark-mode', darkLightButton.checked);
 });
 
-[sendToUserInboxBtn, sendToUserInbox].forEach((element) => {
+const x = [...userEmail]
+x.forEach(element => {
+  element.addEventListener("input", () => {
+    emailObject = {
+      [element.name] : element.value,
+    }
+  }) 
+})
+
+console.log(emailObject)
+
+const elements = [sendToUserInboxBtn, sendToUserInbox];
+
+elements.forEach((element) => {
   element.addEventListener("click", () => {
-    let emailObject = {
-      [userEmail.name]: userEmail.value || emailUserRecipeSection.value,
-    };
+   
+  
+    // emailObject = {
+    //   [x.name]: x.value,
+    //   // [emailUserRecipeSection.name] : emailUserRecipeSection.value,
+    // };
+  
+   
+    // console.log(`emailUserRecipeSection ${emailUserRecipeSection.value}`);
+    console.log(`userEmail ${userEmail.value}`);
+    console.log(emailObject);
+    
+  
     fetch(`/email?${createQuery(emailObject)}`)
       .then((response) => response.json())
       .then((data) => {
@@ -118,7 +142,9 @@ darkLightButton.addEventListener("change", () => {
       })
       .catch((error) => console.error("Error:", error));
   });
+  // emailObject[userEmail.name] = "";
   console.log(userEmail.value);
+  // console.log(`emailUserRecipeSection ${emailUserRecipeSection.value}`);
 });
 
 recipeButtons.forEach((button) => {

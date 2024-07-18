@@ -1,5 +1,5 @@
 const emailRecipe = document.querySelector(".email-recipe");
-const emailUserRecipeSection= document.querySelector(".user-email-recipe-section");
+const emailUserRecipeSection = document.querySelector(".user-email-recipe-section");
 const sendToUserInbox = document.querySelector(".send-to-user-inbox");
 const previousPage = document.querySelector(".previous-page");
 const pictureEmailSection = document.querySelector(".picture-email-section");
@@ -28,7 +28,7 @@ const sendRecipeToUserInboxBtn = document.querySelector(
 );
 const loadingText = document.querySelector("#loading-text");
 const recording = document.querySelector(".recording");
-const userEmail = document.querySelector(".user-email");
+const userEmail = document.querySelectorAll(".user-email");
 const emailSection = document.querySelector(".email-section");
 const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
 const dietaryRequirements = Array.from(
