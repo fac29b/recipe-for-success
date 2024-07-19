@@ -38,7 +38,7 @@ async function processEmail(req, res) {
     </html>
   `;
   
-    if (recipe !== "") {
+    // if (recipe !== "") {
       var mailOptions = {
         from: process.env.from,
         to: req.query.user_email_address,
@@ -53,9 +53,9 @@ async function processEmail(req, res) {
           },
         ],
       };
-    } else {
-      console.log("doubleResponse is not defined yet.");
-    }
+    // } else {
+    //   console.log("doubleResponse is not defined yet.");
+    // }
   
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {

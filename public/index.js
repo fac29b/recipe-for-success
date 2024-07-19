@@ -105,10 +105,11 @@ darkLightButton.addEventListener("change", () => {
 
 const x = [...userEmail]
 x.forEach(element => {
-  element.addEventListener("input", () => {
+  element.addEventListener("input", (e) => {
     emailObject = {
       [element.name] : element.value,
     }
+    console.log(e.target.value)
   }) 
 })
 
@@ -143,7 +144,7 @@ elements.forEach((element) => {
       .catch((error) => console.error("Error:", error));
   });
   // emailObject[userEmail.name] = "";
-  console.log(userEmail.value);
+  console.log(emailObject);
   // console.log(`emailUserRecipeSection ${emailUserRecipeSection.value}`);
 });
 
