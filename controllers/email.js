@@ -4,6 +4,7 @@ const path = require("path");
 
 
 async function processEmail(req, res) {
+  console.log(`is picked up ${req.body.pictureSectionText}`)
   let recipe = recipeFromStream.getStreamRecipe();
   let url = recipeFromStream.getUrl();
   console.log(`email.js file ${url}`)

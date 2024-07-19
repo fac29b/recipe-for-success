@@ -130,9 +130,18 @@ elements.forEach((element) => {
     // console.log(`emailUserRecipeSection ${emailUserRecipeSection.value}`);
     console.log(`userEmail ${userEmail.value}`);
     console.log(emailObject);
+
+   
     
   
-    fetch(`/email?${createQuery(emailObject)}`)
+    fetch(`/email?${createQuery(emailObject)}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({pictureSectionText:  chatGptVisionText.textContent })
+    
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.emailStatus === "250 OK , completed") {
