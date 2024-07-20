@@ -36,9 +36,6 @@ async function processEmail(req, res) {
       <body class="preserve-line-breaks" >
         ${recipe}
         <br />
-         Embedded image:
-        <br /> 
-        <img class="user-img" src="${url}"/>
       </body>
     </html>
   `;
@@ -54,7 +51,7 @@ async function processEmail(req, res) {
           {
             filename: "url_folder.txt",
             path: path.join(__dirname, "../public/url_folder/url_folder.txt"),
-            cid: "url",
+           
           },
         ],
       };
