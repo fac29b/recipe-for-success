@@ -115,33 +115,34 @@ x.forEach(element => {
 
 console.log(emailObject)
 
-const elements = [sendToUserInboxBtn, sendToUserInbox];
+// const elements = [sendToUserInboxBtn, sendToUserInbox];
 
-elements.forEach((element) => {
-  element.addEventListener("click", () => {
+
+sendToUserInbox.addEventListener("click", () => {
+  fetch(`/email_picture_section?${createQuery(emailObject)}`, {
+    method: "POST",
+    headers: {
+      "Content-Type" : "application/json"
+    },
+    body: JSON.stringify({pictureTextSection: chatGptVisionText.textContent})
+  })
+  .then((response) => {
+    if (response.ok) {
+      console.log("image posted");
+      return response.json()
+    } else {
+      throw new Error("Failed to post image")
+    }
+  })
+
+});
+
+
+sendToUserInboxBtn.addEventListener("click", () => {
    
-  
-    // emailObject = {
-    //   [x.name]: x.value,
-    //   // [emailUserRecipeSection.name] : emailUserRecipeSection.value,
-    // };
-  
-   
-    // console.log(`emailUserRecipeSection ${emailUserRecipeSection.value}`);
     console.log(`userEmail ${userEmail.value}`);
     console.log(emailObject);
-
-   
-    
-  
-    fetch(`/email?${createQuery(emailObject)}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({pictureSectionText:  chatGptVisionText.textContent })
-    
-    })
+    fetch(`/email?${createQuery(emailObject)}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.emailStatus === "250 OK , completed") {
@@ -155,7 +156,7 @@ elements.forEach((element) => {
   // emailObject[userEmail.name] = "";
   console.log(emailObject);
   // console.log(`emailUserRecipeSection ${emailUserRecipeSection.value}`);
-});
+
 
 recipeButtons.forEach((button) => {
   console.log(userText.value);

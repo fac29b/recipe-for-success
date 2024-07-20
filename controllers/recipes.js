@@ -104,6 +104,8 @@ const openai = new OpenAI({
  
     console.log(`your recipe is ${recipe}`);
     res.send(response.choices[0]);
+
+    recipe = "Recipe:"
    
   
   }

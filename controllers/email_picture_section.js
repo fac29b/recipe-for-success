@@ -1,11 +1,12 @@
 const nodemailer = require("nodemailer");
-const recipeFromStream = require("./stream.js");
 const path = require("path");
+const recipeFromStream = require("./stream.js");
 
 
 async function processEmail(req, res) {
-  console.log(`is picked up ${req.body.pictureSectionText}`)
-  let recipe = recipeFromStream.getStreamRecipe();
+  console.log(`is picked up ${req.body.pictureTextSection}`)
+
+  let recipe = req.body.pictureTextSection;
   // let recipe = recipeFromStream.getStreamRecipe() !== "" ? recipeFromStream.getStreamRecipe() : req.body.pictureSectionText;
   // let recipe = req.body.pictureSectionText !== "" ? req.body.pictureSectionText : recipeFromStream.getStreamRecipe() ;
   let url = recipeFromStream.getUrl();
@@ -41,7 +42,7 @@ async function processEmail(req, res) {
     </html>
   `;
   
-    // if (recipe !== "") {
+    if (recipe !== "") {
       var mailOptions = {
         from: process.env.from,
         to: req.query.user_email_address,
@@ -56,9 +57,9 @@ async function processEmail(req, res) {
           },
         ],
       };
-    // } else {
-    //   console.log("doubleResponse is not defined yet.");
-    // }
+    } else {
+      console.log("doubleResponse is not defined yet.");
+    }
   
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
@@ -70,9 +71,9 @@ async function processEmail(req, res) {
       }
     });
 
-    console.log(`user recipe ${recipe}`);
-    recipe = "Empty string";
-    console.log(recipe)
+    // console.log(`user recipe ${recipe}`);
+    // recipe = "Empty string";
+    // console.log(recipe)
     
   }
 
