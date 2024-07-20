@@ -5,7 +5,7 @@ const path = require("path");
 
 async function processEmail(req, res) {
   console.log(`is picked up ${req.body.pictureSectionText}`)
-  let recipe = recipeFromStream.getStreamRecipe();
+  let recipe = recipeFromStream.getStreamRecipe() !== "" ? recipeFromStream.getStreamRecipe() : req.body.pictureSectionText;
   let url = recipeFromStream.getUrl();
   console.log(`email.js file ${url}`)
     var transporter = nodemailer.createTransport({
@@ -43,7 +43,7 @@ async function processEmail(req, res) {
       var mailOptions = {
         from: process.env.from,
         to: req.query.user_email_address,
-        subject: "Your recipe from recipe-for-success dynamic app",
+        subject: " Your recipe from recipe-for-success dynamic app",
         text: recipe,
         html: emailDocument,
         attachments: [
