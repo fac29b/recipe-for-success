@@ -5,6 +5,7 @@ const recipeFromStream = require("./stream.js");
 
 async function processEmail(req, res) {
   console.log(`is picked up ${req.body.pictureTextSection}`)
+  const {user_email_address} = req.query;
 
   let recipe = req.body.pictureTextSection;
   // let recipe = recipeFromStream.getStreamRecipe() !== "" ? recipeFromStream.getStreamRecipe() : req.body.pictureSectionText;
@@ -45,7 +46,7 @@ async function processEmail(req, res) {
     if (recipe !== "") {
       var mailOptions = {
         from: process.env.from,
-        to: req.query.user_email_address,
+        to: user_email_address,
         subject: " Your recipe from recipe-for-success dynamic app",
         text: recipe,
         html: emailDocument,
