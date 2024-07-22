@@ -18,17 +18,41 @@
     />
   </head>
   <body>
+
+    <div class="container">
+      <!-- Navigation -->
+      <div class="menu-icon">
+          <div class="line line-1"></div>
+          <div class="line line-2"></div>
+      </div>
+      <nav class="navigation">
+          <div class="nav-items">
+              <a href="#recipe-section">Select Cuisine</a>
+              <a href="#picture-section">Take a picture of your ingredients</a>
+          </div>
+      </nav>
+      <!-- Content Sections -->
+      <!-- <section id="cusine-options">Select Cuisine</section>
+      <section id="picture-section">Take a picture of your ingredients</section> -->
+     
+  </div>
     <div class="stream"></div>
    
     <div aria-label="parent container" class="parent-container">
+      <div class="wrapper">
+        
+        <div id="recipe-section" class="recipe-section">
+
       <img src="" alt="" id="background-img" />
       <main class="main-element">
         <label class="switch">
           <input type="checkbox" class="dark-light-button" />
           <span class="slider round"></span>
         </label>
+
         <h1 aria-label="app text" class="headline">
          Unsure What to Cook? Let Recipe for Success Inspire Your Next Meal!
+
         </h1>
         <fieldset aria-label="allergies section" class="allergies">
           <legend class="legend">Indicate any dietary requirements</legend>
@@ -131,8 +155,7 @@
         <section class="email-section">
           <input
             type="email"
-            id="user-email"
-            class=""
+            class="user-email"
             name="user_email_address"
             placeholder="sophie@example.com"
           />
@@ -142,10 +165,38 @@
         </section>
       </div>
     </div>
-    <script type="module" src="index.js"></script>
+    <div id="picture-section" class="picture-section">
+              <h1 class="picture-section-headline">You've got some ingredients but no idea what do do with them. Take a picture and we will cook something up</h1>
+              <img src="" alt="" class="background-img-picture-section" />
+              <div class="video-btn-canvas">
+                <video class="video"></video>
+                <button class="take-picture">take a picture</button>
+                <canvas class="canvas"></canvas>
+                <p class="chat-gpt-vision-text"></p>
+                <button class="previous-page">previous page</button>
+                <button class="email-recipe">send recipe to my inbox</button>
+              </div>
+              <button class="want-to-take-a-picture">I want to take a picture</button>
+              <section class="picture-email-section">
+                <input
+                  type="email"
+                  class="user-email"
+                  name="user_email_address"
+                  placeholder="sophie@example.com"
+                />
+
+                <!-- class="user-email-recipe-section" -->
+               
+                
+                <button class="send-to-user-inbox">send</button>
+               
+                <!-- <i class="fa fa-paper-plane" aria-hidden="true" fa-lg></i> -->
+                <!-- <button class="send-email-btn">send</button> -->
+              </section>
+             
+         </div>
+        <script type="module" src="index.js"></script>
 
 
     
     
-  </body>
-</html>

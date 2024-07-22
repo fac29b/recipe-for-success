@@ -76,10 +76,29 @@ function createQuery(myObject) {
   return query;
 }
 
+function createUserRecipe(button, dietaryRequirements, userText) {
+  let recipe = {
+    [button.name]: button.value,
+    array: [...dietaryRequirements, ...[userText]],
+    I_do_not_eat: userText.placeholder
+  };
+
+  recipe.array.forEach((dietaryRequirement) => {
+    recipe[dietaryRequirement.name] = dietaryRequirement.checked;
+    if (dietaryRequirement.value !== "on") {
+      recipe[dietaryRequirement.name] = dietaryRequirement.value;
+    }
+  });
+
+  return recipe;
+}
+
 function loopOverArrayOfElements(array, display) {
-  array.forEach((elememt) => {
-    elememt.style.display = display;
-    elememt.style.transition = "all 2s";
+  array.forEach((element) => {
+    if (element) { // Check if the element is not null
+      element.style.display = display;
+      element.style.transition = "all 2s";
+    }
   });
 }
 
@@ -101,18 +120,35 @@ function removeElements(array) {
   loopOverArrayOfElements(array, "none");
 }
 
-function emptyTheElement(elememt) {
-  elememt.innerHTML = "";
+function emptyTheElement(element) {
+  if (element) { // Check if the element is not null
+    element.innerHTML = "";
+  }
 }
 
 function resetCheckedStateToFalse(array) {
   array.forEach((requirement) => {
-    if (requirement.checked) {
+    if (requirement && requirement.checked) { // Check if the requirement is not null and checked
       requirement.checked = false;
     }
   });
 }
 
+function createAudio(data) {
+  const binaryData = atob(data);
+
+  const audioData = new Uint8Array(binaryData.length);
+  for (let i = 0; i < binaryData.length; i++) {
+    audioData[i] = binaryData.charCodeAt(i);
+  }
+
+  const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
+  const audioElement = new Audio();
+  audioElement.src = URL.createObjectURL(audioBlob);
+  return audioElement;
+
+}
 
 
-export {defaultRecipe, createQuery, displayElements, displayElementsFlex,  displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio }
+
+export { defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }

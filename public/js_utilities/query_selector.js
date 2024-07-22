@@ -1,5 +1,18 @@
+const emailRecipe = document.querySelector(".email-recipe");
+const emailUserRecipeSection = document.querySelector(".user-email-recipe-section");
+const sendToUserInbox = document.querySelector(".send-to-user-inbox");
+const previousPage = document.querySelector(".previous-page");
+const pictureEmailSection = document.querySelector(".picture-email-section");
 const mainElement = document.querySelector(".main-element");
-
+const pictureSectionHeadline = document.querySelector(".picture-section-headline");
+const  pictureSection = document.querySelector(".picture-section")
+const takePicture = document.querySelector(".take-picture");
+const wantToTakeAPicture = document.querySelector(".want-to-take-a-picture");
+const videoBtnCanvas = document.querySelector(".video-btn-canvas");
+const chatGptVisionText = document.querySelector(".chat-gpt-vision-text");
+const video = document.querySelector(".video");
+const canvas = document.querySelector(".canvas");
+const context = canvas.getContext('2d');
 const backgroundImg = document.querySelector("#background-img");
 const gptResponseElement = document.querySelector(".gpt-response");
 const headline = document.querySelector(".headline");
@@ -15,12 +28,24 @@ const sendRecipeToUserInboxBtn = document.querySelector(
 );
 const loadingText = document.querySelector("#loading-text");
 const recording = document.querySelector(".recording");
-const userEmail = document.querySelector("#user-email");
+const userEmail = document.querySelectorAll(".user-email");
 const emailSection = document.querySelector(".email-section");
 const sendToUserInboxBtn = document.querySelector(".send-to-user-inbox-btn");
-const dietaryRequirements = Array.from(document.querySelectorAll(".dietary-requirements"));
-const otherDietaryRequirements = document.querySelector("#other-dietary-requirements");
+const dietaryRequirements = Array.from(
+  document.querySelectorAll(".dietary-requirements")
+);
+const otherDietaryRequirements = document.querySelector(
+  "#other-dietary-requirements"
+);
 const userText = document.querySelector("#user-text");
+const constraint = {
+  audio: false,
+  video: {
+  width: {min: 1024, ideal: 1280, max: 1920},
+  height: {min: 576, ideal: 720, max: 1080}
+}
+}
+
 
 export {
   mainElement,
@@ -42,5 +67,23 @@ export {
   sendToUserInboxBtn,
   dietaryRequirements,
   otherDietaryRequirements,
-  userText
+  userText,
+  pictureSection,
+  video,
+  canvas,
+  takePicture,
+  context, 
+  constraint,
+  chatGptVisionText,
+  videoBtnCanvas,
+  pictureSectionHeadline,
+  wantToTakeAPicture,
+  emailRecipe, 
+  pictureEmailSection,
+  previousPage,
+  sendToUserInbox,
+  emailUserRecipeSection,
 };
+
+
+
