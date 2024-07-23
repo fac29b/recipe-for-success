@@ -55,6 +55,8 @@ import {
 let audioElement;
 let emailObject
 
+
+
 wantToTakeAPicture.addEventListener("click", () => {
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
   displayElementsFlex([videoBtnCanvas]);
@@ -165,9 +167,38 @@ recipeButtons.forEach((button) => {
     removeElements([mainElement]);
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
+
+    const CACHE_NAME = 'image-cache-v1';
+
+    // Function to cache the image URL (without fetching the image)
+    async function cacheImageUrl(url) {
+      const cache = await caches.open(CACHE_NAME);
+      const response = new Response(JSON.stringify({ url, timestamp: Date.now() }));
+      await cache.put('last-generated-image', response);
+    }
+    
+    // Function to get the cached image URL
+    async function getCachedImageUrl() {
+      const cache = await caches.open(CACHE_NAME);
+      const response = await cache.match('last-generated-image');
+      if (response) {
+        const data = await response.json();
+        const now = Date.now();
+        if (now - data.timestamp < 24 * 60 * 60 * 1000) {  // 24 hours
+          return data.url;
+        } else {
+          // Remove expired cache entry
+          await cache.delete('last-generated-image');
+        }
+      }
+      return null;
+    }
+
+    
+
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
-    eventSource.onmessage = function (event) {
+    eventSource.onmessage = async function (event) {
       let data = JSON.parse(event.data);
       if (data.message) {
         if (data.message === "stop") {
@@ -233,11 +264,34 @@ recipeButtons.forEach((button) => {
       if (data.image) {
         console.log(data.image);
         removeElements([loadingContainer]);
-        backgroundImg.src = data.image.data[0].url;
+        const imageUrl = data.image.data[0].url;
+         // Cache the image URL
+         await cacheImageUrl(imageUrl);
+        backgroundImg.src = imageUrl;
       }
+
+
+
+
     };
+
+// Before setting up the eventSource, check for a cached image URL
+async function loadCachedImage() {
+  const cachedImageUrl = await getCachedImageUrl();
+  if (cachedImageUrl) {
+    backgroundImg.src = cachedImageUrl;
+  }
+}
+
+// Call this function before setting up the eventSource
+loadCachedImage();
   });
 });
+
+
+
+
+
 
 // Picture section
 navigator.mediaDevices
