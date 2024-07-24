@@ -184,7 +184,7 @@ recipeButtons.forEach((button) => {
       if (response) {
         const data = await response.json();
         const now = Date.now();
-        if (now - data.timestamp < 24 * 60 * 60 * 1000) {  // 24 hours
+        if (now - data.timestamp < 1000) {  // delete image after 1 second
           return data.url;
         } else {
           // Remove expired cache entry
@@ -271,10 +271,6 @@ recipeButtons.forEach((button) => {
           backgroundImg.src = imageUrl;
          })
       }
-
-
-
-
     };
 
 // Before setting up the eventSource, check for a cached image URL
