@@ -267,7 +267,9 @@ recipeButtons.forEach((button) => {
         const imageUrl = data.image.data[0].url;
          // Cache the image URL
          await cacheImageUrl(imageUrl);
-        backgroundImg.src = imageUrl;
+         backgroundImg.addEventListener("load", () => {
+          backgroundImg.src = imageUrl;
+         })
       }
 
 
