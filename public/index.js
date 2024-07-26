@@ -55,6 +55,12 @@ import {
 let audioElement;
 let emailObject
 
+const audio_source = document.querySelector(".audio_source");
+
+console.log(audio_source)
+
+
+
 
 
 wantToTakeAPicture.addEventListener("click", () => {
@@ -218,8 +224,11 @@ recipeButtons.forEach((button) => {
       }
 
       if (data.audio) {
+        // audio_source.src = "./speech.mp4"
+
         console.log(data.audio);
-        loadingText.innerHTML = "Hang in there creating the audio and image...";
+        console.log(typeof data.audio)
+        
         displayElementsFlex([recording]);
         displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
 
@@ -235,7 +244,7 @@ recipeButtons.forEach((button) => {
 
         userWantAnotherRecipe.addEventListener("click", () => {
           displayElements([headline, allergies, ...recipeButtons, mainElement]);
-          removeElements([userText, emailSection]);
+          removeElements([userText, emailSection, recording]);
           emptyTheElement(gptResponseElement);
           resetCheckedStateToFalse(dietaryRequirements);
           userText.value = "";
@@ -269,6 +278,8 @@ recipeButtons.forEach((button) => {
          await cacheImageUrl(imageUrl);
          backgroundImg.addEventListener("load", () => {
           backgroundImg.src = imageUrl;
+          loadingText.textContent = "Hang in there creating the audio...";
+      
          })
       }
     };
