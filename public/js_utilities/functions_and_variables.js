@@ -143,9 +143,10 @@ function createAudio(data) {
   }
 
   const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
-  const audioElement = new Audio();
-  audioElement.src = URL.createObjectURL(audioBlob);
-  return audioElement;
+  return URL.createObjectURL(audioBlob)
+  // const audioElement = new Audio();
+  // audioElement.src = URL.createObjectURL(audioBlob);
+  // return audioElement;
 
 }
 

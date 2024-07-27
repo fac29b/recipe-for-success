@@ -52,8 +52,16 @@ import {
   emailUserRecipeSection,
 } from "./js_utilities/query_selector.js";
 
-let audioElement;
+
+ let audioElement = new Audio();
+
 let emailObject
+
+const audio_source = document.querySelector(".audio_source");
+
+console.log(audio_source)
+
+
 
 
 
@@ -169,6 +177,33 @@ recipeButtons.forEach((button) => {
     console.log(userRecipe);
 
     const CACHE_NAME = 'image-cache-v1';
+    const CACHE_NAME_AUDIO = 'image-cache-v2'
+
+
+    // Function to cache the audio (without fetching the audio)
+    async function cacheAudio(audio) {
+      const cache = await caches.open(CACHE_NAME_AUDIO);
+      const response = new Response(JSON.stringify({audio, timestamp: Date.now()}));
+      await cache.put("last-generated-audio", response);
+    }
+
+    // Funnction to get the cached audio data
+    async function getCachedAudio() {
+      const cache = await caches.open(CACHE_NAME_AUDIO);
+      const response = await cache.match("last-generated-audio");
+      if (response) {
+        const data = await response.json();
+        const now = Date.now();
+        if (now - data.timestamp < 24 *  60  * 60  * 1000) {
+          return data.url;
+        } else {
+          await cache.delete("last-generated-audio")
+        }
+      }
+      return null
+    }
+
+
 
     // Function to cache the image URL (without fetching the image)
     async function cacheImageUrl(url) {
@@ -218,15 +253,21 @@ recipeButtons.forEach((button) => {
       }
 
       if (data.audio) {
+      
         console.log(data.audio);
-        loadingText.innerHTML = "Hang in there creating the audio and image...";
+  
+        const audio_data = createAudio(data.audio);
+        console.log(`line 261: ${audio_data}`)
+        // Cache the url object
+        await cacheAudio(audio_data)
+        
         displayElementsFlex([recording]);
         displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
 
         const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
         const speedBtn = document.querySelector("#speed");
 
-        audioElement = createAudio(data.audio);
+        audioElement.src = createAudio(data.audio);
 
         audioElement.stop = function () {
           this.pause();
@@ -235,7 +276,7 @@ recipeButtons.forEach((button) => {
 
         userWantAnotherRecipe.addEventListener("click", () => {
           displayElements([headline, allergies, ...recipeButtons, mainElement]);
-          removeElements([userText, emailSection]);
+          removeElements([userText, emailSection, recording]);
           emptyTheElement(gptResponseElement);
           resetCheckedStateToFalse(dietaryRequirements);
           userText.value = "";
@@ -269,9 +310,19 @@ recipeButtons.forEach((button) => {
          await cacheImageUrl(imageUrl);
          backgroundImg.addEventListener("load", () => {
           backgroundImg.src = imageUrl;
+          loadingText.textContent = "Hang in there creating the audio...";
+      
          })
       }
     };
+
+// Before setting up the eventSource, check for a cached audio
+async function loadCachedAudio() {
+  const cachedAudio = await getCachedAudio();
+  if (cachedAudio) {
+    audioElement.src = cachedAudio;
+  }
+}
 
 // Before setting up the eventSource, check for a cached image URL
 async function loadCachedImage() {
@@ -283,6 +334,7 @@ async function loadCachedImage() {
 
 // Call this function before setting up the eventSource
 loadCachedImage();
+loadCachedAudio();
   });
 });
 
