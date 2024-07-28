@@ -1,3 +1,4 @@
+
 import {
   defaultRecipe,
   createQuery,
@@ -176,7 +177,7 @@ recipeButtons.forEach((button) => {
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
 
-    const CACHE_NAME = 'image-cache-v1';
+    const CACHE_NAME_URL = 'image-cache-v1';
     const CACHE_NAME_AUDIO = 'image-cache-v2'
 
 
@@ -188,33 +189,53 @@ recipeButtons.forEach((button) => {
     }
 
     // Funnction to get the cached audio data
-    async function getCachedAudio() {
-      const cache = await caches.open(CACHE_NAME_AUDIO);
-      const response = await cache.match("last-generated-audio");
+    // async function getCachedAudio() {
+    //   const cache = await caches.open(CACHE_NAME_AUDIO);
+    //   const response = await cache.match("last-generated-audio");
+    //   if (response) {
+    //     const data = await response.json();
+    //     const now = Date.now();
+    //     if (now - data.timestamp < 24 *  60  * 60  * 1000) {
+    //       return data.url;
+    //     } else {
+    //       await cache.delete("last-generated-audio")
+    //     }
+    //   }
+    //   return null
+    // }
+
+
+
+    // Function to cache the image URL/AUDIO (without fetching the image)
+    async function cacheData(data, chache_name, type_of_data) {
+      const cache = await caches.open(chache_name);
+      const response = new Response(JSON.stringify({ data, timeStamp: Date.now}));
+      await cache.put(`last-generated-${type_of_data}`, response)
+    }
+
+
+    async function getCachedData(cache_name, data_type) {
+      const cache = await caches.open(cache_name);
+      const response = await cache.match(`last-generated-${data_type}`);
       if (response) {
         const data = await response.json();
         const now = Date.now();
-        if (now - data.timestamp < 24 *  60  * 60  * 1000) {
+        if (now - data.timestamp < 24 *  60 * 60 * 1000) {
           return data.url;
         } else {
-          await cache.delete("last-generated-audio")
+          await cache.delete(`last-generate-${data_type}`)
         }
       }
-      return null
+      return null;
     }
 
 
 
-    // Function to cache the image URL (without fetching the image)
-    async function cacheImageUrl(url) {
-      const cache = await caches.open(CACHE_NAME);
-      const response = new Response(JSON.stringify({ url, timestamp: Date.now() }));
-      await cache.put('last-generated-image', response);
-    }
+
     
     // Function to get the cached image URL
     async function getCachedImageUrl() {
-      const cache = await caches.open(CACHE_NAME);
+      const cache = await caches.open(CACHE_NAME_URL);
       const response = await cache.match('last-generated-image');
       if (response) {
         const data = await response.json();
@@ -307,7 +328,7 @@ recipeButtons.forEach((button) => {
         removeElements([loadingContainer]);
         const imageUrl = data.image.data[0].url;
          // Cache the image URL
-         await cacheImageUrl(imageUrl);
+         await cacheData(imageUrl, CACHE_NAME_URL, "image");
          backgroundImg.addEventListener("load", () => {
           backgroundImg.src = imageUrl;
           loadingText.textContent = "Hang in there creating the audio...";
@@ -318,7 +339,7 @@ recipeButtons.forEach((button) => {
 
 // Before setting up the eventSource, check for a cached audio
 async function loadCachedAudio() {
-  const cachedAudio = await getCachedAudio();
+  const cachedAudio = await getCachedData(CACHE_NAME_AUDIO, "audio")
   if (cachedAudio) {
     audioElement.src = cachedAudio;
   }
