@@ -181,28 +181,8 @@ recipeButtons.forEach((button) => {
     const CACHE_NAME_AUDIO = 'image-cache-v2'
 
 
-    // Function to cache the audio (without fetching the audio)
-    async function cacheAudio(audio) {
-      const cache = await caches.open(CACHE_NAME_AUDIO);
-      const response = new Response(JSON.stringify({audio, timestamp: Date.now()}));
-      await cache.put("last-generated-audio", response);
-    }
+  
 
-    // Funnction to get the cached audio data
-    // async function getCachedAudio() {
-    //   const cache = await caches.open(CACHE_NAME_AUDIO);
-    //   const response = await cache.match("last-generated-audio");
-    //   if (response) {
-    //     const data = await response.json();
-    //     const now = Date.now();
-    //     if (now - data.timestamp < 24 *  60  * 60  * 1000) {
-    //       return data.url;
-    //     } else {
-    //       await cache.delete("last-generated-audio")
-    //     }
-    //   }
-    //   return null
-    // }
 
 
 
@@ -219,9 +199,10 @@ recipeButtons.forEach((button) => {
       const response = await cache.match(`last-generated-${data_type}`);
       if (response) {
         const data = await response.json();
+        console.log(data)
         const now = Date.now();
         if (now - data.timestamp < 24 *  60 * 60 * 1000) {
-          return data.url;
+          return data.url
         } else {
           await cache.delete(`last-generate-${data_type}`)
         }
@@ -230,27 +211,6 @@ recipeButtons.forEach((button) => {
     }
 
 
-
-
-    
-    // Function to get the cached image URL
-    async function getCachedImageUrl() {
-      const cache = await caches.open(CACHE_NAME_URL);
-      const response = await cache.match('last-generated-image');
-      if (response) {
-        const data = await response.json();
-        const now = Date.now();
-        if (now - data.timestamp < 24 * 60 * 60 * 1000) {  // 24 hours
-          return data.url;
-        } else {
-          // Remove expired cache entry
-          await cache.delete('last-generated-image');
-        }
-      }
-      return null;
-    }
-
-    
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
@@ -280,7 +240,7 @@ recipeButtons.forEach((button) => {
         const audio_data = createAudio(data.audio);
         console.log(`line 261: ${audio_data}`)
         // Cache the url object
-        await cacheAudio(audio_data)
+        await cacheData(audio_data, CACHE_NAME_AUDIO, "audio")
         
         displayElementsFlex([recording]);
         displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
@@ -324,38 +284,47 @@ recipeButtons.forEach((button) => {
       }
 
       if (data.image) {
-        console.log(data.image);
+        console.log(typeof data.image);
         removeElements([loadingContainer]);
         const imageUrl = data.image.data[0].url;
+        console.log(`imageURL ${imageUrl}`)
          // Cache the image URL
          await cacheData(imageUrl, CACHE_NAME_URL, "image");
-         backgroundImg.addEventListener("load", () => {
-          backgroundImg.src = imageUrl;
-          loadingText.textContent = "Hang in there creating the audio...";
+         backgroundImg.src = imageUrl;
+         backgroundImg.onload = () => {
+          console.log("Image loaded successfully");
+         }
+         backgroundImg.onerror = () => {
+          console.error("Error loading image");
+        };
+
+        //  backgroundImg.addEventListener("load", () => {
+          
+        //   loadingText.textContent = "Hang in there creating the audio...";
       
-         })
+        //  })
       }
     };
 
 // Before setting up the eventSource, check for a cached audio
-async function loadCachedAudio() {
-  const cachedAudio = await getCachedData(CACHE_NAME_AUDIO, "audio")
-  if (cachedAudio) {
-    audioElement.src = cachedAudio;
-  }
-}
+// async function loadCachedAudio() {
+//   const cachedAudio = await getCachedData(CACHE_NAME_AUDIO, "audio")
+//   if (cachedAudio) {
+//     audioElement.src = cachedAudio;
+//   }
+// }
 
 // Before setting up the eventSource, check for a cached image URL
-async function loadCachedImage() {
-  const cachedImageUrl = await getCachedImageUrl();
-  if (cachedImageUrl) {
-    backgroundImg.src = cachedImageUrl;
-  }
-}
+// async function loadCachedImage() {
+//   const cachedImageUrl = await getCachedData(CACHE_NAME_URL, "image");
+//   if (cachedImageUrl) {
+//     backgroundImg.src = cachedImageUrl;
+//   }
+// }
 
 // Call this function before setting up the eventSource
-loadCachedImage();
-loadCachedAudio();
+// loadCachedImage();
+// loadCachedAudio();
   });
 });
 
