@@ -15,6 +15,8 @@ import {
   cacheData, 
   CACHE_NAME_URL, 
   CACHE_NAME_AUDIO,
+  emailObject,
+  audioElement,
 
 } from "./js_utilities/functions_and_variables.js";
 
