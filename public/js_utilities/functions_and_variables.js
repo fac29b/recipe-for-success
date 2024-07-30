@@ -1,5 +1,10 @@
 // variables 
 
+const CACHE_NAME_URL = "image-cache-v1";
+const CACHE_NAME_AUDIO = "audio-cache-v2";
+let audioElement = new Audio();
+let emailObject;
+
 
 
 
@@ -52,6 +57,8 @@ Apologies, but our AI Recipe-Making expert is unavailable. Please try again late
     <li>Drain the spaghetti and either stir into the bolognese sauce, or serve the sauce on top. Serve with more grated parmesan, the remaining basil leaves and crusty bread, if you like.</li>
   </ol>
 `;
+
+
 
 
 // functions
@@ -136,20 +143,23 @@ function resetCheckedStateToFalse(array) {
 
 function createAudio(data) {
   const binaryData = atob(data);
-
   const audioData = new Uint8Array(binaryData.length);
   for (let i = 0; i < binaryData.length; i++) {
     audioData[i] = binaryData.charCodeAt(i);
   }
-
   const audioBlob = new Blob([audioData], { type: "audio/mpeg" });
-  return URL.createObjectURL(audioBlob)
-  // const audioElement = new Audio();
-  // audioElement.src = URL.createObjectURL(audioBlob);
-  // return audioElement;
-
+  return URL.createObjectURL(audioBlob);
 }
 
+    // Function to cache the image URL/AUDIO (without fetching the image)
+    async function cacheData(data, chache_name, type_of_data) {
+      const cache = await caches.open(chache_name);
+      const response = new Response(
+        JSON.stringify({ data, timeStamp: Date.now })
+      );
+      await cache.put(`last-generated-${type_of_data}`, response);
+    }
 
 
-export { defaultRecipe, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }
+
+export { defaultRecipe, CACHE_NAME_URL, audioElement, emailObject, CACHE_NAME_AUDIO, cacheData, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }
