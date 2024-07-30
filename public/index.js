@@ -166,7 +166,7 @@ recipeButtons.forEach((button) => {
     console.log(userRecipe);
 
     const CACHE_NAME_URL = "image-cache-v1";
-    const CACHE_NAME_AUDIO = "image-cache-v2";
+    const CACHE_NAME_AUDIO = "audio-cache-v2";
 
     // Function to cache the image URL/AUDIO (without fetching the image)
     async function cacheData(data, chache_name, type_of_data) {
