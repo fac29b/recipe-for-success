@@ -12,6 +12,10 @@ import {
   stopAudio,
   createAudio,
   createUserRecipe,
+  cacheData, 
+  CACHE_NAME_URL, 
+  CACHE_NAME_AUDIO,
+
 } from "./js_utilities/functions_and_variables.js";
 
 import {
@@ -52,13 +56,7 @@ import {
   emailUserRecipeSection,
 } from "./js_utilities/query_selector.js";
 
-let audioElement = new Audio();
 
-let emailObject;
-
-const audio_source = document.querySelector(".audio_source");
-
-console.log(audio_source);
 
 wantToTakeAPicture.addEventListener("click", () => {
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
@@ -165,17 +163,9 @@ recipeButtons.forEach((button) => {
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
 
-    const CACHE_NAME_URL = "image-cache-v1";
-    const CACHE_NAME_AUDIO = "audio-cache-v2";
 
-    // Function to cache the image URL/AUDIO (without fetching the image)
-    async function cacheData(data, chache_name, type_of_data) {
-      const cache = await caches.open(chache_name);
-      const response = new Response(
-        JSON.stringify({ data, timeStamp: Date.now })
-      );
-      await cache.put(`last-generated-${type_of_data}`, response);
-    }
+
+
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
