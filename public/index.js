@@ -58,6 +58,9 @@ import {
   emailUserRecipeSection,
 } from "./js_utilities/query_selector.js";
 
+let currentCameraIndex = 0;
+const switchCameraButton = document.getElementById('switchCamera');
+
 
 
 wantToTakeAPicture.addEventListener("click", () => {
@@ -252,15 +255,63 @@ recipeButtons.forEach((button) => {
 });
 
 // Picture section
-navigator.mediaDevices
-  .getUserMedia(constraint)
-  .then((stream) => {
+
+
+async function getVideoDevices() {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  return devices.filter(device => device.kind === 'videoinput');
+}
+
+async function startCamera(deviceId) {
+  const constraints = {
+    audio: false,
+    video: {
+      deviceId: deviceId ? { exact: deviceId } : undefined,
+      width: {min: 1024, ideal: 1280, max: 1920},
+      height: {min: 576, ideal: 720, max: 1080}
+    }
+  };
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = stream;
-    video.play();
-  })
-  .catch((error) => {
+    await video.play();
+  } catch (error) {
     console.error("Error accessing camera:", error);
-  });
+  }
+}
+
+async function initializeCamera() {
+  const videoDevices = await getVideoDevices();
+  
+  if (videoDevices.length > 1) {
+    switchCameraButton.style.display = 'block';
+    switchCameraButton.addEventListener('click', () => {
+      currentCameraIndex = (currentCameraIndex + 1) % videoDevices.length;
+      startCamera(videoDevices[currentCameraIndex].deviceId);
+    });
+  } else {
+    switchCameraButton.style.display = 'none';
+  }
+
+  // Start with the rear camera if available
+  const rearCameraDevice = videoDevices.find(device => device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear'));
+  startCamera(rearCameraDevice ? rearCameraDevice.deviceId : videoDevices[0].deviceId);
+}
+
+initializeCamera();
+
+
+
+// navigator.mediaDevices
+//   .getUserMedia(constraint)
+//   .then((stream) => {
+//     video.srcObject = stream;
+//     video.play();
+//   })
+//   .catch((error) => {
+//     console.error("Error accessing camera:", error);
+//   });
 
 function capturePhoto() {
   context.drawImage(video, 0, 0, 400, 100);
