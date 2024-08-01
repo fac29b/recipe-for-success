@@ -12,12 +12,10 @@ import {
   stopAudio,
   createAudio,
   createUserRecipe,
-  cacheData, 
-  CACHE_NAME_URL, 
+  cacheData,
+  CACHE_NAME_URL,
   CACHE_NAME_AUDIO,
-  emailObject,
   audioElement,
-
 } from "./js_utilities/functions_and_variables.js";
 
 import {
@@ -58,7 +56,9 @@ import {
   emailUserRecipeSection,
 } from "./js_utilities/query_selector.js";
 
-
+let currentCameraIndex = 0;
+const switchCameraButton = document.getElementById("switchCamera");
+let emailObject;
 
 wantToTakeAPicture.addEventListener("click", () => {
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
@@ -141,7 +141,7 @@ sendToUserInbox.addEventListener("click", () => {
 });
 
 sendToUserInboxBtn.addEventListener("click", () => {
-  console.log(`userEmail ${userEmail.value}`);
+  // console.log(`userEmail ${userEmail.value}`);
   console.log(emailObject);
   fetch(`/email?${createQuery(emailObject)}`)
     .then((response) => response.json())
@@ -165,32 +165,55 @@ recipeButtons.forEach((button) => {
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
 
-
-
-
+    const data = {};
 
     const eventSource = new EventSource(`/stream?${createQuery(userRecipe)}`);
 
     eventSource.onmessage = async function (event) {
-      let data = JSON.parse(event.data);
-      if (data.message) {
-        if (data.message === "stop") {
+      let eventData = JSON.parse(event.data);
+      if (eventData.message) {
+        if (eventData.message === "stop") {
           eventSource.close();
           return;
         }
         displayElements([gptResponseElement]);
-        gptResponseElement.textContent += data.message;
+        gptResponseElement.textContent += eventData.message;
         return;
-      } else if (data.errorMessage === "invalid_api_key") {
+      } else if (eventData.errorMessage === "invalid_api_key") {
         eventSource.close();
-        console.log(data.errorMessage);
+        console.log(eventData.errorMessage);
         displayElements([gptResponseElement, tryAgainBtn]);
         removeElements([loadingContainer]);
         gptResponseElement.innerHTML = defaultRecipe;
         return;
       }
 
-      if (data.audio) {
+      if (eventData.audio) {
+        data.audio = eventData.audio;
+      }
+      if (eventData.image) {
+        data.image = eventData.image;
+      }
+      // console.log("cacheObject", data);
+      console.log("data.audio", eventData.audio);
+      console.log("data.image", eventData.image);
+
+      if (data.audio && data.image) {
+        console.log(typeof data.image);
+        removeElements([loadingContainer]);
+        const imageUrl = data.image.data[0].url;
+        console.log(`imageURL ${imageUrl}`);
+        // await cacheData(imageUrl, CACHE_NAME_URL, "image");
+        backgroundImg.src = imageUrl;
+        backgroundImg.onload = () => {
+          console.log("Image loaded successfully");
+        
+        };
+        backgroundImg.onerror = () => {
+          console.error("Error loading image");
+        };
+
+        ///
         console.log(data.audio);
         const audio_data = createAudio(data.audio);
         console.log(`line 261: ${audio_data}`);
@@ -233,34 +256,85 @@ recipeButtons.forEach((button) => {
         });
       }
 
-      if (data.image) {
-        console.log(typeof data.image);
-        removeElements([loadingContainer]);
-        const imageUrl = data.image.data[0].url;
-        console.log(`imageURL ${imageUrl}`);
-        await cacheData(imageUrl, CACHE_NAME_URL, "image");
-        backgroundImg.src = imageUrl;
-        backgroundImg.onload = () => {
-          console.log("Image loaded successfully");
-        };
-        backgroundImg.onerror = () => {
-          console.error("Error loading image");
-        };
-      }
+      // if (data.image) {
+      //   console.log(typeof data.image);
+      //   removeElements([loadingContainer]);
+      //   const imageUrl = data.image.data[0].url;
+      //   console.log(`imageURL ${imageUrl}`);
+      //   // await cacheData(imageUrl, CACHE_NAME_URL, "image");
+      //   backgroundImg.src = imageUrl;
+      //   backgroundImg.onload = () => {
+      //     console.log("Image loaded successfully");
+      //   };
+      //   backgroundImg.onerror = () => {
+      //     console.error("Error loading image");
+      //   };
+      // }
     };
   });
 });
 
 // Picture section
-navigator.mediaDevices
-  .getUserMedia(constraint)
-  .then((stream) => {
+
+async function getVideoDevices() {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  return devices.filter((device) => device.kind === "videoinput");
+}
+
+async function startCamera(deviceId) {
+  const constraints = {
+    audio: false,
+    video: {
+      deviceId: deviceId ? { exact: deviceId } : undefined,
+      width: { min: 1024, ideal: 1280, max: 1920 },
+      height: { min: 576, ideal: 720, max: 1080 },
+    },
+  };
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = stream;
-    video.play();
-  })
-  .catch((error) => {
+    await video.play();
+  } catch (error) {
     console.error("Error accessing camera:", error);
-  });
+  }
+}
+
+async function initializeCamera() {
+  const videoDevices = await getVideoDevices();
+
+  if (videoDevices.length > 1) {
+    switchCameraButton.style.display = "block";
+    switchCameraButton.addEventListener("click", () => {
+      currentCameraIndex = (currentCameraIndex + 1) % videoDevices.length;
+      startCamera(videoDevices[currentCameraIndex].deviceId);
+    });
+  } else {
+    switchCameraButton.style.display = "none";
+  }
+
+  // Start with the rear camera if available
+  const rearCameraDevice = videoDevices.find(
+    (device) =>
+      device.label.toLowerCase().includes("back") ||
+      device.label.toLowerCase().includes("rear")
+  );
+  startCamera(
+    rearCameraDevice ? rearCameraDevice.deviceId : videoDevices[0].deviceId
+  );
+}
+
+initializeCamera();
+
+// navigator.mediaDevices
+//   .getUserMedia(constraint)
+//   .then((stream) => {
+//     video.srcObject = stream;
+//     video.play();
+//   })
+//   .catch((error) => {
+//     console.error("Error accessing camera:", error);
+//   });
 
 function capturePhoto() {
   context.drawImage(video, 0, 0, 400, 100);
