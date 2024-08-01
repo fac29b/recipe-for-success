@@ -15,7 +15,6 @@ import {
   cacheData,
   CACHE_NAME_URL,
   CACHE_NAME_AUDIO,
-  emailObject,
   audioElement,
 } from "./js_utilities/functions_and_variables.js";
 
@@ -59,6 +58,7 @@ import {
 
 let currentCameraIndex = 0;
 const switchCameraButton = document.getElementById("switchCamera");
+let emailObject;
 
 wantToTakeAPicture.addEventListener("click", () => {
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
@@ -141,7 +141,7 @@ sendToUserInbox.addEventListener("click", () => {
 });
 
 sendToUserInboxBtn.addEventListener("click", () => {
-  console.log(`userEmail ${userEmail.value}`);
+  // console.log(`userEmail ${userEmail.value}`);
   console.log(emailObject);
   fetch(`/email?${createQuery(emailObject)}`)
     .then((response) => response.json())
@@ -207,6 +207,7 @@ recipeButtons.forEach((button) => {
         backgroundImg.src = imageUrl;
         backgroundImg.onload = () => {
           console.log("Image loaded successfully");
+        
         };
         backgroundImg.onerror = () => {
           console.error("Error loading image");

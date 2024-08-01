@@ -3,7 +3,7 @@
 const CACHE_NAME_URL = "image-cache-v1";
 const CACHE_NAME_AUDIO = "audio-cache-v2";
 let audioElement = new Audio();
-let emailObject;
+
 
 
 
@@ -162,4 +162,4 @@ function createAudio(data) {
 
 
 
-export { defaultRecipe, CACHE_NAME_URL, audioElement, emailObject, CACHE_NAME_AUDIO, cacheData, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }
+export { defaultRecipe, CACHE_NAME_URL, audioElement, CACHE_NAME_AUDIO, cacheData, createQuery, displayElements, displayElementsFlex, displayElementsGrid, removeElements, emptyTheElement, resetCheckedStateToFalse, playAudio, pauseAudio, stopAudio, createAudio, createUserRecipe }
