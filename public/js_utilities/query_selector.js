@@ -1,4 +1,5 @@
 const emailRecipe = document.querySelector(".email-recipe");
+const wrapper = document.querySelector(".wrapper");
 const emailUserRecipeSection = document.querySelector(".user-email-recipe-section");
 const sendToUserInbox = document.querySelector(".send-to-user-inbox");
 const previousPage = document.querySelector(".previous-page");
@@ -86,6 +87,7 @@ export {
   previousPage,
   sendToUserInbox,
   emailUserRecipeSection,
+  wrapper
 };
 
 

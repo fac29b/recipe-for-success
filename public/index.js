@@ -13,7 +13,6 @@ import {
   createAudio,
   createUserRecipe,
   cacheData,
-  CACHE_NAME_URL,
   CACHE_NAME_AUDIO,
   audioElement,
   alert_message
@@ -24,7 +23,6 @@ import {
   backgroundImg,
   gptResponseElement,
   headline,
-  lactoseIntolerant,
   loadingContainer,
   allergies,
   darkLightButton,
@@ -32,7 +30,6 @@ import {
   tryAgainBtn,
   recipeButtons,
   sendRecipeToUserInboxBtn,
-  loadingText,
   recording,
   userEmail,
   emailSection,
@@ -40,12 +37,10 @@ import {
   dietaryRequirements,
   otherDietaryRequirements,
   userText,
-  pictureSection,
   video,
   canvas,
   takePicture,
   context,
-  constraint,
   chatGptVisionText,
   videoBtnCanvas,
   pictureSectionHeadline,
@@ -54,7 +49,7 @@ import {
   pictureEmailSection,
   previousPage,
   sendToUserInbox,
-  emailUserRecipeSection,
+  wrapper
 } from "./js_utilities/query_selector.js";
 
 let currentCameraIndex = 0;
@@ -143,7 +138,6 @@ sendToUserInbox.addEventListener("click", () => {
 });
 
 sendToUserInboxBtn.addEventListener("click", () => {
-  // console.log(`userEmail ${userEmail.value}`);
   console.log(emailObject);
   fetch(`/email?${createQuery(emailObject)}`)
     .then((response) => response.json())
@@ -196,29 +190,20 @@ recipeButtons.forEach((button) => {
       if (eventData.image) {
         data.image = eventData.image;
       }
-      // console.log("cacheObject", data);
+     
       console.log("data.audio", eventData.audio);
       console.log("data.image", eventData.image);
 
       if (data.audio && data.image) {
-        console.log(typeof data.image);
         removeElements([loadingContainer]);
         const imageUrl = data.image.data[0].url;
-        console.log(`imageURL ${imageUrl}`);
         // await cacheData(imageUrl, CACHE_NAME_URL, "image");
         backgroundImg.src = imageUrl;
-        backgroundImg.onload = () => {
-          console.log("Image loaded successfully");
-        
-        };
-        backgroundImg.onerror = () => {
-          console.error("Error loading image");
-        };
-
+       
+  
         ///
-        console.log(data.audio);
+      
         const audio_data = createAudio(data.audio);
-        console.log(`line 261: ${audio_data}`);
         await cacheData(audio_data, CACHE_NAME_AUDIO, "audio");
         displayElementsFlex([recording]);
         displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
@@ -257,27 +242,11 @@ recipeButtons.forEach((button) => {
           });
         });
       }
-
-      // if (data.image) {
-      //   console.log(typeof data.image);
-      //   removeElements([loadingContainer]);
-      //   const imageUrl = data.image.data[0].url;
-      //   console.log(`imageURL ${imageUrl}`);
-      //   // await cacheData(imageUrl, CACHE_NAME_URL, "image");
-      //   backgroundImg.src = imageUrl;
-      //   backgroundImg.onload = () => {
-      //     console.log("Image loaded successfully");
-      //   };
-      //   backgroundImg.onerror = () => {
-      //     console.error("Error loading image");
-      //   };
-      // }
     };
   });
 });
 
 // Picture section
-
 async function getVideoDevices() {
   const devices = await navigator.mediaDevices.enumerateDevices();
   return devices.filter((device) => device.kind === "videoinput");
@@ -328,15 +297,6 @@ async function initializeCamera() {
 
 initializeCamera();
 
-// navigator.mediaDevices
-//   .getUserMedia(constraint)
-//   .then((stream) => {
-//     video.srcObject = stream;
-//     video.play();
-//   })
-//   .catch((error) => {
-//     console.error("Error accessing camera:", error);
-//   });
 
 function capturePhoto() {
   context.drawImage(video, 0, 0, 400, 100);
@@ -375,8 +335,8 @@ takePicture.addEventListener("click", () => {
 
 // Menu icon toggle
 const menuIcon = document.querySelector(".menu-icon");
-const container = document.querySelector(".container");
+
 
 menuIcon.addEventListener("click", () => {
-  container.classList.toggle("change");
+wrapper.classList.toggle("change");
 });
