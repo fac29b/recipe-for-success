@@ -133,6 +133,7 @@ sendToUserInbox.addEventListener("click", () => {
   }).then((response) => {
     if (response.ok) {
       console.log("image posted");
+      alert("an email has been sent your inbox");
       return response.json();
     } else {
       throw new Error("Failed to post image");
