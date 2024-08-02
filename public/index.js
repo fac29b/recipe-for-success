@@ -16,6 +16,7 @@ import {
   CACHE_NAME_URL,
   CACHE_NAME_AUDIO,
   audioElement,
+  alert_message
 } from "./js_utilities/functions_and_variables.js";
 
 import {
@@ -133,7 +134,7 @@ sendToUserInbox.addEventListener("click", () => {
   }).then((response) => {
     if (response.ok) {
       console.log("image posted");
-      alert("an email has been sent your inbox");
+      alert(`${alert_message}`);
       return response.json();
     } else {
       throw new Error("Failed to post image");
@@ -148,7 +149,7 @@ sendToUserInboxBtn.addEventListener("click", () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.emailStatus === "250 OK , completed") {
-        alert("An email has been sent to your inbox");
+        alert(`${alert_message}`);
       } else {
         alert("Invalid email address, try again");
       }
