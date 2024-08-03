@@ -12,10 +12,8 @@ import {
   stopAudio,
   createAudio,
   createUserRecipe,
-  cacheData,
-  CACHE_NAME_AUDIO,
   audioElement,
-  alert_message
+  alert_message,
 } from "./js_utilities/functions_and_variables.js";
 
 import {
@@ -49,7 +47,7 @@ import {
   pictureEmailSection,
   previousPage,
   sendToUserInbox,
-  wrapper
+  wrapper,
 } from "./js_utilities/query_selector.js";
 
 let currentCameraIndex = 0;
@@ -190,25 +188,14 @@ recipeButtons.forEach((button) => {
       if (eventData.image) {
         data.image = eventData.image;
       }
-     
+
       console.log("data.audio", eventData.audio);
       console.log("data.image", eventData.image);
 
       if (data.audio && data.image) {
+        createImage(data);
 
-        createImage(data)
-
-    
-     
-       
-  
-        ///
-
-         // await cacheData(imageUrl, CACHE_NAME_URL, "image");
-  
-        // const audio_data = createAudio(data.audio);
-        // await cacheData(audio_data, CACHE_NAME_AUDIO, "audio");
-        const {speedBtn, speechBtns } = createTextToSpeech(data);
+        const { speedBtn, speechBtns } = createTextToSpeech(data);
 
         userWantAnotherRecipe.addEventListener("click", () => {
           displayElements([headline, allergies, ...recipeButtons, mainElement]);
@@ -241,7 +228,6 @@ recipeButtons.forEach((button) => {
   });
 });
 
-
 function createImage(param) {
   removeElements([loadingContainer]);
   const imageUrl = param.image.data[0].url;
@@ -259,7 +245,7 @@ function createTextToSpeech(param) {
     this.pause();
     this.currentTime = 0;
   };
-  return {speedBtn, speechBtns };
+  return { speedBtn, speechBtns };
 }
 
 // Picture section
@@ -313,7 +299,6 @@ async function initializeCamera() {
 
 initializeCamera();
 
-
 function capturePhoto() {
   context.drawImage(video, 0, 0, 400, 100);
 }
@@ -352,7 +337,6 @@ takePicture.addEventListener("click", () => {
 // Menu icon toggle
 const menuIcon = document.querySelector(".menu-icon");
 
-
 menuIcon.addEventListener("click", () => {
-wrapper.classList.toggle("change");
+  wrapper.classList.toggle("change");
 });

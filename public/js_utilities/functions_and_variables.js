@@ -113,6 +113,10 @@ function loopOverArrayOfElements(array, display) {
 
 
 
+
+
+
+
 function displayElements(array) {
   loopOverArrayOfElements(array, "block");
 }
