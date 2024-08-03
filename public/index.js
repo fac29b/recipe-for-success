@@ -195,17 +195,20 @@ recipeButtons.forEach((button) => {
       console.log("data.image", eventData.image);
 
       if (data.audio && data.image) {
-        removeElements([loadingContainer]);
-        const imageUrl = data.image.data[0].url;
-        // await cacheData(imageUrl, CACHE_NAME_URL, "image");
-        backgroundImg.src = imageUrl;
+
+        createImage(data)
+
+    
+     
        
   
         ///
-      
+
+         // await cacheData(imageUrl, CACHE_NAME_URL, "image");
+  
         // const audio_data = createAudio(data.audio);
         // await cacheData(audio_data, CACHE_NAME_AUDIO, "audio");
-        const { speedBtn, speechBtns } = createTextToSpeech(data);
+        const {speedBtn, speechBtns } = createTextToSpeech(data);
 
         userWantAnotherRecipe.addEventListener("click", () => {
           displayElements([headline, allergies, ...recipeButtons, mainElement]);
@@ -238,6 +241,14 @@ recipeButtons.forEach((button) => {
   });
 });
 
+
+function createImage(param) {
+  removeElements([loadingContainer]);
+  const imageUrl = param.image.data[0].url;
+  backgroundImg.src = imageUrl;
+  return backgroundImg;
+}
+
 function createTextToSpeech(param) {
   displayElementsFlex([recording]);
   displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
@@ -248,7 +259,7 @@ function createTextToSpeech(param) {
     this.pause();
     this.currentTime = 0;
   };
-  return { speedBtn, speechBtns };
+  return {speedBtn, speechBtns };
 }
 
 // Picture section
