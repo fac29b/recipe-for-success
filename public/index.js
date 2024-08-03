@@ -203,17 +203,9 @@ recipeButtons.forEach((button) => {
   
         ///
       
-        const audio_data = createAudio(data.audio);
-        await cacheData(audio_data, CACHE_NAME_AUDIO, "audio");
-        displayElementsFlex([recording]);
-        displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
-        const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
-        const speedBtn = document.querySelector("#speed");
-        audioElement.src = createAudio(data.audio);
-        audioElement.stop = function () {
-          this.pause();
-          this.currentTime = 0;
-        };
+        // const audio_data = createAudio(data.audio);
+        // await cacheData(audio_data, CACHE_NAME_AUDIO, "audio");
+        const { speedBtn, speechBtns } = createTextToSpeech(data);
 
         userWantAnotherRecipe.addEventListener("click", () => {
           displayElements([headline, allergies, ...recipeButtons, mainElement]);
@@ -245,6 +237,19 @@ recipeButtons.forEach((button) => {
     };
   });
 });
+
+function createTextToSpeech(param) {
+  displayElementsFlex([recording]);
+  displayElements([sendRecipeToUserInboxBtn, userWantAnotherRecipe]);
+  const speechBtns = Array.from(document.querySelectorAll(".fa-solid"));
+  const speedBtn = document.querySelector("#speed");
+  audioElement.src = createAudio(param.audio);
+  audioElement.stop = function () {
+    this.pause();
+    this.currentTime = 0;
+  };
+  return { speedBtn, speechBtns };
+}
 
 // Picture section
 async function getVideoDevices() {
