@@ -65,8 +65,14 @@ body.dark-mode .slider:before {
 
 
 .parent-container {
-  height: 100vh;
-  width: 100vw;
+  height: 200vh;
+  width: 500px;
+  border: red 1px solid;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .recording {
@@ -592,13 +598,13 @@ input:checked+.slider:before {
 }
 
 .navigation {
-  position: fixed;
-  top: 5px;
-  left: 56%;
-  transform: translateX(-50%);
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  /* transform: translateX(-50%); */
   width: 100%;
   max-width: 340px;
-  height: 100vh;
+  height: 200vh;
   /* Updated height to match the wrapper/container */
   background-color: var(--green);
   z-index: 100;
@@ -673,3 +679,16 @@ input:checked+.slider:before {
 .fade-in {
   animation: fadeIn 1s ease-in;
 }
+
+/* 
+@media (orientation: landscape) {
+  body {
+    flex-direction: row;
+  }
+  .navigation {
+    transform: translateX(-10%) translateY(-20px);
+  }
+  .main-element {
+    overflow: hidden;
+  }
+} */
