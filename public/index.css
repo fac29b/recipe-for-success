@@ -114,7 +114,7 @@ body.dark-mode .slider:before {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -100%);
   margin: 0 auto;
 }
 
@@ -602,8 +602,7 @@ input:checked+.slider:before {
   top: 0px;
   right: 0px;
   /* transform: translateX(-50%); */
-  width: 100%;
-  max-width: 340px;
+  width: 50%;
   height: 200vh;
   /* Updated height to match the wrapper/container */
   background-color: var(--green);
