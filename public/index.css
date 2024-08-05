@@ -65,7 +65,7 @@ body.dark-mode .slider:before {
 
 
 .parent-container {
-  height: 200vh;
+  height: 100vh;
   width: 500px;
   border: red 1px solid;
   display: flex;
@@ -114,7 +114,7 @@ body.dark-mode .slider:before {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, -50%);
   margin: 0 auto;
 }
 
@@ -614,6 +614,7 @@ input:checked+.slider:before {
   border: black 3px solid;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  
 }
 
 .change .navigation {
@@ -631,6 +632,8 @@ input:checked+.slider:before {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  /* transform: rotateZ(-15deg); */
+  transition: all 1s;
 }
 
 .nav-items {
