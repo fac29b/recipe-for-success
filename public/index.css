@@ -4,6 +4,10 @@
   font-weight: 200;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 
 
 :root {
