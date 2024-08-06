@@ -48,7 +48,8 @@ import {
   previousPage,
   sendToUserInbox,
   wrapper,
-  non_picture_section
+  non_picture_section,
+  menuIcon
 } from "./js_utilities/query_selector.js";
 
 let currentCameraIndex = 0;
@@ -158,8 +159,6 @@ recipeButtons.forEach((button) => {
   console.log(userText.value);
   button.addEventListener("click", async () => {
     displayElements([loadingContainer]);
-    // removeElements([headline, allergies, ...recipeButtons]);
-    // removeElements([non_picture_section]);
     removeElements([mainElement])
  
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
@@ -177,7 +176,6 @@ recipeButtons.forEach((button) => {
           eventSource.close();
           return;
         }
-        // removeElements([headline, allergies, ...recipeButtons]);
         displayElements([gptResponseElement]);
         gptResponseElement.textContent += eventData.message;
         return;
@@ -347,7 +345,7 @@ takePicture.addEventListener("click", () => {
 });
 
 // Menu icon toggle
-const menuIcon = document.querySelector(".menu-icon");
+
 
 menuIcon.addEventListener("click", () => {
   wrapper.classList.toggle("change");
