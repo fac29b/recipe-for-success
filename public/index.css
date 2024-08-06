@@ -610,7 +610,6 @@ input:checked+.slider:before {
   background-color: var(--green);
   z-index: 100;
   display: none;
-  align-items: center;
   padding-left: 1rem;
   border-radius: 1px;
   border: black 3px solid;
@@ -639,6 +638,9 @@ input:checked+.slider:before {
 }
 
 .nav-items {
+  width: 250px;
+  margin-top: 325px;
+  position: fixed;
   display: flex;
   flex-direction: column;
   opacity: 1;
