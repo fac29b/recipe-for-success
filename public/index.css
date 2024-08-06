@@ -4,6 +4,8 @@
   font-weight: 200;
 }
 
+
+
 :root {
   --green: rgb(183, 235, 183);
   --black: rgb(67, 63, 63);
@@ -659,7 +661,7 @@ input:checked+.slider:before {
 }
 
 /* Media Queries */
-@media only screen and (max-width: 768px) {
+/* @media only screen and (max-width: 768px) {
   .menu-icon {
     right: 2rem;
     margin-right: 0;
@@ -671,7 +673,7 @@ input:checked+.slider:before {
     width: 100%;
     max-width: 340px;
   }
-}
+} */
 
 @keyframes fadeIn {
   from { opacity: 0; }
