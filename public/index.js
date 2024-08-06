@@ -48,11 +48,15 @@ import {
   previousPage,
   sendToUserInbox,
   wrapper,
+  non_picture_section,
+  menuIcon
 } from "./js_utilities/query_selector.js";
 
 let currentCameraIndex = 0;
 const switchCameraButton = document.getElementById("switchCamera");
 let emailObject;
+
+console.log(non_picture_section)
 
 wantToTakeAPicture.addEventListener("click", () => {
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
@@ -155,7 +159,8 @@ recipeButtons.forEach((button) => {
   console.log(userText.value);
   button.addEventListener("click", async () => {
     displayElements([loadingContainer]);
-    removeElements([mainElement]);
+    removeElements([mainElement])
+ 
     const userRecipe = createUserRecipe(button, dietaryRequirements, userText);
     console.log(userRecipe);
 
@@ -166,6 +171,7 @@ recipeButtons.forEach((button) => {
     eventSource.onmessage = async function (event) {
       let eventData = JSON.parse(event.data);
       if (eventData.message) {
+       
         if (eventData.message === "stop") {
           eventSource.close();
           return;
@@ -193,6 +199,7 @@ recipeButtons.forEach((button) => {
       console.log("data.image", eventData.image);
 
       if (data.audio && data.image) {
+  
         createImage(data);
 
         const { speedBtn, speechBtns } = createTextToSpeech(data);
@@ -231,6 +238,9 @@ recipeButtons.forEach((button) => {
 function createImage(param) {
   removeElements([loadingContainer]);
   const imageUrl = param.image.data[0].url;
+  backgroundImg.style.backgroundSize = "cover";
+
+  
   backgroundImg.src = imageUrl;
   return backgroundImg;
 }
@@ -335,7 +345,7 @@ takePicture.addEventListener("click", () => {
 });
 
 // Menu icon toggle
-const menuIcon = document.querySelector(".menu-icon");
+
 
 menuIcon.addEventListener("click", () => {
   wrapper.classList.toggle("change");

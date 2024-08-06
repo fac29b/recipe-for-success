@@ -38,6 +38,8 @@ const dietaryRequirements = Array.from(
 const otherDietaryRequirements = document.querySelector(
   "#other-dietary-requirements"
 );
+const non_picture_section = document.querySelector(".non-picture-section")
+const menuIcon = document.querySelector(".menu-icon");
 const userText = document.querySelector("#user-text");
 const constraint = {
   audio: false,
@@ -87,7 +89,9 @@ export {
   previousPage,
   sendToUserInbox,
   emailUserRecipeSection,
-  wrapper
+  wrapper,
+  non_picture_section,
+  menuIcon
 };
 
 
