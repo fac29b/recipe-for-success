@@ -17,7 +17,7 @@ No idea what to cook? No worries! The Recipe For Success app does the thinking f
 
 Recipe For Success is a web application that generates personalized recipes based on user preferences and dietary restrictions. Utilizing the OpenAI API for text and image generation, this app provides unique recipes complete with AI-generated images.
 
-The application is hosted on Vercel and can be accessed at [Recipe For Success](https://recipe-for-success-iota.vercel.app/).
+The application is hosted on Microsoft Azure and can be accessed at [Recipe For Success](https://recipe-for-success.azurewebsites.net/).
 
 ## Features
 
