@@ -292,7 +292,7 @@ async function initializeCamera() {
       currentCameraIndex = (currentCameraIndex + 1) % videoDevices.length;
       startCamera(videoDevices[currentCameraIndex].deviceId);
     });
-  } else {
+  } else if (switchCameraButton) {
     switchCameraButton.style.display = "none";
   }
 
