@@ -56,7 +56,7 @@ let currentCameraIndex = 0;
 const switchCameraButton = document.getElementById("switchCamera");
 let emailObject;
 
-console.log(non_picture_section)
+console.log(switchCameraButton)
 
 wantToTakeAPicture.addEventListener("click", () => {
   removeElements([pictureSectionHeadline, wantToTakeAPicture]);
